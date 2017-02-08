@@ -3,10 +3,12 @@
 
 // init project
 var express = require('express');
+var expressSession = require('express-session');
 var app = express();
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
+app.use(expressSession({ secret:'watchingferries', resave: true, saveUninitialized: true }));
 
 // set up twitter passport for oauth
 var passport = require('passport');
@@ -31,25 +33,31 @@ passport.deserializeUser(function(obj, done) {
 });
 
 // http://expressjs.com/en/starter/basic-routing.html
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
   res.redirect('/login');
 });
 
 app.get('/login', function(req, res){
   res.sendFile(__dirname + '/views/index.html');
 });
-  
-app.get('/fail', function(req, res){
-  res.sendFile(__dirname + '/views/fail.html');
-});
 
 app.get('/success',
   connect.ensureLoggedIn(),
-  function(req, res){
+  function(req, res) {
     res.sendFile(__dirname + '/views/success.html');
-  });
+  }
+);
+
+app.get('/login/twitter', passport.authenticate('twitter'));
+
+app.get('/login/twitter/return', 
+  passport.authenticate('twitter', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/success');
+  }
+);
 
 // listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
+var listener = app.listen(process.env.PORT, function() {
   console.log('Your app is listening on port ' + listener.address().port);
 });
