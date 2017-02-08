@@ -34,10 +34,6 @@ passport.deserializeUser(function(obj, done) {
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', function(req, res) {
-  res.redirect('/login');
-});
-
-app.get('/login', function(req, res){
   res.sendFile(__dirname + '/views/index.html');
 });
 
