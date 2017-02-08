@@ -5,13 +5,15 @@
 
   "name": "example-app",
   "version": "0.0.1",
-  "description": "an example app",
+  "description": "an example app showing twitter oauth",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.14.0"
+    "express": "^4.14.0",
+    "passport": "^0.3.2",
+    "passport-twitter": "^1.0.4"
   },
   "engines": {
     "node": "6.9.1"
