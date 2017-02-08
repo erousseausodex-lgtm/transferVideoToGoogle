@@ -1,24 +1,14 @@
 // server.js
 // where your node app starts
 
-// init project
-var express = require('express');
-var expressSession = require('express-session');
-var app = express();
-
-// http://expressjs.com/en/starter/static-files.html
-app.use(express.static('public'));
-app.use(expressSession({ secret:'watchingferries', resave: true, saveUninitialized: true }));
-
 // set up twitter passport for oauth
 var passport = require('passport');
 var Strategy = require('passport-twitter').Strategy;
-var connect = require('connect-ensure-login');
 
 passport.use(new Strategy({
   consumerKey: process.env.TWITTER_CONSUMER_KEY,
   consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-  callbackURL: process.env.TWITTER_CONSUMER_CALLBACK
+  callbackURL: process.env.TWITTER_CALLBACK_URL,
 },
 function(token, tokenSecret, profile, cb) {
   return cb(null, profile);
@@ -31,6 +21,16 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
+
+// init project
+var express = require('express');
+var app = express();
+var expressSession = require('express-session');
+var connect = require('connect-ensure-login');
+
+app.use(express.static('public'));
+app.use(expressSession({ secret:'watchingferries', resave: true, saveUninitialized: true }));
+
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', function(req, res) {
@@ -47,7 +47,7 @@ app.get('/success',
 app.get('/login/twitter', passport.authenticate('twitter'));
 
 app.get('/login/twitter/return', 
-  passport.authenticate('twitter', { failureRedirect: '/login' }),
+  passport.authenticate('twitter', { failureRedirect: '/' }),
   function(req, res) {
     res.redirect('/success');
   }
