@@ -9,15 +9,14 @@ var app = express();
 app.use(express.static('public'));
 
 // set up twitter passport for oauth
-var twitterAPI = require('./config');
 var passport = require('passport');
 var Strategy = require('passport-twitter').Strategy;
-var username = '';
+var connect = require('connect-ensure-login');
 
 passport.use(new Strategy({
-  consumerKey: twitterAPI.consumer_key,
-  consumerSecret: twitterAPI.consumer_secret,
-  callbackURL: twitterAPI.callback_url
+  consumerKey: process.env.TWITTER_CONSUMER_KEY,
+  consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+  callbackURL: process.env.TWITTER_CONSUMER_CALLBACK
 },
 function(token, tokenSecret, profile, cb) {
   return cb(null, profile);
@@ -32,9 +31,23 @@ passport.deserializeUser(function(obj, done) {
 });
 
 // http://expressjs.com/en/starter/basic-routing.html
-app.get("/", function (request, response) {
-  response.sendFile(__dirname + '/views/index.html');
+app.get('/', function (req, res) {
+  res.redirect('/login');
 });
+
+app.get('/login', function(req, res){
+  res.sendFile(__dirname + '/views/index.html');
+});
+  
+app.get('/fail', function(req, res){
+  res.sendFile(__dirname + '/views/fail.html');
+});
+
+app.get('/success',
+  connect.ensureLoggedIn(),
+  function(req, res){
+    res.sendFile(__dirname + '/views/success.html');
+  });
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
