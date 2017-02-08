@@ -30,7 +30,8 @@ var connect = require('connect-ensure-login');
 
 app.use(express.static('public'));
 app.use(expressSession({ secret:'watchingferries', resave: true, saveUninitialized: true }));
-
+app.use(passport.initialize());
+app.use(passport.session());
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get('/', function(req, res) {
