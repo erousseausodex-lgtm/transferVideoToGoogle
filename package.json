@@ -27,6 +27,9 @@
 	"keywords": [
 		"node",
 		"gomix",
-		"express"
+		"express",
+    "twitter",
+    "oauth",
+    "passport"
 	]
 }
