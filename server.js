@@ -3,9 +3,9 @@
 
 // set up twitter passport for oauth
 var passport = require('passport');
-var Strategy = require('passport-twitter').Strategy;
+var TwitterStrategy = require('passport-twitter').Strategy;
 
-passport.use(new Strategy({
+passport.use(new TwitterStrategy({
   consumerKey: process.env.TWITTER_CONSUMER_KEY,
   consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
   callbackURL: process.env.TWITTER_CALLBACK_URL,
@@ -26,7 +26,6 @@ passport.deserializeUser(function(obj, done) {
 var express = require('express');
 var app = express();
 var expressSession = require('express-session');
-var connect = require('connect-ensure-login');
 
 app.use(express.static('public'));
 app.use(expressSession({ secret:'watchingferries', resave: true, saveUninitialized: true }));
@@ -37,30 +36,21 @@ app.get('/', function(req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-app.post('/', 
-  passport.authenticate('local', { 
-    successReturnToOrRedirect: '/success', 
-    failureRedirect: '/',
-  })
-);
-
 app.get('/logoff',
   function(req, res) {
     res.redirect('/');
   }
 );
 
-app.get('/login/twitter', passport.authenticate('twitter'));
+app.get('/auth/twitter', passport.authenticate('twitter'));
 
 app.get('/login/twitter/return', 
-  passport.authenticate('twitter', { failureRedirect: '/' }),
-  function(req, res) {
-    res.redirect('/success');
-  }
+  passport.authenticate('twitter', 
+    { successRedirect: '/success', failureRedirect: '/' }
+  )
 );
 
 app.get('/success',
-  connect.ensureLoggedIn('/'),
   function(req, res) {
     res.sendFile(__dirname + '/views/success.html');
   }
