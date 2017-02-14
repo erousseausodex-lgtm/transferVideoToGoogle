@@ -27,6 +27,11 @@ var express = require('express');
 var app = express();
 var expressSession = require('express-session');
 
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(cookieParser());
 app.use(express.static('public'));
 app.use(expressSession({ secret:'watchingferries', resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
@@ -38,6 +43,7 @@ app.get('/', function(req, res) {
 
 app.get('/logoff',
   function(req, res) {
+    res.clearCookie('twitter-passport-example');
     res.redirect('/');
   }
 );
