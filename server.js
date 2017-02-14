@@ -25,11 +25,9 @@ passport.deserializeUser(function(obj, done) {
 // init project
 var express = require('express');
 var app = express();
-var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
 var connect = require('connect-ensure-login');
 
-app.use(cookieParser());
 app.use(express.static('public'));
 app.use(expressSession({ secret:'watchingferries', resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
@@ -42,13 +40,12 @@ app.get('/', function(req, res) {
 app.post('/', 
   passport.authenticate('local', { 
     successReturnToOrRedirect: '/success', 
-    failureRedirect: '/login'
+    failureRedirect: '/',
   })
 );
 
 app.get('/logoff',
   function(req, res) {
-    res.clearCookie('twitter-passport-example');
     res.redirect('/');
   }
 );
@@ -58,7 +55,6 @@ app.get('/login/twitter', passport.authenticate('twitter'));
 app.get('/login/twitter/return', 
   passport.authenticate('twitter', { failureRedirect: '/' }),
   function(req, res) {
-    res.cookie('twitter-passport-example', new Date())
     res.redirect('/success');
   }
 );
