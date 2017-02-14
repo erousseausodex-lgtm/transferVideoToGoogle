@@ -5,5 +5,6 @@
 /* less: http://lesscss.org/ */
 
 body {
-  border: 5px solid magenta;
+  padding: 1em;
+  border: 5px solid cyan;
 }

@@ -1,15 +1,7 @@
-Welcome to the Gomix BETA
-=========================
+Twitter Passport Example
+========================
 
-Click `Show` in the header to see your app live. Updates to your code will instantly deploy and update live.
-
-Gomix is a developer playground that lets you code a real web-app without the slow setup and deployment steps.
-
-[About Gomix](https://gomix.com/about)
-
-
-Your Project
-------------
+This app is a building block for using Twitter OAuth using [passport-twitter](https://github.com/jaredhanson/passport-twitter). You will need to [create a Twitter app](https://apps.twitter.com/app/new) to obtain the keys for the `.env` variables.
 
 On the back-end,
 - your app starts at `server.js`

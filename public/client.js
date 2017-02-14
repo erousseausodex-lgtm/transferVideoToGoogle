@@ -4,5 +4,5 @@
 // add other scripts at the bottom of index.html
 
 (function() {
-  console.log('time 2 javascript')
+  console.log('time 2 javascript');
 })();
