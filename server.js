@@ -52,13 +52,24 @@ app.get('/auth/twitter', passport.authenticate('twitter'));
 
 app.get('/login/twitter/return', 
   passport.authenticate('twitter', 
-    { successRedirect: '/success', failureRedirect: '/' }
+    { successRedirect: '/setcookie', failureRedirect: '/' }
   )
+);
+
+app.get('/setcookie',
+  function(req, res) {
+    res.cookie('twitter-passport-example', new Date());
+    res.redirect('/success');
+  }
 );
 
 app.get('/success',
   function(req, res) {
-    res.sendFile(__dirname + '/views/success.html');
+    if(req.cookies['twitter-passport-example']) {
+      res.sendFile(__dirname + '/views/success.html');
+    } else {
+      res.redirect('/');
+    }
   }
 );
 
