@@ -1,13 +1,21 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+
+<!-- You might want to try something fancier: -->
+<!-- html/nunjucks docs: http://mozilla.github.io/nunjucks/ -->
+<!-- jade: http://jade-lang.com/ -->
+<!-- haml: http://haml.info/tutorial.html -->
+<!-- hbs(handlebars): http://handlebarsjs.com/expressions.html -->
+
 <!DOCTYPE html>
 <html>
   <head>
     <title>Success | Twitter Passport Example</title>
-    <meta name="description" content="an example app showing how to use passport and the twitter api for authentication">
+    <meta name="description" content="an example app implementing twitter oauth with passport">
     <link id="favicon" rel="icon" href="https://gomix.com/favicon-app.ico" type="image/x-icon">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/style.css">
   </head>
   <body>
     <header>
@@ -24,17 +32,13 @@
       </p>
     </main>
 
-    <footer>
-      <p>
-        <a href="https://gomix.com"><img src="https://gomix.com/images/background-light/remix-on-gomix.svg"></a>
-      </p>
-      <p>
-        <a href="https://gomix.com/#!/project/example-app">View Code</a>
-      </p>
-    </footer>
+    <!-- this gWidget id element will hold the remix/view source buttons -->
+    <footer id="gWidget"></footer>
 
-    <!-- Your web-app is https, so your scripts need to be too -->
-    <script src="//www.authy.com/form.authy.min.js"></script>
+    <!-- embed this widget script to standardize header, footer, styling -->
+    <script src="https://widget.gomix.me/widget.js"></script>
+    
+    <!-- Your web-app is https, so your scripts need to be too. add them below! -->
     <script src="/client.js"></script>
 
   </body>

@@ -11,11 +11,12 @@
 <html>
   <head>
     <title>Twitter Passport Example</title>
-    <meta name="description" content="an example app showing how to use passport and the twitter api for authentication">
+    <meta name="description" content="an example app implementing twitter oauth with passport">
     <link id="favicon" rel="icon" href="https://gomix.com/favicon-app.ico" type="image/x-icon">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
   </head>
   <body>
     <header>
@@ -27,13 +28,14 @@
       <a class="container" href="/auth/twitter">Log In with Twitter</a>
     </main>
 
+    <!-- this gWidget id element will hold the remix/view source buttons -->
     <footer id="gWidget"></footer>
 
-    <!-- Your web-app is https, so your scripts need to be too -->
-    <script src="/client.js"></script>
-    
-    <!-- embed this gomix community script to standardize header, footer, styling -->
+    <!-- embed this widget script to standardize header, footer, styling -->
     <script src="https://widget.gomix.me/widget.js"></script>
+    
+    <!-- Your web-app is https, so your scripts need to be too. add them below! -->
+    <script src="/client.js"></script>
 
   </body>
 </html>

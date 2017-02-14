@@ -2,9 +2,11 @@
 // where your node app starts
 
 // set up twitter passport for oauth
+// see https://github.com/jaredhanson/passport-twitter
 var passport = require('passport');
 var TwitterStrategy = require('passport-twitter').Strategy;
 
+// the process.env values are set in .env
 passport.use(new TwitterStrategy({
   consumerKey: process.env.TWITTER_CONSUMER_KEY,
   consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
@@ -13,11 +15,9 @@ passport.use(new TwitterStrategy({
 function(token, tokenSecret, profile, cb) {
   return cb(null, profile);
 }));
-
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
-
 passport.deserializeUser(function(obj, done) {
   done(null, obj);
 });
@@ -27,6 +27,7 @@ var express = require('express');
 var app = express();
 var expressSession = require('express-session');
 
+// cookies are used to save authentication
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 
@@ -37,10 +38,12 @@ app.use(expressSession({ secret:'watchingferries', resave: true, saveUninitializ
 app.use(passport.initialize());
 app.use(passport.session());
 
+// index route
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+// on clicking "logoff" the cookie is cleared
 app.get('/logoff',
   function(req, res) {
     res.clearCookie('twitter-passport-example');
@@ -56,6 +59,8 @@ app.get('/login/twitter/return',
   )
 );
 
+// on successful auth, a cookie is set before redirecting
+// to the success view
 app.get('/setcookie',
   function(req, res) {
     res.cookie('twitter-passport-example', new Date());
@@ -63,6 +68,7 @@ app.get('/setcookie',
   }
 );
 
+// if cookie exists, success. otherwise, user is redirected to index
 app.get('/success',
   function(req, res) {
     if(req.cookies['twitter-passport-example']) {
