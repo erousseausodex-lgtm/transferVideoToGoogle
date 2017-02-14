@@ -25,13 +25,10 @@ passport.deserializeUser(function(obj, done) {
 // init project
 var express = require('express');
 var app = express();
-// var morgan = require('morgan');
-var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
 var connect = require('connect-ensure-login');
 
-app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(express.static('public'));
 app.use(expressSession({ secret:'watchingferries', resave: true, saveUninitialized: true }));
@@ -41,6 +38,13 @@ app.use(passport.session());
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
+
+app.post('/', 
+  passport.authenticate('local', { 
+    successReturnToOrRedirect: '/success', 
+    failureRedirect: '/login'
+  })
+);
 
 app.get('/logoff',
   function(req, res) {
