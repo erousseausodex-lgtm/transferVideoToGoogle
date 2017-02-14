@@ -25,13 +25,12 @@ passport.deserializeUser(function(obj, done) {
 // init project
 var express = require('express');
 var app = express();
-var morgan = require('morgan');
+// var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
 var connect = require('connect-ensure-login');
 
-app.use(morgan('combined'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(express.static('public'));
@@ -39,7 +38,6 @@ app.use(expressSession({ secret:'watchingferries', resave: true, saveUninitializ
 app.use(passport.initialize());
 app.use(passport.session());
 
-// http://expressjs.com/en/starter/basic-routing.html
 app.get('/', function(req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
@@ -56,13 +54,13 @@ app.get('/login/twitter', passport.authenticate('twitter'));
 app.get('/login/twitter/return', 
   passport.authenticate('twitter', { failureRedirect: '/' }),
   function(req, res) {
-    res.cookie('twitter-passport-example')
+    res.cookie('twitter-passport-example', new Date())
     res.redirect('/success');
   }
 );
 
 app.get('/success',
-  connect.ensureLoggedIn(),
+  connect.ensureLoggedIn('/'),
   function(req, res) {
     res.sendFile(__dirname + '/views/success.html');
   }
