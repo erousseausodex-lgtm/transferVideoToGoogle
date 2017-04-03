@@ -7,10 +7,10 @@ This app is a building block for using Twitter OAuth using [passport-twitter](ht
 
 The index page at `/` has a link to log in via Twitter
 
-![log in page](https://cdn.gomix.com/06290abf-71bb-4336-9447-5364c4b2b6d6%2Findex.png)
+![log in page](https://cdn.glitch.com/06290abf-71bb-4336-9447-5364c4b2b6d6%2Findex.png)
 
 On successful authentication, a cookie is set and you're redirected to `/success`
-![successful authentication](https://cdn.gomix.com/06290abf-71bb-4336-9447-5364c4b2b6d6%2Fsuccess.png)
+![successful authentication](https://cdn.glitch.com/06290abf-71bb-4336-9447-5364c4b2b6d6%2Fsuccess.png)
 
 When clicking the log off link, the cookie is deleted and you're redirected to back to the index page at `/`
 
