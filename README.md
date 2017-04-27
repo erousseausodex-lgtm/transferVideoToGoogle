@@ -22,7 +22,7 @@ On the back-end,
 - app secrets are safely stored in `.env`
 
 On the front-end,
-- edit `client.js`, `style.css`, `index.html` and `success.html`
+- edit `index.html` and `success.html`
 - drag in `assets`, like images or music, to add them to your project
 
 
