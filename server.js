@@ -11,6 +11,7 @@ passport.use(new GoogleStrategy({
   clientID: process.env.CLIENT_ID,
   clientSecret: process.env.CLIENT_SECRET,
   callbackURL: 'https://'+process.env.PROJECT_NAME+'.glitch.me/login/google/return',
+  scope: 'https://www.googleapis.com/auth/plus.login'
 },
 function(token, tokenSecret, profile, cb) {
   return cb(null, profile);

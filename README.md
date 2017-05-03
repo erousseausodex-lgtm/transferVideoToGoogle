@@ -1,4 +1,4 @@
-Twitter Passport Example
+Google Passport Example
 ========================
 
 This app is a building block for using Twitter OAuth using [passport-twitter](https://github.com/jaredhanson/passport-twitter). You will need to [create a Twitter app](https://apps.twitter.com/app/new) to obtain the keys for the `.env` variables.
