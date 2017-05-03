@@ -8,9 +8,9 @@ var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 // the process.env values are set in .env
 passport.use(new GoogleStrategy({
-  consumerKey: process.env.CLIENT_ID,
-  consumerSecret: process.env.CLIENT_SECRET,
-  callbackURL: process.env.CALLBACK_URL,
+  clientID: process.env.CLIENT_ID,
+  clientSecret: process.env.CLIENT_SECRET,
+  callbackURL: 'https://'+process.env.PROJECT_NAME+'.glitch.me/login/google/return',
 },
 function(token, tokenSecret, profile, cb) {
   return cb(null, profile);
