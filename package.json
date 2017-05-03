@@ -1,7 +1,7 @@
 {
-	"name": "twitter-passport-example",
+	"name": "google-passport-example",
 	"version": "0.0.1",
-	"description": "an example app implementing twitter oauth with passport",
+	"description": "an example app implementing google oauth with passport",
 	"main": "server.js",
 	"scripts": {
 		"start": "node server.js"
@@ -13,7 +13,7 @@
 		"express": "^4.14.1",
 		"express-session": "^1.15.1",
 		"passport": "^0.3.2",
-		"passport-twitter": "^1.0.4"
+		"passport-google-oauth20": "*"
 	},
 	"engines": {
 		"node": "6.9.1"
@@ -21,7 +21,7 @@
 	"keywords": [
 		"node",
 		"express",
-		"twitter",
+		"google",
 		"oauth",
 		"passport"
 	]
