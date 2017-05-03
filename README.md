@@ -1,18 +1,9 @@
 Google Passport Example
 ========================
 
-This app is a building block for using Twitter OAuth using [passport-twitter](https://github.com/jaredhanson/passport-twitter). You will need to [create a Twitter app](https://apps.twitter.com/app/new) to obtain the keys for the `.env` variables.
+This app is a building block for using Google OAuth using [passport-google-oauth20](https://github.com/jaredhanson/passport-google-oauth2). You will need to [create an app](https://console.developers.google.com/apis/dashboard) and enable APIs to obtain the ID and secret required to be set in the `.env` file.
 
-## Screenshots
-
-The index page at `/` has a link to log in via Twitter
-
-![log in page](https://cdn.glitch.com/06290abf-71bb-4336-9447-5364c4b2b6d6%2Findex.png)
-
-On successful authentication, a cookie is set and you're redirected to `/success`
-![successful authentication](https://cdn.glitch.com/06290abf-71bb-4336-9447-5364c4b2b6d6%2Fsuccess.png)
-
-When clicking the log off link, the cookie is deleted and you're redirected to back to the index page at `/`
+Be sure to set your Glitch project URL with '/login/google/return' appended to the end in the `Authorized redirect URIs` field for your app.
 
 ## View the Code
 
@@ -24,7 +15,6 @@ On the back-end,
 On the front-end,
 - edit `index.html` and `success.html`
 - drag in `assets`, like images or music, to add them to your project
-
 
 Made by Fog Creek
 -----------------
