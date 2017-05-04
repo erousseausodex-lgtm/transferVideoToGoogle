@@ -22,8 +22,7 @@ passport.use(new GoogleStrategy({
 },
 function(token, tokenSecret, profile, cb) {
   oauth2Client.setCredentials({
-    access_token: token,
-    refresh_token: tokenSecret
+    access_token: token
   });
   return cb(null, profile);
 }));
@@ -96,7 +95,7 @@ app.get('/success',
           spreadsheet.worksheets[0].cells({
             range: 'R1C1:R1C10'
           }, function(err, cells) {
-            console.log("Got data, yo: " + cells);
+            console.log("Got data, lookit: " + cells);
             res.send(cells);
           });
         }
