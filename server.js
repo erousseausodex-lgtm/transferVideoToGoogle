@@ -89,15 +89,18 @@ app.get('/success',
         key: process.env.SHEET_KEY,
         auth: oauth2Client
       }, function(err, spreadsheet) {
-        console.log(JSON.stringify(spreadsheet));
-        spreadsheet.worksheets[0].cells({
-          range: 'R1C1:R1C10'
-        }, function(err, cells) {
-          console.log("Got data, yo: " + cells);
-          res.send(cells);
-        });
+        if(err){
+          console.log("Aww man, " + err);
+        } else {
+          console.log(JSON.stringify(spreadsheet));
+          spreadsheet.worksheets[0].cells({
+            range: 'R1C1:R1C10'
+          }, function(err, cells) {
+            console.log("Got data, yo: " + cells);
+            res.send(cells);
+          });
+        }
       });
-      
     } else {
       res.redirect('/');
     }
