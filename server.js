@@ -14,6 +14,19 @@ var scopes = ['https://www.googleapis.com/auth/spreadsheets.readonly',
               'https://www.googleapis.com/auth/plus.login'];
 var oauth2Client = new google.auth.OAuth2(clientID, clientSecret, callbackURL);
 
+var url = oauth2Client.generateAuthUrl({
+  // 'online' (default) or 'offline' (gets refresh_token)
+  access_type: 'offline',
+
+  // If you only need one scope you can pass it as a string
+  scope: scopes,
+
+  // Optional property that passes state parameters to redirect URI
+  // state: { foo: 'bar' }
+});
+
+console.log(url);
+
 passport.use(new GoogleStrategy({
   clientID: clientID,
   clientSecret: clientSecret,
