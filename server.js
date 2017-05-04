@@ -3,6 +3,8 @@
 var google = require('googleapis');
 var sheets = google.sheets('v4');
 var plus = google.plus('v1');
+var userDeets={"name":"", "photo":""};
+var dataDeets;
 
 // the process.env values are set in .env
 var clientID = process.env.CLIENT_ID;
@@ -77,33 +79,38 @@ app.get('/success',
   function(req, res) {
     if(req.cookies['google-auth']) {
       
-      
+      // Get Google+ details
       plus.people.get({
         userId: 'me',
         auth: oauth2Client
       }, function (err, response) {
         console.log("response: " + JSON.stringify(response));
-        // handle err and response
+        if(response.isPlusUser==true){
+          userDeets.name = response.name.givenName;
+          userDeets.photo = response.image.url;
+        } else {
+          userDeets.name = "Dunno";
+          userDeets.photo = "";
+        }
       });
 
+      // Get Spreadsheet values
+      var request = {
+        // The ID of the spreadsheet to retrieve data from.
+        spreadsheetId: process.env.SHEET_KEY,
+        // The A1 notation of the values to retrieve.
+        range: 'A1:K11', 
+        auth: oauth2Client
+      };
 
-
-        var request = {
-          // The ID of the spreadsheet to retrieve data from.
-          spreadsheetId: process.env.SHEET_KEY,
-          // The A1 notation of the values to retrieve.
-          range: 'A1:K11', 
-          auth: oauth2Client
-        };
-
-        sheets.spreadsheets.values.get(request, function(err, response) {
-          if (err) {
-            console.log(err);
-            return;
-          } else {
-            console.log(JSON.stringify(response, null, 2));
-          }
-        });
+      sheets.spreadsheets.values.get(request, function(err, response) {
+        if (err) {
+          console.log(err);
+          return;
+        } else {
+          console.log(JSON.stringify(response, null, 2));
+        }
+      });
 
     } else {
       res.redirect('/');
