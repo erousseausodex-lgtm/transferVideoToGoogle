@@ -29,6 +29,7 @@ var expressSession = require('express-session');
 // cookies are used to save authentication
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+app.use(express.static('views'))
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(expressSession({ secret:'watchingmonkeys', resave: true, saveUninitialized: true }));
@@ -94,7 +95,7 @@ app.get('/getData',
     }, function (err, response) {
       if (err) {
         console.log("Aww, man: " + err);
-        return;
+        res.send("An error occurred");
       } else { 
         if(response.isPlusUser==true){
           userDeets.name = response.name.givenName;
@@ -115,12 +116,11 @@ app.get('/getData',
         sheets.spreadsheets.values.get(request, function(err, response) {
           if (err) {
             console.log("Aww, man: " + err);
-            dataDeets = "";
-            return;
+            res.send("An error occurred");
           } else {
             dataDeets = response.values;
+            res.send([userDeets, dataDeets]);
           }
-          res.send([userDeets, dataDeets]);
         });
       }
     });
