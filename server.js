@@ -25,8 +25,6 @@ var url = oauth2Client.generateAuthUrl({
   // state: { foo: 'bar' }
 });
 
-console.log(url);
-
 passport.use(new GoogleStrategy({
   clientID: clientID,
   clientSecret: clientSecret,
@@ -70,24 +68,34 @@ app.get('/', function(req, res) {
 // on clicking "logoff" the cookie is cleared
 app.get('/logoff',
   function(req, res) {
-    res.clearCookie('google-passport-example');
+    res.clearCookie('google-auth');
     res.redirect('/');
   }
 );
 
-app.get('/auth/google', passport.authenticate('google'));
+app.get('/auth/google', function(req, res) {
+  res.redirect(url);
+});
 
-app.get('/login/google/return', 
-  passport.authenticate('google', 
-    { successRedirect: '/setcookie', failureRedirect: '/' }
-  )
+app.get('/login/google/return', function(req, res) {
+  console.log(req.params.code);
+    oauth2Client.getToken(req.params.code, function (err, tokens) {
+      // Now tokens contains an access_token and an optional refresh_token. Save them.
+      if (!err) {
+        oauth2Client.setCredentials(tokens);
+        res.redirect('/setcookie');
+      } else {
+        console.log("Aww man, " + err);
+      }
+    });
+  }
 );
 
 // on successful auth, a cookie is set before redirecting
 // to the success view
 app.get('/setcookie',
   function(req, res) {
-    res.cookie('google-passport-example', new Date());
+    res.cookie('google-auth', new Date());
     res.redirect('/success');
   }
 );
@@ -95,7 +103,7 @@ app.get('/setcookie',
 // if cookie exists, success. otherwise, user is redirected to index
 app.get('/success',
   function(req, res) {
-    if(req.cookies['google-passport-example']) {
+    if(req.cookies['google-auth']) {
       
       GoogleSpreadsheets({
         key: process.env.SHEET_KEY,
