@@ -3,7 +3,7 @@
 var google = require('googleapis');
 var sheets = google.sheets('v4');
 var plus = google.plus('v1');
-var userDeets={"name":"", "photo":""};
+var userName;
 var dataDeets;
 
 // the process.env values are set in .env
@@ -98,11 +98,9 @@ app.get('/getData',
         res.send("An error occurred");
       } else { 
         if(response.isPlusUser==true){
-          userDeets.name = response.name.givenName;
-           userDeets.photo = response.image.url;
+          userName = response.name.givenName;
         } else {
-          userDeets.name = "Dunno";
-          userDeets.photo = "https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Flogo-day.svg";        
+          userName = "Unknown Stranger";        
         }
 
         // Now get spreadsheet values
@@ -119,7 +117,7 @@ app.get('/getData',
             res.send("An error occurred");
           } else {
             dataDeets = response.values;
-            res.send([userDeets, dataDeets]);
+            res.send([userName, dataDeets]);
           }
         });
       }
