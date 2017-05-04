@@ -78,23 +78,29 @@ app.get('/setcookie',
 app.get('/success',
   function(req, res) {
     if(req.cookies['google-auth']) {
-      
-      // Get Google+ details
-      plus.people.get({
-        userId: 'me',
-        auth: oauth2Client
-      }, function (err, response) {
-        console.log("response: " + JSON.stringify(response));
-        if(response.isPlusUser==true){
-          userDeets.name = response.name.givenName;
-          userDeets.photo = response.image.url;
-        } else {
-          userDeets.name = "Dunno";
-          userDeets.photo = "https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Flogo-day.svg";
-        }
-      });
+      res.sendFile(__dirname + '/views/success.html');
+    } else {
+      res.redirect('/');
+    }
+  }
+);
 
-      // Get Spreadsheet values
+app.get('/getData',
+  function(req, res) {
+    // Get Google+ details
+    plus.people.get({
+      userId: 'me',
+      auth: oauth2Client
+    }, function (err, response) {
+      if(response.isPlusUser==true){
+        userDeets.name = response.name.givenName;
+         userDeets.photo = response.image.url;
+      } else {
+        userDeets.name = "Dunno";
+        userDeets.photo = "https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Flogo-day.svg";        
+      }
+        
+      // Now get spreadsheet values
       var request = {
         // The ID of the spreadsheet to retrieve data from.
         spreadsheetId: process.env.SHEET_KEY,
@@ -110,11 +116,9 @@ app.get('/success',
         } else {
           dataDeets = response.values;
         }
+        res.send([userDeets, dataDeets]);
       });
-
-    } else {
-      res.redirect('/');
-    }
+    });   
   }
 );
 
