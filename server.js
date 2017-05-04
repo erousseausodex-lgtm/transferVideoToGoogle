@@ -12,8 +12,6 @@ passport.use(new GoogleStrategy({
   scope: 'https://www.googleapis.com/auth/plus.login'
 },
 function(token, tokenSecret, profile, cb) {
-  
-    console.log(token);
   return cb(null, profile);
 }));
 passport.serializeUser(function(user, done) {
