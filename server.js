@@ -90,7 +90,7 @@ app.get('/success',
           userDeets.photo = response.image.url;
         } else {
           userDeets.name = "Dunno";
-          userDeets.photo = "";
+          userDeets.photo = "https://cdn.gomix.com/2bdfb3f8-05ef-4035-a06e-2043962a3a13%2Flogo-day.svg";
         }
       });
 
@@ -102,13 +102,13 @@ app.get('/success',
         range: 'A1:K11', 
         auth: oauth2Client
       };
-
       sheets.spreadsheets.values.get(request, function(err, response) {
         if (err) {
-          console.log(err);
+          console.log("Aww, man: " + err);
+          dataDeets = "";
           return;
         } else {
-          console.log(JSON.stringify(response, null, 2));
+          dataDeets = response.values;
         }
       });
 
