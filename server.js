@@ -12,6 +12,8 @@ passport.use(new GoogleStrategy({
   scope: 'https://www.googleapis.com/auth/plus.login'
 },
 function(token, tokenSecret, profile, cb) {
+  
+    console.log(token);
   return cb(null, profile);
 }));
 passport.serializeUser(function(user, done) {
@@ -62,7 +64,6 @@ app.get('/login/google/return',
 // to the success view
 app.get('/setcookie',
   function(req, res) {
-    console.log(req);
     res.cookie('google-passport-example', new Date());
     res.redirect('/success');
   }
