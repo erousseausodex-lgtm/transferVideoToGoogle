@@ -2,16 +2,27 @@
 // where your node app starts
 
 var passport = require('passport');
+var google = require('googleapis');
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
+var GoogleSpreadsheets = require('google-spreadsheets');
+
+var clientID = process.env.CLIENT_ID;
+var clientSecret = process.env.CLIENT_SECRET;
+var callbackURL = 'https://'+process.env.PROJECT_NAME+'.glitch.me/login/google/return';
+var oauth2Client = new google.auth.OAuth2(clientID, clientSecret, callbackURL);
 
 // the process.env values are set in .env
 passport.use(new GoogleStrategy({
-  clientID: process.env.CLIENT_ID,
-  clientSecret: process.env.CLIENT_SECRET,
-  callbackURL: 'https://'+process.env.PROJECT_NAME+'.glitch.me/login/google/return',
-  scope: 'https://www.googleapis.com/auth/plus.login'
+  clientID: clientID,
+  clientSecret: clientSecret,
+  callbackURL: callbackURL,
+  scope: 'https://www.googleapis.com/auth/analytics.readonly'
 },
 function(token, tokenSecret, profile, cb) {
+  oauth2Client.setCredentials({
+    access_token: token,
+    refresh_token: tokenSecret
+  });
   return cb(null, profile);
 }));
 passport.serializeUser(function(user, done) {
@@ -71,7 +82,18 @@ app.get('/setcookie',
 app.get('/success',
   function(req, res) {
     if(req.cookies['google-passport-example']) {
-      res.sendFile(__dirname + '/views/success.html');
+      
+      GoogleSpreadsheets({
+        key: '<spreadsheet key>',
+        auth: oauth2Client
+      }, function(err, spreadsheet) {
+        spreadsheet.worksheets[0].cells({
+          range: 'R1C1:R1C10'
+        }, function(err, cells) {
+          res.send(cells);
+        });
+      });
+      
     } else {
       res.redirect('/');
     }
