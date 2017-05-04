@@ -1,9 +1,6 @@
 // server.js
 // where your node app starts
-
-var passport = require('passport');
 var google = require('googleapis');
-var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var GoogleSpreadsheets = require('google-spreadsheets');
 
 // the process.env values are set in .env
@@ -16,32 +13,9 @@ var oauth2Client = new google.auth.OAuth2(clientID, clientSecret, callbackURL);
 
 var url = oauth2Client.generateAuthUrl({
   // 'online' (default) or 'offline' (gets refresh_token)
-  access_type: 'offline',
-
+  access_type: 'online',
   // If you only need one scope you can pass it as a string
-  scope: scopes,
-
-  // Optional property that passes state parameters to redirect URI
-  // state: { foo: 'bar' }
-});
-
-passport.use(new GoogleStrategy({
-  clientID: clientID,
-  clientSecret: clientSecret,
-  callbackURL: callbackURL,
   scope: scopes
-},
-function(token, tokenSecret, profile, cb) {
-  oauth2Client.setCredentials({
-    access_token: token
-  });
-  return cb(null, profile);
-}));
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-passport.deserializeUser(function(obj, done) {
-  done(null, obj);
 });
 
 // init project
@@ -52,13 +26,9 @@ var expressSession = require('express-session');
 // cookies are used to save authentication
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
-
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
-app.use(express.static('public'));
 app.use(expressSession({ secret:'watchingmonkeys', resave: true, saveUninitialized: true }));
-app.use(passport.initialize());
-app.use(passport.session());
 
 // index route
 app.get('/', function(req, res) {
@@ -78,9 +48,9 @@ app.get('/auth/google', function(req, res) {
 });
 
 app.get('/login/google/return', function(req, res) {
-  console.log(req.params.code);
-    oauth2Client.getToken(req.params.code, function (err, tokens) {
-      // Now tokens contains an access_token and an optional refresh_token. Save them.
+    oauth2Client.getToken(req.query.code, function (err, tokens) {
+      console.log(JSON.stringify(tokens));
+      // Tokens contains an access_token and a refresh_token if you set access type to offline. Save them.
       if (!err) {
         oauth2Client.setCredentials(tokens);
         res.redirect('/setcookie');
