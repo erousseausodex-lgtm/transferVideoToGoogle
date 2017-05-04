@@ -10,14 +10,15 @@ var GoogleSpreadsheets = require('google-spreadsheets');
 var clientID = process.env.CLIENT_ID;
 var clientSecret = process.env.CLIENT_SECRET;
 var callbackURL = 'https://'+process.env.PROJECT_NAME+'.glitch.me/login/google/return';
-var scope = 'https://www.googleapis.com/auth/spreadsheets.readonly';
+var scopes = ['https://www.googleapis.com/auth/spreadsheets.readonly',
+              'https://www.googleapis.com/auth/plus.login'];
 var oauth2Client = new google.auth.OAuth2(clientID, clientSecret, callbackURL);
 
 passport.use(new GoogleStrategy({
   clientID: clientID,
   clientSecret: clientSecret,
   callbackURL: callbackURL,
-  scope: scope
+  scope: scopes
 },
 function(token, tokenSecret, profile, cb) {
   oauth2Client.setCredentials({
@@ -88,6 +89,7 @@ app.get('/success',
         key: process.env.SHEET_KEY,
         auth: oauth2Client
       }, function(err, spreadsheet) {
+        console.log(JSON.stringify(spreadsheet));
         spreadsheet.worksheets[0].cells({
           range: 'R1C1:R1C10'
         }, function(err, cells) {
