@@ -1,8 +1,6 @@
 // server.js
 // where your node app starts
 
-// set up twitter passport for oauth
-// see https://github.com/jaredhanson/passport-twitter
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 
@@ -64,6 +62,7 @@ app.get('/login/google/return',
 // to the success view
 app.get('/setcookie',
   function(req, res) {
+    console.log(req);
     res.cookie('google-passport-example', new Date());
     res.redirect('/success');
   }
