@@ -2,6 +2,7 @@
 // where your node app starts
 var google = require('googleapis');
 var GoogleSpreadsheets = require('google-spreadsheets');
+var plus = google.plus('v1');
 
 // the process.env values are set in .env
 var clientID = process.env.CLIENT_ID;
@@ -49,10 +50,11 @@ app.get('/auth/google', function(req, res) {
 
 app.get('/login/google/return', function(req, res) {
     oauth2Client.getToken(req.query.code, function (err, tokens) {
-      console.log(JSON.stringify(tokens));
       // Tokens contains an access_token and a refresh_token if you set access type to offline. Save them.
       if (!err) {
-        oauth2Client.setCredentials(tokens);
+        oauth2Client.setCredentials({
+          access_token: tokens.access_token
+        });
         res.redirect('/setcookie');
       } else {
         console.log("Aww man, " + err);
@@ -75,6 +77,15 @@ app.get('/success',
   function(req, res) {
     if(req.cookies['google-auth']) {
       
+      
+      plus.people.get({
+        userId: 'me',
+        auth: oauth2Client
+      }, function (err, response) {
+        console.log("response: " + JSON.stringify(response));
+        // handle err and response
+      });
+
       GoogleSpreadsheets({
         key: process.env.SHEET_KEY,
         auth: oauth2Client
