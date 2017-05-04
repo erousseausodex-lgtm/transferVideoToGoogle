@@ -12,7 +12,7 @@
 		"cookie-parser": "^1.4.3",
 		"express": "^4.14.1",
 		"express-session": "^1.15.1",
-    "google-spreadsheets": "*",
+    "request": "*",
     "googleapis": "*"
 	},
 	"engines": {

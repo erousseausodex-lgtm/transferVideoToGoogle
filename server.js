@@ -1,7 +1,7 @@
 // server.js
 // where your node app starts
 var google = require('googleapis');
-var GoogleSpreadsheets = require('google-spreadsheets');
+var sheets = google.sheets('v4');
 var plus = google.plus('v1');
 
 // the process.env values are set in .env
@@ -86,22 +86,25 @@ app.get('/success',
         // handle err and response
       });
 
-      GoogleSpreadsheets({
-        key: process.env.SHEET_KEY,
-        auth: oauth2Client
-      }, function(err, spreadsheet) {
-        if(err){
-          console.log("Aww man, " + err);
-        } else {
-          console.log(JSON.stringify(spreadsheet));
-          spreadsheet.worksheets[0].cells({
-            range: 'R1C1:R1C10'
-          }, function(err, cells) {
-            console.log("Got data, lookit: " + cells);
-            res.send(cells);
-          });
-        }
-      });
+
+
+        var request = {
+          // The ID of the spreadsheet to retrieve data from.
+          spreadsheetId: process.env.SHEET_KEY,
+          // The A1 notation of the values to retrieve.
+          range: 'A1:K11', 
+          auth: oauth2Client
+        };
+
+        sheets.spreadsheets.values.get(request, function(err, response) {
+          if (err) {
+            console.log(err);
+            return;
+          } else {
+            console.log(JSON.stringify(response, null, 2));
+          }
+        });
+
     } else {
       res.redirect('/');
     }
