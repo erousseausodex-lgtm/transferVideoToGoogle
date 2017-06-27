@@ -9,7 +9,7 @@ var dataDeets;
 // the process.env values are set in .env
 var clientID = process.env.CLIENT_ID;
 var clientSecret = process.env.CLIENT_SECRET;
-var callbackURL = 'https://'+process.env.PROJECT_NAME+'.glitch.me/login/google/return';
+var callbackURL = 'https://'+process.env.PROJECT_DOMAIN+'.glitch.me/login/google/return';
 var scopes = ['https://www.googleapis.com/auth/spreadsheets.readonly',
               'https://www.googleapis.com/auth/plus.login'];
 var oauth2Client = new google.auth.OAuth2(clientID, clientSecret, callbackURL);
