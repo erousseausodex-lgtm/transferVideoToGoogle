@@ -22,5 +22,6 @@
 		"express",
 		"google",
 		"oauth"
-	]
+	],
+  "license": "MIT"
 }
