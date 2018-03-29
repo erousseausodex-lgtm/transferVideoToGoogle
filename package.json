@@ -12,10 +12,10 @@
 		"cookie-parser": "^1.4.3",
 		"express": "^4.14.1",
 		"express-session": "^1.15.1",
-    "googleapis": "*"
+    "googleapis": "25.x"
 	},
 	"engines": {
-		"node": "6.9.1"
+		"node": "8.x"
 	},
 	"keywords": [
 		"node",
