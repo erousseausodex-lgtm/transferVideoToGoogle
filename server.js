@@ -99,8 +99,7 @@ app.get('/getData',
         console.log("Aww, man: " + err);
         res.send("An error occurred");
       } else {
-        dataDeets = response.values;
-        console.log(JSON.stringify(response))
+        dataDeets = response.data.values;
         res.send(dataDeets);
       }
     });
