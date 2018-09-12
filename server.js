@@ -2,7 +2,6 @@
 // where your node app starts
 var google = require('googleapis');
 var sheets = google.sheets('v4');
-var plus = google.plus('v1');
 var userName;
 var dataDeets;
 
@@ -10,8 +9,7 @@ var dataDeets;
 var clientID = process.env.CLIENT_ID;
 var clientSecret = process.env.CLIENT_SECRET;
 var callbackURL = 'https://'+process.env.PROJECT_DOMAIN+'.glitch.me/login/google/return';
-var scopes = ['https://www.googleapis.com/auth/spreadsheets.readonly',
-              'https://www.googleapis.com/auth/plus.login'];
+var scopes = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 var oauth2Client = new google.auth.OAuth2(clientID, clientSecret, callbackURL);
 
 var url = oauth2Client.generateAuthUrl({
@@ -88,42 +86,25 @@ app.get('/success',
 
 app.get('/getData',
   function(req, res) {
-    // Get Google+ details
-    plus.people.get({
-      userId: 'me',
+  // Now get spreadsheet values
+    var request = {
+      // The ID of the spreadsheet to retrieve data from.
+      spreadsheetId: process.env.SHEET_KEY,
+      // The A1 notation of the values to retrieve.
+      range: 'A1:K11', 
       auth: oauth2Client
-    }, function (err, response) {
+    };
+    sheets.spreadsheets.values.get(request, function(err, response) {
       if (err) {
         console.log("Aww, man: " + err);
         res.send("An error occurred");
-      } else { 
-        if(response.isPlusUser==true){
-          userName = response.name.givenName;
-        } else {
-          userName = "Unknown Stranger";        
-        }
-
-        // Now get spreadsheet values
-        var request = {
-          // The ID of the spreadsheet to retrieve data from.
-          spreadsheetId: process.env.SHEET_KEY,
-          // The A1 notation of the values to retrieve.
-          range: 'A1:K11', 
-          auth: oauth2Client
-        };
-        sheets.spreadsheets.values.get(request, function(err, response) {
-          if (err) {
-            console.log("Aww, man: " + err);
-            res.send("An error occurred");
-          } else {
-            dataDeets = response.values;
-            res.send([userName, dataDeets]);
-          }
-        });
+      } else {
+        dataDeets = response.values;
+        console.log(JSON.stringify(response))
+        res.send(dataDeets);
       }
     });
-  }
-);
+  });
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function() {
