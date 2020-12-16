@@ -12,7 +12,7 @@
 		"cookie-parser": "^1.4.3",
 		"express": "^4.14.1",
 		"express-session": "^1.15.1",
-    "googleapis": "25.x"
+		"googleapis": "25.x"
 	},
 	"engines": {
 		"node": "8.x"
@@ -23,5 +23,5 @@
 		"google",
 		"oauth"
 	],
-  "license": "MIT"
+	"license": "MIT"
 }
