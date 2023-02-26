@@ -32,5 +32,17 @@ async function gsrun(cl){
   
   let dataArray = data.data.values;
   
-  let new
+  let newDataArray = dataArray.map(function(r){
+     r.push("hello"+ r[0]);
+    return r
+  });
+ // console.log(newDataArray);
+ const updateOptions = {
+    spreadsheetId:'1nTPv5bzR6o4232vrEnpYJQSk03RbYbq9RTh-xizCUM8',
+    range:'videos!A4',
+    valueInputOption:'USER_ENTERED',
+    response:{values:newDataArray}
+  };  
+let res= await gsapi.spreadshets.value.update(updateOptions);
+  console.log(res);
 }
