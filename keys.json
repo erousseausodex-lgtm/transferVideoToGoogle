@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "glitch-game-373608",
+  "private_key_id": "f1b9f88f2895aaf0d36923f81c248d05a9362b9b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDcA0DkLzrBwy7C\nZk6JHrliffZr/iySplXzKpikF0CSKL7QiVYGaltN9cqgePb4kLhpfiRcEA4lGa9W\nemgXpZA1xlA2WGj6VH65j6CWP/fw/TQsvg0yWrxF8guTyT6C/6Lx2vOeY0/S/vYP\nR8IoqxdPg5ALaJEX47a8Um/G34TNUtZaQ8dLgPkbKV5j0G355z605OvZbRWU3viO\n/R1EZX5d0m9dZz4gy9pl6tRCpXtdMlGJNnrYiot6Odz6DflIDM+/3PGYfLdV8uDR\n409YlBx0FT9lqbEv0Qmk59vq9vQBPrHG2EMEw5Q5eRWILe2IMyBZH4/JtgCfpnkI\nL/7apLHlAgMBAAECggEAArpMEbkd0+dmAakBwvdzFFzhq6i9Xn8ly+M8MVs121KD\nxA+le5GV4jW73AoPMKLNDRnG2uuzGLmZU62Pxlnd5vcg4bIyFsNEmJi3j/oHLGTy\njeM4Yk/3rT+AshEEJEZYoVxMdjoxkinxEYIi5VkfzYJktcu8JuaN6KxnF+Zpp0UR\nWS2N/coLnbMFTScSRVn6YMhtyJXwYnMap4AyQj3jTMTxBufTyVX8apWyqQmgZR1j\nT23QcqNTiTITg4VvZOV0LPX0nCcXE8RWk/fWlGWVi9zmt+nCnnMsMFkzbPxMQwKz\nKPRppx6DgizZXwj8R1KsbDDS1KFSunIbqCXHGYIH4QKBgQD4dcj4/cxZS83sWZqu\ntXHkeNU0M5JSOMIfk15C+KhvBrAsta9KSMySYHD/00BBMuTPI1OUQOBWZQC5qGQ0\n+bsLtxhTmjUKvOdlKvpAny6KWbQN9TVlFkHIFjJLVpYRykkDRp4TLSRe8co7KYiP\nKRpBMhFxLuoMMEcchTp+tby0XQKBgQDisHgHNBl7/dLH7Izshaw0GCYvwePfULWC\nqxEAMCbhip4IuzS0TB/K6Khh3yc+0w+apD+kmexHfSG1+EZYD1XufjpFl7M+NAAW\na2FQZ/vuM8cJHSBNvRtxvyAEURQddgWfQ6DfpeZ5gZ3ViC2GwD69vidH8G1zs6Bh\nfZh/M54bKQKBgGhGfrdJRSdA8ka8gHfMfOVHdSt4bXOGkKpR3iC7XW1jYDMTeWLy\n1LCmOyaTEYeLhY4NpHk3FTANKdXBf3TgToknKdWEhbhg+bhy5h6S8CRua2vkOqmX\nQrpn3mnSCB+lRylRzOv9aSNT1O0pjD+RH4y3J6zZ5K6C4IVuwNMHERCdAoGAMDQ2\nUdHSWXtwBvNWRDVomOtJs34XZrVS46Zcxx12Jx/C2zhzzKMjX5J5u9YoEkPvXYLv\nxaC1jb4eHQPecXtRWpWc7o+DngaQvjO3TdHO0KhR+q4m4GEGJPnvZPuYu2sNZwCK\nhQRSLiRR28ZJaA4ZSV/WGoYVwDTCNfjvJJ1lUYECgYEAjKAxwpM7fSjkD2QV6oWo\n3g2x+iwLEBIWCpvL4cp2ixES2HyzETlIwU2jWnj22Sd4V7xdR+F7P9Gf3qRyCrVO\nuLAi1HOv2aJFUPp7mmHPmKAhnIdf9VKUrwNxeyWaA16IxbrozrQauJln4zu9fIhE\nu1SOwFikj04wtHAGxoCdxEE=\n-----END PRIVATE KEY-----\n",
+  "client_email": "transfer3d-togoogle-798@glitch-game-373608.iam.gserviceaccount.com",
+  "client_id": "118329484156140995432",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/transfer3d-togoogle-798%40glitch-game-373608.iam.gserviceaccount.com"
+}
