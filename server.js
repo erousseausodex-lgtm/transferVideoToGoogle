@@ -33,7 +33,7 @@ async function gsrun(cl){
   //let dataArray = data.data.values;
 
   
-  let newDataArray =['henri','john'];
+  let newDataArray =[['henri'],['john']];
  // console.log(newDataArray);
  const updateOptions = {
     spreadsheetId:'1nTPv5bzR6o4232vrEnpYJQSk03RbYbq9RTh-xizCUM8',
