@@ -30,19 +30,17 @@ async function gsrun(cl){
   let data = await gsapi.spreadsheets.values.get(opt);
   console.log(data.data.values);
   
-  let dataArray = data.data.values;
+  //let dataArray = data.data.values;
+
   
-  let newDataArray = dataArray.map(function(r){
-     r.push("hello"+ r[0]);
-    return r
-  });
+  let newDataArray =['henri','john'];
  // console.log(newDataArray);
  const updateOptions = {
     spreadsheetId:'1nTPv5bzR6o4232vrEnpYJQSk03RbYbq9RTh-xizCUM8',
     range:'videos!A4',
     valueInputOption:'USER_ENTERED',
-    ressource:{values:newDataArray}
+    resource:{values: newDataArray}
   };  
-let res= await gsapi.spreadshets.values.update(updateOptions);
+let res = await gsapi.spreadsheets.values.update(updateOptions);
   console.log(res);
 }
