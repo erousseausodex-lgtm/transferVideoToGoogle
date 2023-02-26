@@ -24,7 +24,13 @@ jwtClient.authorize((err, tokens) => {
 async function gsrun(cl){
   const gsapi = google.sheets({version:'v4',auth:cl});
   const opt = {
-    spreadsheetid:'1nTPv5bzR6o4232vrEnpYJQSk03RbYbq9RTh-xizCUM8',
-    range:'A1:C2'
-  }
+    spreadsheetId:'1nTPv5bzR6o4232vrEnpYJQSk03RbYbq9RTh-xizCUM8',
+    range:'videos!A2:C2'
+  };
+  let data = await gsapi.spreadsheets.values.get(opt);
+  console.log(data.data.values);
+  
+  let dataArray = data.data.values;
+  
+  let new
 }
