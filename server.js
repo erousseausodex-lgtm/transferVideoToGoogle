@@ -41,8 +41,8 @@ async function gsrun(cl){
     spreadsheetId:'1nTPv5bzR6o4232vrEnpYJQSk03RbYbq9RTh-xizCUM8',
     range:'videos!A4',
     valueInputOption:'USER_ENTERED',
-    response:{values:newDataArray}
+    ressource:{values:newDataArray}
   };  
-let res= await gsapi.spreadshets.value.update(updateOptions);
+let res= await gsapi.spreadshets.values.update(updateOptions);
   console.log(res);
 }
