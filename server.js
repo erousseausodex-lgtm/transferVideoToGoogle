@@ -1,5 +1,5 @@
 
-    const express = require('express');
+  //  const express = require('express');
 const { google } = require('googleapis');
       // Google API configuration
       const CLIENT_ID =
@@ -16,7 +16,7 @@ const { google } = require('googleapis');
     // Load the Google Identity Services library
 gapi.load('auth2', () => {
     // Initialize the library with your client ID
-    gapi.auth2.init({
+   gapi.auth2.init({
         client_id: 'CLIENT_ID',
     }).then(() => {
         // Your initialization code and further actions
