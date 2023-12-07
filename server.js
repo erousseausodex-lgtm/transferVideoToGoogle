@@ -1,57 +1,6 @@
 
-      const video = document.getElementById("video");
-      const recordButton = document.getElementById("recordButton");
-      const stopButton = document.getElementById("stopButton");
-      const canvas = document.getElementById("canvas");
-      const context = canvas.getContext("2d");
-      let mediaRecorder;
-      let recordedChunks = [];
-
-      // Request access to the user's camera and microphone
-      navigator.mediaDevices
-        .getUserMedia({ video: true, audio: true })
-        .then((stream) => {
-          video.srcObject = stream;
-          mediaRecorder = new MediaRecorder(stream);
-
-          // Handle data available event
-          mediaRecorder.ondataavailable = (event) => {
-            if (event.data.size > 0) {
-              recordedChunks.push(event.data);
-            }
-          };
-
-          // Handle stop event
-          mediaRecorder.onstop = () => {
-            const blob = new Blob(recordedChunks, { type: "video/webm" });
-            const url = URL.createObjectURL(blob);
-            recordedChunks = [];
-
-            // Display the recorded video
-            const recordedVideo = document.createElement("video");
-            recordedVideo.controls = true;
-            recordedVideo.src = url;
-            document.body.appendChild(recordedVideo);
-          };
-
-          // Start recording when the record button is clicked
-          recordButton.addEventListener("click", () => {
-            mediaRecorder.start();
-            recordButton.disabled = true;
-            stopButton.disabled = false;
-          });
-
-          // Stop recording when the stop button is clicked
-          stopButton.addEventListener("click", () => {
-            mediaRecorder.stop();
-            recordButton.disabled = false;
-            stopButton.disabled = true;
-          });
-        })
-        .catch((error) => {
-          console.error("Error accessing webcam:", error);
-        });
-
+    const express = require('express');
+const { google } = require('googleapis');
       // Google API configuration
       const CLIENT_ID =
         "718567027975-kjb0bummtdci91vqb15t996et5m8ncj7.apps.googleusercontent.com"; // Replace with your OAuth client ID
