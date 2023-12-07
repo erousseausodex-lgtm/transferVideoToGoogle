@@ -2,26 +2,28 @@
 <!-- served from your routes in server.js -->
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Google Sheets Example</title>
-    <meta name="description" content="an example app getting data from google sheets">
-    <link id="favicon" rel="icon" href="https://glitch.com/favicon-app.ico" type="image/x-icon">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Webcam Video Recorder</title>
+
+    <script src="https://apis.google.com/js/api.js"></script>
+
+    <link
+      rel="icon"
+      href="https://cdn.glitch.global/6c4b9a16-8a6d-48d2-8a04-0871d8320531/Seau%20rouge.image_event.011646.jpg?v=1701945240830"
+      type="image/x-icon"
+    />
   </head>
   <body>
-    <header>
-      <h1>Google Sheets Example</h1>
-      <h2>An example app getting data from google sheets</h2>
-    </header>
+    <h1>Webcam Video Recorder</h1>
+    <video id="video" width="640" height="480" autoplay></video>
+    <button id="recordButton">Record</button>
+    <button id="stopButton" disabled>Stop</button>
+    <button id="loadFile">load</button>
+    <canvas id="canvas" style="display: none"></canvas>
 
-    <main>
-      <a class="container" href="/auth/google">Log In with Google</a>
-    </main>
-
-    <script src="https://button.glitch.me/button.js" data-style="glitch"></script>
-    <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
+  
   </body>
 </html>
