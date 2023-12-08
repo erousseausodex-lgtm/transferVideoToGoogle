@@ -24,10 +24,10 @@ async function createAndUploadFile(auth) {
 
     let fileMetaData = {
       name: 'logo.png',
-      parent:'14D_ANHPoaMvTn5ERk1lrwKW3xEz0_XFs'
+      parent:['14D_ANHPoaMvTn5ERk1lrwKW3xEz0_XFs']
     };
 
-    const media = {
+     const media = {
       mimeType: 'image/png',
       body: response.data.pipe(new stream.PassThrough())
     };
@@ -46,7 +46,6 @@ async function createAndUploadFile(auth) {
 }
 
 // Call the function with the auth object
-createAndUploadFile(auth);
-
+createAndUploadFile(auth)
 
 // node server.js
