@@ -22,7 +22,7 @@ const drive = google.drive({
   auth:oauth2Client
 })
 
-const filePath = path.join(__dirname,'logo.png');
+const filePath = path.join('Aet','logo.png');
 
 async function uploadFile(){
   try{
@@ -113,60 +113,60 @@ uploadFile();
 //         }
 //       }
 //       handleClientLoad();
-function uploadToDrive() {
-  const blob = new Blob(recordedChunks, { type: "video/webm" });
-  const metadata = {
-    name: "recorded_video.webm",
-    mimeType: "video/webm",
-  };
+// function uploadToDrive() {
+//   const blob = new Blob(recordedChunks, { type: "video/webm" });
+//   const metadata = {
+//     name: "recorded_video.webm",
+//     mimeType: "video/webm",
+//   };
 
-  const form = new FormData();
-  form.append(
-    "metadata",
-    new Blob([JSON.stringify(metadata)], { type: "application/json" })
-  );
-  form.append("file", blob);
+//   const form = new FormData();
+//   form.append(
+//     "metadata",
+//     new Blob([JSON.stringify(metadata)], { type: "application/json" })
+//   );
+//   form.append("file", blob);
 
-  gapi.client.drive.files
-    .create({
-      resource: metadata,
-      media: {
-        mimeType: "video/webm",
-        body: form,
-      },
-    })
-    .then((response) => {
-      console.log("File ID:", response.result.id);
-    })
-    .catch((error) => {
-      console.error("Error uploading to Google Drive:", error);
-    });
-}
+//   gapi.client.drive.files
+//     .create({
+//       resource: metadata,
+//       media: {
+//         mimeType: "video/webm",
+//         body: form,
+//       },
+//     })
+//     .then((response) => {
+//       console.log("File ID:", response.result.id);
+//     })
+//     .catch((error) => {
+//       console.error("Error uploading to Google Drive:", error);
+//     });
+// }
 
-// Start the OAuth flow when the record button is clicked
-loadFile.addEventListener("click", () => {
-  console.log("loadFile");
-  // Initiate the sign-in process when the element is clicked
-  gapi.auth2
-    .getAuthInstance()
-    .signIn()
-    .then(
-      () => {
-        console.log("Sign-in successful");
-        // Perform additional actions after successful sign-in if needed
-      },
-      (error) => {
-        console.error("Error signing in:", error);
-      }
-    );
-});
+// // Start the OAuth flow when the record button is clicked
+// loadFile.addEventListener("click", () => {
+//   console.log("loadFile");
+//   // Initiate the sign-in process when the element is clicked
+//   gapi.auth2
+//     .getAuthInstance()
+//     .signIn()
+//     .then(
+//       () => {
+//         console.log("Sign-in successful");
+//         // Perform additional actions after successful sign-in if needed
+//       },
+//       (error) => {
+//         console.error("Error signing in:", error);
+//       }
+//     );
+// });
 
-// Stop recording when the stop button is clicked
-stopButton.addEventListener("click", () => {
-  mediaRecorder.stop();
-  recordButton.disabled = false;
-  stopButton.disabled = true;
-});
+// // Stop recording when the stop button is clicked
+// stopButton.addEventListener("click", () => {
+//   mediaRecorder.stop();
+//   recordButton.disabled = false;
+//   stopButton.disabled = true;
+// });
 
 // Initialize the Google API client library
 //  handleClientLoad();
