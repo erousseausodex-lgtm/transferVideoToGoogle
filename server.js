@@ -23,7 +23,7 @@ async function createAndUploadFile(auth) {
 
   let media = {
     mimeType: 'image/png',
-    body: fs.createReadStream(path.join(__dirname,'Assets' ,'logo.png'))
+     body: fs.createReadStream('app/Assets/logo.png')
   };
 
   try {
