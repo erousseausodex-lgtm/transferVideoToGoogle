@@ -2,12 +2,11 @@
   //  const express = require('express');
 const { google } = require('googleapis');
       // Google API configuration
-      const CLIENT_ID =
-        "718567027975-kjb0bummtdci91vqb15t996et5m8ncj7.apps.googleusercontent.com"; // Replace with your OAuth client ID
+      const CLIENT_ID = process.env.CLIENT_ID;// Replace with your OAuth client ID
       //const API_KEY = 'your-api-key'; // Not needed for OAuth, but might be required by some APIs
-      const DISCOVERY_DOCS = [
-        "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
-      ];
+      const CLIENT_SECRET = process.env.CLIENT_SECRET;
+
+      const REDIRECT_URI = process.env.
       const SCOPES = "https://www.googleapis.com/auth/drive.file";
 
       // Load the Google API client library
