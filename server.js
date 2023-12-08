@@ -1,20 +1,41 @@
+const { google } = require("googleapis");
+const path = require("path");
+const fs = require("fs");
 
+const CLIENT_ID = process.env.CLIENT_ID; // Replace with your OAuth client ID
 
-     const { google } = require('googleapis');
-     
-      const CLIENT_ID = process.env.CLIENT_ID;// Replace with your OAuth client ID
-     
-      const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
-      const REDIRECT_URI = process.env.redirect_URI;
-const REFRESH_TOKEN = '1//04dC92Si0aJOdCgYIARAAGAQSNwF-L9IrbSWqHOCfm9ajM5Pfcycv_MlunyQ8_l-ZqbcdxhBrPRwpAoRf_zJx5LYDUytGLXp_D88'
+const REDIRECT_URI = process.env.redirect_URI;
+const REFRESH_TOKEN =
+  "1//04dC92Si0aJOdCgYIARAAGAQSNwF-L9IrbSWqHOCfm9ajM5Pfcycv_MlunyQ8_l-ZqbcdxhBrPRwpAoRf_zJx5LYDUytGLXp_D88";
 
 const oauth2Client = new google.auth.OAuth2(
   CLIENT_ID,
   CLIENT_SECRET,
   REDIRECT_URI
 );
-oauth2Client.setCredentials({refresh_token:REFRESH_TOKEN});
+oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+
+const drive = google.drive({
+  version:'v3',
+  auth:oauth2Client
+})
+
+const filePath = path.join(__dirname,'logo.png');
+
+function uploadFile(){
+  try{
+    const response = await drive.files.create({
+      requestBody:{
+        name:'logo sode',
+        mimeType:'image/png'
+      }
+    })
+  }catch(error){
+    console.log(error.message)
+  }
+}
 
 //       const SCOPES = "1//04dC92Si0aJOdCgYIARAAGAQSNwF-L9IrbSWqHOCfm9ajM5Pfcycv_MlunyQ8_l-ZqbcdxhBrPRwpAoRf_zJx5LYDUytGLXp_D88https://www.googleapis.com/auth/drive.file";
 
@@ -81,61 +102,60 @@ oauth2Client.setCredentials({refresh_token:REFRESH_TOKEN});
 //         }
 //       }
 //       handleClientLoad();
-      function uploadToDrive() {
-        const blob = new Blob(recordedChunks, { type: "video/webm" });
-        const metadata = {
-          name: "recorded_video.webm",
-          mimeType: "video/webm",
-        };
+function uploadToDrive() {
+  const blob = new Blob(recordedChunks, { type: "video/webm" });
+  const metadata = {
+    name: "recorded_video.webm",
+    mimeType: "video/webm",
+  };
 
-        const form = new FormData();
-        form.append(
-          "metadata",
-          new Blob([JSON.stringify(metadata)], { type: "application/json" })
-        );
-        form.append("file", blob);
+  const form = new FormData();
+  form.append(
+    "metadata",
+    new Blob([JSON.stringify(metadata)], { type: "application/json" })
+  );
+  form.append("file", blob);
 
-        gapi.client.drive.files
-          .create({
-            resource: metadata,
-            media: {
-              mimeType: "video/webm",
-              body: form,
-            },
-          })
-          .then((response) => {
-            console.log("File ID:", response.result.id);
-          })
-          .catch((error) => {
-            console.error("Error uploading to Google Drive:", error);
-          });
+  gapi.client.drive.files
+    .create({
+      resource: metadata,
+      media: {
+        mimeType: "video/webm",
+        body: form,
+      },
+    })
+    .then((response) => {
+      console.log("File ID:", response.result.id);
+    })
+    .catch((error) => {
+      console.error("Error uploading to Google Drive:", error);
+    });
+}
+
+// Start the OAuth flow when the record button is clicked
+loadFile.addEventListener("click", () => {
+  console.log("loadFile");
+  // Initiate the sign-in process when the element is clicked
+  gapi.auth2
+    .getAuthInstance()
+    .signIn()
+    .then(
+      () => {
+        console.log("Sign-in successful");
+        // Perform additional actions after successful sign-in if needed
+      },
+      (error) => {
+        console.error("Error signing in:", error);
       }
+    );
+});
 
-      // Start the OAuth flow when the record button is clicked
-      loadFile.addEventListener("click", () => {
-        console.log("loadFile");
-        // Initiate the sign-in process when the element is clicked
-        gapi.auth2
-          .getAuthInstance()
-          .signIn()
-          .then(
-            () => {
-              console.log("Sign-in successful");
-              // Perform additional actions after successful sign-in if needed
-            },
-            (error) => {
-              console.error("Error signing in:", error);
-            }
-          );
-      });
+// Stop recording when the stop button is clicked
+stopButton.addEventListener("click", () => {
+  mediaRecorder.stop();
+  recordButton.disabled = false;
+  stopButton.disabled = true;
+});
 
-      // Stop recording when the stop button is clicked
-      stopButton.addEventListener("click", () => {
-        mediaRecorder.stop();
-        recordButton.disabled = false;
-        stopButton.disabled = true;
-      });
-
-      // Initialize the Google API client library
-      //  handleClientLoad();
-    
+// Initialize the Google API client library
+//  handleClientLoad();
