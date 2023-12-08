@@ -8,6 +8,7 @@ const CLIENT_ID = process.env.CLIENT_ID; // Replace with your OAuth client ID
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
 console.log(CLIENT_ID);
+console.log(CLIENT_SECRET);
 
 const REDIRECT_URI = process.env.redirect_URI;
 const REFRESH_TOKEN =
