@@ -1,10 +1,8 @@
-const fs = require('fs');
-const { google } = require('googleapis');
-const path = require('path');
 const axios = require('axios');
+const { google } = require('googleapis');
+const stream = require('stream');
 
-
-const KEYFILEPATH = 'C:\\Users\\33687\\Downloads\\classroomstore-7507cf2dd39f';
+const KEYFILEPATH = 'classroomstore-7507cf2dd39f.json';
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
 
 const auth = new google.auth.GoogleAuth({
@@ -17,35 +15,30 @@ async function createAndUploadFile(auth) {
     version: 'v3',
     auth
   });
-  
-  // const desktopFilePath = 'C:/Users/33687/Pictures/COVID/logo.png'; // Corrected path
- const assetUrl = 'https://cdn.glitch.global/151b8a04-c447-4677-aa3e-8e3bb0c22fe5/logo.png?v=1702023343969';
- 
-try{ 
-  
-  const fileContent = fs.readFileSync(assetUrl, 'utf-8'); 
-  let fileMetaData = {
-    
-    name: 'logo.png'
-  };
 
-  let media = {
-    mimeType: 'image/png',
-     body: fileContent
-  };
+  // URL of the 'logo.png' asset
+  const assetUrl = 'https://cdn.glitch.global/151b8a04-c447-4677-aa3e-8e3bb0c22fe5/logo.png?v=1702023343969';
 
+  try {
+    const response = await axios.get(assetUrl, { responseType: 'stream' });
 
-    let response = await driveService.files.create({
-      resource: fileMetaData,
+    let fileMetaData = {
+      name: 'logo.png'
+    };
+
+    const media = {
+      mimeType: 'image/png',
+      body: response.data.pipe(new stream.PassThrough())
+    };
+
+    let driveResponse = await driveService.files.create({
+      requestBody: fileMetaData,
       media: media,
-      fields: 'id'
+      fields: 'id, webViewLink'
     });
 
-    switch (response.status) {
-      case 200:
-        console.log('File created', response.data.id);
-        break;
-    }
+    console.log('File created with ID:', driveResponse.data.id);
+    console.log('File URL:', driveResponse.data.webViewLink);
   } catch (error) {
     console.error('Error creating file:', error.message);
   }
@@ -53,5 +46,6 @@ try{
 
 // Call the function with the auth object
 createAndUploadFile(auth);
+
 
 // node server.js

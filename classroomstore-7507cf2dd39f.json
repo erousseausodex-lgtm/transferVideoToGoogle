@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "classroomstore",
+  "private_key_id": "7507cf2dd39f621c1ef57715dc8bf4ab4903c6e8",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDGFwsu6uALX48o\nqf8nY32SOVvgIf0uc9REPqz3UdOk7MUWCCWott+IFRK1Rh7t/l8TH4P5Pz+RQ3Xx\n49Iqj6sq4TnsvCjCtnBaAANf3uTE+hpTFQ31mXilPQ2bQoNB1nOpR3zGPA0Bi7oz\nLFVCrksVfkXrBvS/swBse74kKQPBwR+WqZAHBkfNG0iB2zKG/Rfr2OjctrIJqFD0\nfQbAk44nfA5QzZmJLHRILAiQFQHXEzvTOOBy48FzLjSN0k/kFa4fYHOitcj2wZ/K\nvkiwCinflmjeDGbuPLGpXLl2HCWoS+pTSzfdVBgYaYpS0LIp0NpKx+vchC+aigb4\nu7+W7TOhAgMBAAECggEAG9l0hzbv+G60Y/gBI+AEcPuNyQVDoPVu6TNTQlLSPxR8\noZwpSJQr+WgBC9RHwpepyo36kh8MHaz5gYr76rjtIdJYFZ+J2X99weF7l/hwev2w\nmBqp2Own6TnxVkaJHpylq9hy7d8ryEUFO27nA8DDqfS+pAwuel8SVwN6AtUeA+4W\nt0aQUV56mqw0419XD3amVkoNlcWwWgKm4drHdoL1gwTZSGMYrFlhxhy2vcxYo8ls\n8dgHX4vEuFiSbrw0RpK7RN3FesUc/EZgb7T3JqYbz5+twmZgJjrUdUZYirHVU9FY\n/KI5fE2z2htx+zXpbjKYqPuD9fGMCp8IU+3ZdZ7L6wKBgQDk2bD3DJgRMqduF0Un\nO9cyFPrrWPWvi6yAoOI6fqkscMfBV9s82nk4Svxi37Bks4skxSugak+HzFBNC9GL\nQk4PM4VnEuZyincu7mpyyUSyVAtGkkw+kg7ShvMKmA1a0unaMSa6wQoLZc4W+Tp8\nyhRPuRzG6+ue7R/dxi+CH1z6UwKBgQDdlyTswlI1G6ekNitXIIQ1OuTKq2ruNWuR\n4/LuHlSlkqYV0sPi8A56rgnJMUJDzvyca93AXy3DXu8zmurGyWsj9YmRDNKlZfzR\nzDvclJUxXo5szn2Vx/DzBTxIsuE65bhR+TN7+tYbId2pqye6wj65V3qKtwNEPiLv\n8I9N2fMjuwKBgCEmG0kdzOUo1jHPMxgkxd4eRd5TS3s7GyiipUJd2Hl0eKrb5Ajj\niI2L5xUXW8CqdSxFVzVsUMrV4IfYf2jRmOcAyoEMrs7Gmc71f/vShZ3jKKL3TA4A\nMB90pr3RGpYeWPtfBUIl9iOCgqC3Ry6OQvTtVmrF/6JMrMH+FCGgE2K7AoGBAMK5\nSmqADOu8hKHqNEXZPjTkrx9maY4xBXlrvhQANVRWvXqZ/yeS2rZ18AWMMvYRk60F\noRWmzjlMWJmZvky3vV4ZLC15/jX4nKXkeopJS53ZwQDeqD+SNyvn4uTjxMcUDdiD\nS/ncIIAxT3AFBuG4RpRqyjXRw54ZmGwPkm7QYzh3AoGAVY3/YdUX/QxXtwhqpvCa\nJeQP5gKWkBWrQy6ZTrdumCZVb/LoNQGnhQ9C9akejqUlZ/VX+7LK0rMMyJfNwaXd\nZDbb8bHHeJhlzQJCITy//URwsbacv1OVe+KApjH4P9mR0zQ+Qgek6hMFJJ97WNCj\n8qbQ1DKA+5UjFvxfUXYi9JA=\n-----END PRIVATE KEY-----\n",
+  "client_email": "chargement-fichier@classroomstore.iam.gserviceaccount.com",
+  "client_id": "117368284350047671562",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/chargement-fichier%40classroomstore.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
