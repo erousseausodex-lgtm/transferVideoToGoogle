@@ -3,10 +3,15 @@ const path = require("path");
 const fs = require("fs");
 const axios = require("axios");
 
+const express = require('express');
+const { OAuth2Client } = require('google-auth-library');
+
+const app = express();
+
 const CLIENT_ID = process.env.CLIENT_ID; // Replace with your OAuth client ID
 
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
-
+node server.js
 console.log(CLIENT_ID);
 console.log(CLIENT_SECRET);
 
