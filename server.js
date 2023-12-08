@@ -24,18 +24,27 @@ const drive = google.drive({
 
 const filePath = path.join(__dirname,'logo.png');
 
-function uploadFile(){
+async function uploadFile(){
   try{
     const response = await drive.files.create({
       requestBody:{
         name:'logo sode',
         mimeType:'image/png'
-      }
-    })
+      },
+      media:{
+        mimeType:'image/png',
+        body:fs.createReadStream(filePath),
+      },
+    });
+    console.log(response.data);
   }catch(error){
     console.log(error.message)
   }
 }
+
+uploadFile();
+
+// node server.js
 
 //       const SCOPES = "1//04dC92Si0aJOdCgYIARAAGAQSNwF-L9IrbSWqHOCfm9ajM5Pfcycv_MlunyQ8_l-ZqbcdxhBrPRwpAoRf_zJx5LYDUytGLXp_D88https://www.googleapis.com/auth/drive.file";
 
