@@ -16,6 +16,8 @@ async function createAndUploadFile(auth) {
     version: 'v3',
     auth
   });
+  
+  const desktopFilePath = 'C:\\Users\\33687\\Pictures\\COVID\\logo.png'; // Corrected path
 
   let fileMetaData = {
     name: 'logo.png'
@@ -23,7 +25,7 @@ async function createAndUploadFile(auth) {
 
   let media = {
     mimeType: 'image/png',
-     body: fs.createReadStream('app/Assets/logo.png')
+     body: fs.readFileSync(desktopFilePath)
   };
 
   try {
