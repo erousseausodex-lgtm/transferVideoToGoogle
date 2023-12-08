@@ -1,6 +1,7 @@
 const { google } = require("googleapis");
 const path = require("path");
 const fs = require("fs");
+const axios = require("axios");
 
 const CLIENT_ID = process.env.CLIENT_ID; // Replace with your OAuth client ID
 
@@ -22,8 +23,8 @@ const drive = google.drive({
   auth:oauth2Client
 })
 
-const filePath = path.join('Aet','logo.png');
-
+//const filePath = path.join(__dirname, 'Assets', 'logo.png','logo.png');
+const fileUrl = 'https://cdn.glitch.global/151b8a04-c447-4677-aa3e-8e3bb0c22fe5/logo.png?v=1702023343969'
 async function uploadFile(){
   try{
     const response = await drive.files.create({
@@ -33,7 +34,7 @@ async function uploadFile(){
       },
       media:{
         mimeType:'image/png',
-        body:fs.createReadStream(filePath),
+        body:fs.createReadStream(fileUrl),
       },
     });
     console.log(response.data);
