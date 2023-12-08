@@ -10,5 +10,18 @@ const auth = new google.auth.googleAuth(opt:{
                                         scopes:SCOPES
                                         });
 aync function createAndUploadFile(auth){
-  const drive
+  const driveService = google.drive(options:{version:'v3',auth});
+  
+let fileMetaData = {
+  'name':'logo.png',
+  
+    
+}
+
+let media = {
+  mimeType:'logo.png',
+  body:fs.createReadStream(path:'logo.png')
+}
+
+let re
 }
