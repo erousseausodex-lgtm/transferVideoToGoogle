@@ -7,9 +7,11 @@ const CLIENT_ID = process.env.CLIENT_ID; // Replace with your OAuth client ID
 
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
+console.log(CLIENT_ID);
+
 const REDIRECT_URI = process.env.redirect_URI;
 const REFRESH_TOKEN =
-  "1//04dC92Si0aJOdCgYIARAAGAQSNwF-L9IrbSWqHOCfm9ajM5Pfcycv_MlunyQ8_l-ZqbcdxhBrPRwpAoRf_zJx5LYDUytGLXp_D88";
+  "1//04pakW2vNKEEaCgYIARAAGAQSNwF-L9IrdzO-LXdBm9KrSR3odQChNenYJlTaNy3x6otd-KgjpnPcVgXwwsQ3-pMy7rigCp_pces";
 
 const oauth2Client = new google.auth.OAuth2(
   CLIENT_ID,
@@ -25,24 +27,28 @@ const drive = google.drive({
 
 //const filePath = path.join(__dirname, 'Assets', 'logo.png','logo.png');
 const fileUrl = 'https://cdn.glitch.global/151b8a04-c447-4677-aa3e-8e3bb0c22fe5/logo.png?v=1702023343969'
-async function uploadFile(){
-  try{
-    const response = await drive.files.create({
-      requestBody:{
-        name:'logo sode',
-        mimeType:'image/png'
+async function uploadFile() {
+  try {
+    const response = await axios.get(fileUrl, { responseType: 'stream' });
+    
+    const media = {
+      mimeType: 'image/png',
+      body: response.data,
+    };
+
+    const createFileResponse = await drive.files.create({
+      requestBody: {
+        name: 'logo sode',
+        mimeType: 'image/png',
       },
-      media:{
-        mimeType:'image/png',
-        body:fs.createReadStream(fileUrl),
-      },
+      media: media,
     });
-    console.log(response.data);
-  }catch(error){
-    console.log(error.message)
+
+    console.log(createFileResponse.data);
+  } catch (error) {
+    console.error(error.message);
   }
 }
-
 uploadFile();
 
 // node server.js
