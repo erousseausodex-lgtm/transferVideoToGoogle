@@ -3,7 +3,7 @@ const { google } = require('googleapis');
 const stream = require('stream');
 
 const KEYFILEPATH = 'classroomstore-7507cf2dd39f.json';
-const SCOPES = ['https://www.googleapis.com/auth/drive'];
+const SCOPES = ['https://www.googleapis.com/auth/drive.file'];
 
 const auth = new google.auth.GoogleAuth({
   keyFile: KEYFILEPATH,
@@ -23,7 +23,8 @@ async function createAndUploadFile(auth) {
     const response = await axios.get(assetUrl, { responseType: 'stream' });
 
     let fileMetaData = {
-      name: 'logo.png'
+      name: 'logo.png',
+      parent:'14D_ANHPoaMvTn5ERk1lrwKW3xEz0_XFs'
     };
 
     const media = {
