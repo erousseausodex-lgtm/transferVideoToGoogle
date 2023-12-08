@@ -7,7 +7,16 @@
       const CLIENT_SECRET = process.env.CLIENT_SECRET;
 
       const REDIRECT_URI = process.env.redirect_URI;
-//       const SCOPES = "https://www.googleapis.com/auth/drive.file";
+const REFRESH_TOKEN = '1//04dC92Si0aJOdCgYIARAAGAQSNwF-L9IrbSWqHOCfm9ajM5Pfcycv_MlunyQ8_l-ZqbcdxhBrPRwpAoRf_zJx5LYDUytGLXp_D88'
+
+const oauth2Client = new google.auth.OAuth2(
+  CLIENT_ID,
+  CLIENT_SECRET,
+  REDIRECT_URI
+);
+oauth2Client.setCredentials({refresh_token:REFRESH_TOKEN});
+
+//       const SCOPES = "1//04dC92Si0aJOdCgYIARAAGAQSNwF-L9IrbSWqHOCfm9ajM5Pfcycv_MlunyQ8_l-ZqbcdxhBrPRwpAoRf_zJx5LYDUytGLXp_D88https://www.googleapis.com/auth/drive.file";
 
 //       // Load the Google API client library
 //       function handleClientLoad() {
