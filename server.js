@@ -1,61 +1,120 @@
-const { google } = require("googleapis");
-const path = require("path");
-const fs = require("fs");
-const axios = require("axios");
-
 const express = require('express');
+const { google } = require('googleapis');
+const multer = require('multer');
 const { OAuth2Client } = require('google-auth-library');
+const fs = require('fs');
 
 const app = express();
+const port = 3000;
 
-const CLIENT_ID = process.env.CLIENT_ID; // Replace with your OAuth client ID
+// Multer middleware for handling file uploads
+const upload = multer({ dest: 'uploads/' });
 
-const CLIENT_SECRET = process.env.CLIENT_SECRET;
-node server.js
-console.log(CLIENT_ID);
-console.log(CLIENT_SECRET);
+// Google Drive API configuration
+const CLIENT_ID = 'your-client-id';
+const CLIENT_SECRET = 'your-client-secret';
+const REDIRECT_URI = 'http://localhost:3000/oauth2callback';
+const SCOPES = ['https://www.googleapis.com/auth/drive.file'];
 
-const REDIRECT_URI = process.env.redirect_URI;
-const REFRESH_TOKEN =
-  "1//04pakW2vNKEEaCgYIARAAGAQSNwF-L9IrdzO-LXdBm9KrSR3odQChNenYJlTaNy3x6otd-KgjpnPcVgXwwsQ3-pMy7rigCp_pces";
+const oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 
-const oauth2Client = new google.auth.OAuth2(
-  CLIENT_ID,
-  CLIENT_SECRET,
-  REDIRECT_URI
-);
-oauth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+// Homepage route
+app.get('/', (req, res) => {
+  res.send('Welcome to the File Upload to Google Drive App!');
+});
 
-const drive = google.drive({
-  version:'v3',
-  auth:oauth2Client
-})
+// Route to initiate the OAuth 2.0 authorization flow
+app.get('/auth', (req, res) => {
+  const authUrl = oauth2Client.generateAuthUrl({
+    access_type: 'offline',
+    scope: SCOPES,
+  });
+  res.redirect(authUrl);
+});
 
-//const filePath = path.join(__dirname, 'Assets', 'logo.png','logo.png');
-const fileUrl = 'https://cdn.glitch.global/151b8a04-c447-4677-aa3e-8e3bb0c22fe5/logo.png?v=1702023343969'
-async function uploadFile() {
+// Route to handle the OAuth 2.0 callback
+app.get('/oauth2callback', async (req, res) => {
+  const { code } = req.query;
+
   try {
-    const response = await axios.get(fileUrl, { responseType: 'stream' });
-    
-    const media = {
-      mimeType: 'image/png',
-      body: response.data,
+    const { tokens } = await oauth2Client.getToken(code);
+    oauth2Client.setCredentials(tokens);
+
+    // Store the refresh token securely in your database
+    // tokens.refresh_token should be stored for future use
+
+    res.send('Authentication successful! You can now upload a file.');
+  } catch (error) {
+    console.error('Error getting tokens:', error.message);
+    res.status(500).send('Error during authentication.');
+  }
+});
+
+// Route to handle file upload to Google Drive
+app.post('/upload', upload.single('file'), async (req, res) => {
+  try {
+    // Check if the user is authenticated
+    if (!oauth2Client.credentials || !oauth2Client.credentials.refresh_token) {
+      return res.status(401).send('Unauthorized. Please authenticate first.');
+    }
+
+    const drive = google.drive({ version: 'v3', auth: oauth2Client });
+
+    // File metadata
+    const fileMetadata = {
+      name: req.file.originalname,
+      mimeType: req.file.mimetype,
     };
 
-    const createFileResponse = await drive.files.create({
-      requestBody: {
-        name: 'logo sode',
-        mimeType: 'image/png',
-      },
+    // File content
+    const media = {
+      mimeType: req.file.mimetype,
+      body: fs.createReadStream(req.file.path),
+    };
+
+    // Upload file to Google Drive
+    const response = await drive.files.create({
+      requestBody: fileMetadata,
       media: media,
     });
 
-    console.log(createFileResponse.data);
+    res.send(`File uploaded successfully! File ID: ${response.data.id}`);
   } catch (error) {
-    console.error(error.message);
+    console.error('Error uploading file:', error.message);
+    res.status(500).send('Error uploading file to Google Drive.');
   }
-}
-uploadFile();
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
+});
+
+// //const filePath = path.join(__dirname, 'Assets', 'logo.png','logo.png');
+// const fileUrl = 'https://cdn.glitch.global/151b8a04-c447-4677-aa3e-8e3bb0c22fe5/logo.png?v=1702023343969'
+// async function uploadFile() {
+//   try {
+//     const response = await axios.get(fileUrl, { responseType: 'stream' });
+    
+//     const media = {
+//       mimeType: 'image/png',
+//       body: response.data,
+//     };
+
+//     const createFileResponse = await drive.files.create({
+//       requestBody: {
+//         name: 'logo sode',
+//         mimeType: 'image/png',
+//       },
+//       media: media,
+//     });
+
+//     console.log(createFileResponse.data);
+//   } catch (error) {
+//     console.error(error.message);
+//   }
+// }
+// uploadFile();
 
 // node server.js
 
