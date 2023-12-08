@@ -46,6 +46,8 @@ uploadFile();
 
 // node server.js
 
+// npm install
+
 //       const SCOPES = "1//04dC92Si0aJOdCgYIARAAGAQSNwF-L9IrbSWqHOCfm9ajM5Pfcycv_MlunyQ8_l-ZqbcdxhBrPRwpAoRf_zJx5LYDUytGLXp_D88https://www.googleapis.com/auth/drive.file";
 
 //       // Load the Google API client library
