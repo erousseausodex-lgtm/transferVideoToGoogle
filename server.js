@@ -2,9 +2,6 @@ const axios = require('axios');
 const { google } = require('googleapis');
 const stream = require('stream');
 
-
-
-
 const KEYFILEPATH = 'classroomstore-7507cf2dd39f.json';
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
 
@@ -42,25 +39,24 @@ async function createAndUploadFile(auth) {
     
     });
 
-
-    
-    
-
     console.log('File created with ID:', driveResponse.data.id);
     console.log('File URL:', driveResponse.data.webViewLink);
     console.log('File name:',driveResponse.data.name);
+    
+    // Wait for the stream to finish before resolving the function
+    await new Promise((resolve, reject) => {
+      media.body.on('finish', resolve);
+      media.body.on('error', reject);
+    });
+
    
     
-   
   } catch (error) {
     console.error('Error creating file:', error.message);
     
   }
 
 }
-
-
-
 
 //createAndUploadFile(auth);
 
