@@ -1,6 +1,8 @@
 const axios = require('axios');
 const { google } = require('googleapis');
-const stream = require('stream');
+//const stream = require('stream');
+
+const fs = require('fs');
 
 const KEYFILEPATH = 'classroomstore-7507cf2dd39f.json';
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
@@ -20,7 +22,7 @@ async function createAndUploadFile(auth) {
   const assetUrl = 'https://cdn.glitch.global/151b8a04-c447-4677-aa3e-8e3bb0c22fe5/logo.png?v=1702023343969';
 
   try {
-    const response = await axios.get(assetUrl, { responseType: 'stream' });
+    const response = await axios.get(assetUrl, { responseType: 'arraybuffer' });
 
     let fileMetaData = {
       name: 'logo.png',
@@ -29,7 +31,9 @@ async function createAndUploadFile(auth) {
 
      const media = {
       mimeType: 'image/png',
-      body: response.data.pipe(new stream.PassThrough())
+     // body: response.data.pipe(new stream.PassThrough())
+       body: Buffer.from(response.data, 'binary') 
+       
     };
 
     let driveResponse = await driveService.files.create({
@@ -43,11 +47,7 @@ async function createAndUploadFile(auth) {
     console.log('File URL:', driveResponse.data.webViewLink);
     console.log('File name:',driveResponse.data.name);
     
-    // Wait for the stream to finish before resolving the function
-    await new Promise((resolve, reject) => {
-      media.body.on('finish', resolve);
-      media.body.on('error', reject);
-    });
+ 
 
    
     
@@ -58,7 +58,7 @@ async function createAndUploadFile(auth) {
 
 }
 
-//createAndUploadFile(auth);
+createAndUploadFile(auth);
 
 
 // node server.js
