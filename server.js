@@ -6,7 +6,7 @@ const stream = require('stream');
 
 
 const KEYFILEPATH = 'classroomstore-7507cf2dd39f.json';
-const SCOPES = ['https://www.googleapis.com/auth/drive.file'];
+const SCOPES = ['https://www.googleapis.com/auth/drive'];
 
 const auth = new google.auth.GoogleAuth({
   keyFile: KEYFILEPATH,
@@ -39,14 +39,9 @@ async function createAndUploadFile(auth) {
       requestBody: fileMetaData,
       media: media,
       fields: 'id, webViewLink'
-    });
     
-//     const fileMetadata = await driveService.files.get({
-//   fileId: driveResponse.data.id,
-//   fields: 'id, name, parents, webViewLink'
-// });
+    });
 
-// console.log('File Metadata:', fileMetadata.data);
 
     
     
@@ -54,11 +49,14 @@ async function createAndUploadFile(auth) {
     console.log('File created with ID:', driveResponse.data.id);
     console.log('File URL:', driveResponse.data.webViewLink);
     console.log('File name:',driveResponse.data.name);
+   
     
    
   } catch (error) {
     console.error('Error creating file:', error.message);
+    
   }
+
 }
 
 
