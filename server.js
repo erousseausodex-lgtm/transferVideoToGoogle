@@ -53,12 +53,17 @@ console.log('File Metadata:', fileMetadata.data);
     console.log('File name:',driveResponse.data.name);
     
    
-  // } catch (error) {
-  //   console.error('Error creating file:', error.message);
-  // }
+  } catch (error) {
+    console.error('Error creating file:', error.message);
+  }
 }
 
-// Call the function with the auth object
-createAndUploadFile(auth)
+// try {
+//   // Other code...
+//   createAndUploadFile(auth);
+// } catch (error) {
+//   console.error('Error outside createAndUploadFile:', error.message);
+// }
 
 // // node server.js
+  
