@@ -37,9 +37,19 @@ async function createAndUploadFile(auth) {
       media: media,
       fields: 'id, webViewLink'
     });
+    
+    const fileMetadata = await driveService.files.get({
+  fileId: driveResponse.data.id,
+  fields: 'id, name, parents, webViewLink'
+});
+
+console.log('File Metadata:', fileMetadata.data);
+    
+    
 
     console.log('File created with ID:', driveResponse.data.id);
     console.log('File URL:', driveResponse.data.webViewLink);
+    console.log('File name:',driveResponse.data.parent);
   } catch (error) {
     console.error('Error creating file:', error.message);
   }
