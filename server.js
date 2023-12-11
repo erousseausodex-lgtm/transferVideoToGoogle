@@ -2,6 +2,19 @@ const axios = require('axios');
 const { google } = require('googleapis');
 const stream = require('stream');
 
+const express = require('express');
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.post('/trigger-action', (req, res) => {
+  
+    createAndUploadFile(auth);
+ 
+  console.log('Action triggered by button click!');
+  res.status(200).send('Action triggered successfully');
+});
+
+
 const KEYFILEPATH = 'classroomstore-7507cf2dd39f.json';
 const SCOPES = ['https://www.googleapis.com/auth/drive.file'];
 
@@ -57,6 +70,11 @@ console.log('File Metadata:', fileMetadata.data);
     console.error('Error creating file:', error.message);
   }
 }
+
+// Start the server
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
 
 // try {
 //   // Other code...
