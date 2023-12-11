@@ -12,6 +12,8 @@ const auth = new google.auth.GoogleAuth({
   scopes: SCOPES
 });
 
+
+
 async function createAndUploadFile(auth) {
   const driveService = google.drive({
     version: 'v3',
@@ -61,8 +63,10 @@ async function createAndUploadFile(auth) {
   }
 
 }
+// console.log('Script started at', new Date());
+// //createAndUploadFile(auth);
 
-//createAndUploadFile(auth);
+// console.log('Script ended at', new Date());
 
 
 // node server.js
