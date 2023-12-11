@@ -24,7 +24,7 @@ async function createAndUploadFile(auth) {
 
     let fileMetaData = {
       name: 'logo.png',
-      parent:['14D_ANHPoaMvTn5ERk1lrwKW3xEz0_XFs']
+      parents:['14D_ANHPoaMvTn5ERk1lrwKW3xEz0_XFs']
     };
 
      const media = {
@@ -49,7 +49,7 @@ console.log('File Metadata:', fileMetadata.data);
 
     console.log('File created with ID:', driveResponse.data.id);
     console.log('File URL:', driveResponse.data.webViewLink);
-    console.log('File name:',driveResponse.data.parent);
+    console.log('File name:',driveResponse.data.name);
   } catch (error) {
     console.error('Error creating file:', error.message);
   }
