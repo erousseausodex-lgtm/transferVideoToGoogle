@@ -5,6 +5,7 @@ const multer = require('multer');
 const { google } = require('googleapis');
 const fs = require('fs');
 const stream = require('stream');
+const sheets = google.sheets('v4')
 
 app.use(express.static('public'));
 
@@ -63,6 +64,38 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     res.status(500).json({ error: 'Error creating file on Google Drive500' });
   }
 });
+// add webvie
+async function updateGoogleSheet(fileData) {
+  const keyFilePath = process.env.GOOGLE_KEY_FILE_PATH;
+
+  const auth = new google.auth.GoogleAuth({
+    keyFile: keyFilePath,
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+  });
+
+  const sheetsService = google.sheets({
+    version: 'v4',
+    auth,
+  });
+
+  const spreadsheetId = 'YOUR_SPREADSHEET_ID';
+  const range = 'Sheet1!A2:C2'; // Adjust the range as needed
+
+  const values = [
+    [fileData.name, fileData.webViewLink, new Date()],
+  ];
+
+  await sheetsService.spreadsheets.values.append({
+    spreadsheetId,
+    range,
+    valueInputOption: 'RAW',
+    resource: {
+      values,
+    },
+  });
+
+  console.log('File information added to Google Sheet.');
+}
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/views/index.html'));
