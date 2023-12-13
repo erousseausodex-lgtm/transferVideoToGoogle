@@ -3,7 +3,8 @@ const app = express();
 const path = require('path');
 const multer = require('multer');
 const { google } = require('googleapis');
-const fs = required('fs')
+const fs = require('fs');
+const stream = require('stream');
 
 app.use(express.static('public'));
 
@@ -29,10 +30,16 @@ app.post('/upload', upload.single('file'), async (req, res) => {
       name: 'recorded-video.webm',
       parents: ['14D_ANHPoaMvTn5ERk1lrwKW3xEz0_XFs'], // Replace with your folder ID
     };
+    
+    
+    // Create a readable stream from the file buffer
+    const fileStream = new stream.PassThrough();
+    fileStream.end(file.buffer);
 
     const media = {
       mimeType: 'video/webm',
-      body: file.buffer, // Use the buffer of the uploaded file
+      //body: file.buffer, // Use the buffer of the uploaded file
+       body: fileStream,
     };
 
     const driveResponse = await driveService.files.create({
