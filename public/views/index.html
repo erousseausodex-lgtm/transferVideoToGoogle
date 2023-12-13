@@ -75,80 +75,7 @@
           console.error("Error accessing webcam:", error);
         });
 
-      // Google API configuration
-      const CLIENT_ID =
-        "718567027975-kjb0bummtdci91vqb15t996et5m8ncj7.apps.googleusercontent.com"; // Replace with your OAuth client ID
-      //const API_KEY = 'your-api-key'; // Not needed for OAuth, but might be required by some APIs
-      const DISCOVERY_DOCS = [
-        "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
-      ];
-      const SCOPES = "https://www.googleapis.com/auth/drive.file";
-
-      // Load the Google API client library
-      function handleClientLoad() {
-        console.log("handleClientLoad called");
-    // Load the Google Identity Services library
-gapi.load('auth2', () => {
-    // Initialize the library with your client ID
-    gapi.auth2.init({
-        client_id: 'CLIENT_ID',
-    }).then(() => {
-        // Your initialization code and further actions
-        console.log('Google Identity Services initialized successfully');
-    }).catch((error) => {
-        console.error('Error initializing Google Identity Services:', error);
-    });
-});
-      }
-      //       const authUrl = auth2.generateAuthUrl({
-      //   access_type: 'offline',
-      //   scope: 'https://www.googleapis.com/auth/drive',
-      // });
-
-      function initClient() {
-        console.log("initClient called");
-        gapi.client
-          .init({
-            clientId: CLIENT_ID,
-            discoveryDocs: DISCOVERY_DOCS,
-            scope: SCOPES,
-           auth: {
-        origin: 'https://webcamstoregoogle.glitch.me'
-    }
-          })
-          .then(() => {
-            // Listen for sign-in state changes
-            gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
-
-            // Check the initial sign-in state
-            updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-
-            // If the user is not signed in, initiate the sign-in process
-            if (!gapi.auth2.getAuthInstance().isSignedIn.get()) {
-              gapi.auth2
-                .getAuthInstance()
-                .signIn()
-                .then(() => {
-                  console.log("Sign-in successful");
-                  // You may perform additional actions after successful sign-in if needed
-                })
-                .catch((error) => {
-                  console.error("Error signing in:", error);
-                });
-            }
-          })
-          .catch((error) => {
-            console.error("Error initializing Google API client:", error);
-          });
-      }
-
-      function updateSigninStatus(isSignedIn) {
-        if (isSignedIn) {
-          // Upload the recorded video to Google Drive
-          uploadToDrive();
-        }
-      }
-      handleClientLoad();
+//   
       function uploadToDrive() {
         const blob = new Blob(recordedChunks, { type: "video/webm" });
         const metadata = {
@@ -209,3 +136,79 @@ gapi.load('auth2', () => {
     </script>
   </body>
 </html>
+
+<!--     // Google API configuration
+//       const CLIENT_ID =
+//         "718567027975-kjb0bummtdci91vqb15t996et5m8ncj7.apps.googleusercontent.com"; // Replace with your OAuth client ID
+//       //const API_KEY = 'your-api-key'; // Not needed for OAuth, but might be required by some APIs
+//       const DISCOVERY_DOCS = [
+//         "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
+//       ];
+//       const SCOPES = "https://www.googleapis.com/auth/drive.file";
+
+//       // Load the Google API client library
+//       function handleClientLoad() {
+//         console.log("handleClientLoad called");
+//     // Load the Google Identity Services library
+// gapi.load('auth2', () => {
+//     // Initialize the library with your client ID
+//     gapi.auth2.init({
+//         client_id: 'CLIENT_ID',
+//     }).then(() => {
+//         // Your initialization code and further actions
+//         console.log('Google Identity Services initialized successfully');
+//     }).catch((error) => {
+//         console.error('Error initializing Google Identity Services:', error);
+//     });
+// });
+//       }
+//       //       const authUrl = auth2.generateAuthUrl({
+//       //   access_type: 'offline',
+//       //   scope: 'https://www.googleapis.com/auth/drive',
+//       // });
+
+//       function initClient() {
+//         console.log("initClient called");
+//         gapi.client
+//           .init({
+//             clientId: CLIENT_ID,
+//             discoveryDocs: DISCOVERY_DOCS,
+//             scope: SCOPES,
+//            auth: {
+//         origin: 'https://webcamstoregoogle.glitch.me'
+//     }
+//           })
+//           .then(() => {
+//             // Listen for sign-in state changes
+//             gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+
+//             // Check the initial sign-in state
+//             updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+
+//             // If the user is not signed in, initiate the sign-in process
+//             if (!gapi.auth2.getAuthInstance().isSignedIn.get()) {
+//               gapi.auth2
+//                 .getAuthInstance()
+//                 .signIn()
+//                 .then(() => {
+//                   console.log("Sign-in successful");
+//                   // You may perform additional actions after successful sign-in if needed
+//                 })
+//                 .catch((error) => {
+//                   console.error("Error signing in:", error);
+//                 });
+//             }
+//           })
+//           .catch((error) => {
+//             console.error("Error initializing Google API client:", error);
+//           });
+//       }
+
+//       function updateSigninStatus(isSignedIn) {
+//         if (isSignedIn) {
+//           // Upload the recorded video to Google Drive
+//           uploadToDrive();
+//         }
+//       }
+//       handleClientLoad();
+ -->
