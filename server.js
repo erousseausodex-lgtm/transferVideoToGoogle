@@ -57,6 +57,9 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     console.log('File created with ID:', driveResponse.data.id);
     console.log('File URL:', driveResponse.data.webViewLink);
     console.log('File name:', driveResponse.data.name);
+    
+      // Add the file information to the Google Sheet
+    await updateGoogleSheet(driveResponse.data);
 
     res.json({ fileId: driveResponse.data.id });
   } catch (error) {
@@ -64,7 +67,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     res.status(500).json({ error: 'Error creating file on Google Drive500' });
   }
 });
-// add webvie
+// add webviewlink to last row
 async function updateGoogleSheet(fileData) {
   const keyFilePath = process.env.GOOGLE_KEY_FILE_PATH;
 
@@ -78,8 +81,8 @@ async function updateGoogleSheet(fileData) {
     auth,
   });
 
-  const spreadsheetId = 'YOUR_SPREADSHEET_ID';
-  const range = 'Sheet1!A2:C2'; // Adjust the range as needed
+  const spreadsheetId = '15qWfOkfmpYaHteMxghAhJtJjYKX8NZWB8j4LBz3ifzU';
+  const range = 'FEST!A10:C10'; // Adjust the range as needed
 
   const values = [
     [fileData.name, fileData.webViewLink, new Date()],
