@@ -59,7 +59,9 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     console.log('File name:', driveResponse.data.name);
     
       // Add the file information to the Google Sheet
-    await updateGoogleSheet(driveResponse.data);
+   // await updateGoogleSheet(driveResponse.data);
+     // find last row
+    await getLastRow('FEST', 'A');
 
     res.json({ fileId: driveResponse.data.id });
     
@@ -126,7 +128,7 @@ async function getLastRow(sheetId, column) {
     auth,
   }).spreadsheets.values;
 
-  const spreadsheetId = 'YOUR_SPREADSHEET_ID';
+  const spreadsheetId = '15qWfOkfmpYaHteMxghAhJtJjYKX8NZWB8j4LBz3ifzU';
   const range = `${sheetId}!${column}:${column}`;
 
   try {
@@ -144,7 +146,7 @@ async function getLastRow(sheetId, column) {
       const lastRowIndex = values[0].findIndex(value => value !== '');
 
       if (lastRowIndex !== -1) {
-        const lastRowValue = values[0][lastRowIndex];
+        const lastRowValue = values[0][values[0].length - 1];
         console.log(`Last non-empty value in column ${column}: ${lastRowValue}`);
         return lastRowIndex + 1; // Return the row number (1-based index)
       }
@@ -161,6 +163,6 @@ async function getLastRow(sheetId, column) {
 // Example usage:
 const sheetId = 'FEST';
 const columnToCheck = 'A';
-const lastRow = await getLastRow(sheetId, columnToCheck);
-console.log(`Last row in ${sheetId}: ${lastRow}`);
+//const lastRow = await getLastRow(sheetId, columnToCheck);
+//console.log(`Last row in ${sheetId}: ${lastRow}`);
 
