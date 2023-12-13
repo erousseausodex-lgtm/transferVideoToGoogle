@@ -75,20 +75,21 @@ async function updateGoogleSheet(fileData) {
     keyFile: keyFilePath,
     scopes: ['https://www.googleapis.com/auth/spreadsheets'],
   });
+  
+   const sheetsService = sheets.spreadsheets.values;
 
-  const sheetsService = google.sheets({
-    version: 'v4',
-    auth,
-  });
+  // const sheetsService = google.sheets({
+  //   version: 'v4',
+  //   auth,
+  // });
 
   const spreadsheetId = '15qWfOkfmpYaHteMxghAhJtJjYKX8NZWB8j4LBz3ifzU';
-  const range = 'FEST!A10:C10'; // Adjust the range as needed
+  const range = 'FEST!A10:B10'; // Adjust the range as needed
 
   const values = [
-    [fileData.name, fileData.webViewLink, new Date()],
+    [ fileData.webViewLink, new Date()],
   ];
-
-  await sheetsService.spreadsheets.values.append({
+ await sheetsService.append({
     spreadsheetId,
     range,
     valueInputOption: 'RAW',
