@@ -16,7 +16,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
   
    console.log('Received file:', file);
   
-  const keyFilePath = process.env.GOOGLE_KEY_FILE_PATH 
+  const keyFilePath = process.env.GOOGLE_KEY_FILE_PATH ;
 
   const auth = new google.auth.GoogleAuth({
     
@@ -62,6 +62,8 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     await updateGoogleSheet(driveResponse.data);
 
     res.json({ fileId: driveResponse.data.id });
+    
+    
   } catch (error) {
     console.error('Error creating file:', error.message);
     res.status(500).json({ error: 'Error creating file on Google Drive500' });
@@ -88,7 +90,8 @@ async function updateGoogleSheet(fileData) {
 
   const values = [
     [ fileData.webViewLink, new Date()],
-  ];
+    ];
+  
  await sheetsService.append({
     spreadsheetId,
     range,
