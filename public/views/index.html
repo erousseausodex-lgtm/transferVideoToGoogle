@@ -18,7 +18,7 @@
     <video id="video" width="640" height="480" autoplay></video>
     <button id="recordButton">Record</button>
     <button id="stopButton" disabled>Stop</button>
-    <button id="loadFile">load</button>
+    <button id="uploadButton" disabled>load</button>
     <canvas id="canvas" style="display: none"></canvas>
 
     <script>
@@ -55,24 +55,33 @@
             recordedVideo.controls = true;
             recordedVideo.src = url;
             document.body.appendChild(recordedVideo);
-          };
-        
-        function uploadFile(fileBlob) {
-  const formData = new FormData();
-  formData.append('file', fileBlob, 'recorded-video.webm');
 
-  fetch('/upload', {
-    method: 'POST',
-    body: formData,
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log('File uploaded:', data);
-  })
-  .catch(error => {
-    console.error('Error uploading file:', error);
-  });
-}
+            // Enable the upload button
+            uploadButton.disabled = false;
+
+            // Click event for the upload button
+            uploadButton.addEventListener("click", () => {
+              // Upload the recorded video to the server when the upload button is clicked
+              uploadFile(blob);
+            });
+          };
+
+          function uploadFile(fileBlob) {
+            const formData = new FormData();
+            formData.append("file", fileBlob, "recorded-video.webm");
+
+            fetch("/upload", {
+              method: "POST",
+              body: formData,
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                console.log("File uploaded:", data);
+              })
+              .catch((error) => {
+                console.error("Error uploading file:", error);
+              });
+          }
 
           // Start recording when the record button is clicked
           recordButton.addEventListener("click", () => {
@@ -92,8 +101,7 @@
           console.error("Error accessing webcam:", error);
         });
 
-//   
-
+      //
 
       // Stop recording when the stop button is clicked
       stopButton.addEventListener("click", () => {
