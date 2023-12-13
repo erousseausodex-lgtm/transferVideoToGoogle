@@ -74,12 +74,11 @@ async function updateGoogleSheet(fileData) {
   const keyFilePath = process.env.GOOGLE_KEY_FILE_PATH;
 
   const auth = new google.auth.GoogleAuth({
-    //keyFile: keyFilePath,
-    keyFile: 'classroomstore-7507cf2dd39f.json', 
+    keyFile: keyFilePath, 
     scopes: ['https://www.googleapis.com/auth/spreadsheets']
   });
   
- //  const sheetsService = sheets.spreadsheets.values;
+
 
   const sheetsService = google.sheets({
     version: 'v4',
@@ -88,6 +87,7 @@ async function updateGoogleSheet(fileData) {
 
   const spreadsheetId = '15qWfOkfmpYaHteMxghAhJtJjYKX8NZWB8j4LBz3ifzU';
   const range = 'FEST!A10:B10'; // Adjust the range as needed
+
 
   const values = [
     [ fileData.webViewLink, "videoFile"]
@@ -112,3 +112,55 @@ app.get('/', (req, res) => {
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port);
 });
+
+async function getLastRow(sheetId, column) {
+  const keyFilePath = process.env.GOOGLE_KEY_FILE_PATH;
+
+  const auth = new google.auth.GoogleAuth({
+    keyFile: keyFilePath,
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+  });
+
+  const sheetsService = google.sheets({
+    version: 'v4',
+    auth,
+  }).spreadsheets.values;
+
+  const spreadsheetId = 'YOUR_SPREADSHEET_ID';
+  const range = `${sheetId}!${column}:${column}`;
+
+  try {
+    const response = await sheetsService.get({
+      spreadsheetId,
+      range,
+      majorDimension: 'COLUMNS',
+    });
+
+    const values = response.data.values;
+    
+    // Check if the column has any values
+    if (values && values.length > 0) {
+      // Find the index of the last non-empty row
+      const lastRowIndex = values[0].findIndex(value => value !== '');
+
+      if (lastRowIndex !== -1) {
+        const lastRowValue = values[0][lastRowIndex];
+        console.log(`Last non-empty value in column ${column}: ${lastRowValue}`);
+        return lastRowIndex + 1; // Return the row number (1-based index)
+      }
+    }
+
+    console.log(`Column ${column} is empty.`);
+    return 1; // Return 1 if the column is empty
+  } catch (error) {
+    console.error('Error getting last row:', error.message);
+    throw error;
+  }
+}
+
+// Example usage:
+const sheetId = 'FEST';
+const columnToCheck = 'A';
+const lastRow = await getLastRow(sheetId, columnToCheck);
+console.log(`Last row in ${sheetId}: ${lastRow}`);
+
