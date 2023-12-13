@@ -14,9 +14,14 @@ app.post('/upload', upload.single('file'), async (req, res) => {
   const file = req.file;
   
    console.log('Received file:', file);
+  
+  const keyFilePath = process.env.GOOGLE_KEY_FILE_PATH 
 
   const auth = new google.auth.GoogleAuth({
-    keyFile: 'classroomstore-7507cf2dd39f.json', // Replace with your service account key path
+    
+    
+   // keyFile: 'classroomstore-7507cf2dd39f.json', 
+    keyFile:keyFilePath,
     scopes: ['https://www.googleapis.com/auth/drive.file'],
   });
 
