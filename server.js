@@ -21,7 +21,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
   const auth = new google.auth.GoogleAuth({
     
     
-   // keyFile: 'classroomstore-7507cf2dd39f.json', 
+ 
     keyFile:keyFilePath,
     scopes: ['https://www.googleapis.com/auth/drive.file'],
   });
@@ -74,22 +74,23 @@ async function updateGoogleSheet(fileData) {
   const keyFilePath = process.env.GOOGLE_KEY_FILE_PATH;
 
   const auth = new google.auth.GoogleAuth({
-    keyFile: keyFilePath,
+    //keyFile: keyFilePath,
+    keyFile: 'classroomstore-7507cf2dd39f.json', 
     scopes: ['https://www.googleapis.com/auth/spreadsheets']
   });
   
-   const sheetsService = sheets.spreadsheets.values;
+ //  const sheetsService = sheets.spreadsheets.values;
 
-  // const sheetsService = google.sheets({
-  //   version: 'v4',
-  //   auth,
-  // });
+  const sheetsService = google.sheets({
+    version: 'v4',
+    auth,
+  }).spreadsheets.values;
 
   const spreadsheetId = '15qWfOkfmpYaHteMxghAhJtJjYKX8NZWB8j4LBz3ifzU';
   const range = 'FEST!A10:B10'; // Adjust the range as needed
 
   const values = [
-    [ fileData.webViewLink, new Date()],
+    [ fileData.webViewLink, "videoFile"]
     ];
   
  await sheetsService.append({
