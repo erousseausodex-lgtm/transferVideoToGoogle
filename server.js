@@ -3,8 +3,7 @@ const app = express();
 const path = require('path');
 const multer = require('multer');
 const { google } = require('googleapis');
-const stream = require('stream');
-const axios = require('axios');
+const fs = required('fs')
 
 app.use(express.static('public'));
 
@@ -49,7 +48,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     res.json({ fileId: driveResponse.data.id });
   } catch (error) {
     console.error('Error creating file:', error.message);
-    res.status(500).json({ error: 'Error creating file on Google Drive' });
+    res.status(500).json({ error: 'Error creating file on Google Drive500' });
   }
 });
 
