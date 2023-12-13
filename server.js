@@ -75,7 +75,7 @@ async function updateGoogleSheet(fileData) {
 
   const auth = new google.auth.GoogleAuth({
     keyFile: keyFilePath,
-    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+    scopes: ['https://www.googleapis.com/auth/spreadsheets']
   });
   
    const sheetsService = sheets.spreadsheets.values;
