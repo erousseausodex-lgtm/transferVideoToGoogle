@@ -12,6 +12,8 @@ const upload = multer(); // Initialize multer for handling file uploads
 
 app.post('/upload', upload.single('file'), async (req, res) => {
   const file = req.file;
+  
+   console.log('Received file:', file);
 
   const auth = new google.auth.GoogleAuth({
     keyFile: 'classroomstore-7507cf2dd39f.json', // Replace with your service account key path
