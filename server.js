@@ -9,16 +9,16 @@ const sheets = google.sheets('v4');
 
 // traitement de s paramètres url(rownumber param)
 
-// app.get('/', (req, res) => {
-//   // Access parameters from the URL using req.query
-//   const rowNumber = req.query.rowNumber;
+app.get('/user', (req, res) => {
+  // Access parameters from the URL using req.query
+  const rowNumber = req.query.rowNumber;
   
 
-//   // Your processing logic using the parameters
-//   console.log('Received parameters:', rowNumber);
+  // Your processing logic using the parameters
+  console.log('Received parameters:', rowNumber);
 
 
-// });
+});
 // traitement du fichier reçu de index.html
 
 app.use(express.static('public'));
