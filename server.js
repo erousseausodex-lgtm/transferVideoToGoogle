@@ -9,13 +9,13 @@ const sheets = google.sheets('v4');
 
 // traitement de s paramètres url(rownumber param)
 
-app.get('/some-route', (req, res) => {
+app.get('/', (req, res) => {
   // Access parameters from the URL using req.query
-  const param1 = req.query.param1;
-  const param2 = req.query.param2;
+  const rowNumber = req.query.rowNumber;
+  
 
   // Your processing logic using the parameters
-  console.log('Received parameters:', { param1, param2 });
+  console.log('Received parameters:', rowNumber);
 
   // Send a response back
   res.send('Parameters received!');
