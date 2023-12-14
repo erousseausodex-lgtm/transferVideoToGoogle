@@ -16,7 +16,7 @@ app.get('/user', (req, res) => {
 
   // Your processing logic using the parameters
   console.log('Received parameters:', rowNumber);
-
+ res.send('Received parameters: ' + rowNumber);
 
 });
 // traitement du fichier reçu de index.html
@@ -72,7 +72,8 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     console.log('File URL:', driveResponse.data.webViewLink);
     console.log('File name:', driveResponse.data.name);
     
-
+   // Add the file information to the Google Sheet
+    await updateGoogleSheet(driveResponse.data)
 
     res.json({ fileId: driveResponse.data.id });
     
