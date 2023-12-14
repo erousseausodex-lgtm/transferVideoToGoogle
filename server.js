@@ -5,7 +5,10 @@ const multer = require('multer');
 const { google } = require('googleapis');
 const fs = require('fs');
 const stream = require('stream');
-const sheets = google.sheets('v4')
+const sheets = google.sheets('v4');
+
+
+// traitement du fichier reçu de index.html
 
 app.use(express.static('public'));
 
@@ -58,10 +61,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     console.log('File URL:', driveResponse.data.webViewLink);
     console.log('File name:', driveResponse.data.name);
     
-      // Add the file information to the Google Sheet
-   // await updateGoogleSheet(driveResponse.data);
-     // find last row
-    await getLastRow('FEST', 'A');
+
 
     res.json({ fileId: driveResponse.data.id });
     
@@ -71,6 +71,9 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     res.status(500).json({ error: 'Error creating file on Google Drive500' });
   }
 });
+
+
+// traitement des paramètres reçus dans l'Url
 // add webviewlink to last row
 async function updateGoogleSheet(fileData) {
   const keyFilePath = process.env.GOOGLE_KEY_FILE_PATH;
