@@ -18,6 +18,7 @@ const sharedData = {
 app.get("/user", (req, res) => {
   // Access parameters from the URL using req.query
   sharedData.rowNumber = req.query.rowNumber;
+   console.log("Received query param:" ,req.query.rowNumber);
   console.log("Received parameters:" ,sharedData.rowNumber);
   // res.send('Received parameters: ' + rowNumber);
 });
