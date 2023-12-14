@@ -7,15 +7,21 @@ const fs = require('fs');
 const stream = require('stream');
 const sheets = google.sheets('v4');
 
+// Use a closure to store shared data
+const sharedData = {
+  rowNumber: null,
+  fileData: null,
+};
+
 // traitement de s paramètres url(rownumber param)
 
 app.get('/user', (req, res) => {
   // Access parameters from the URL using req.query
-  const rowNumber = req.query.rowNumber;
+sharedData.rowNumber = req.query.rowNumber;
   
   console.log('Received parameters:', rowNumber);
 // res.send('Received parameters: ' + rowNumber);
-  return rowNumber;
+ 
 
 });
 // traitement du fichier reçu de index.html
@@ -71,8 +77,16 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     console.log('File URL:', driveResponse.data.webViewLink);
     console.log('File name:', driveResponse.data.name);
     
+     // Store fileData in sharedData
+    sharedData.fileData = {
+      webViewLink:  driveResponse.data.webViewLink
+      // Add other relevant file data properties as needed
+    };
+    
    // Add the file information to the Google Sheet
-    await updateGoogleSheet(driveResponse.data)
+    
+  
+    await updateGoogleSheet(sharedData)
 
     res.json({ fileId: driveResponse.data.id });
     
@@ -86,7 +100,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 
 
 // add webviewlink to last row
-async function updateGoogleSheet(fileData,rowNumber) {
+async function updateGoogleSheet(sharedDAta) {
   const keyFilePath = process.env.GOOGLE_KEY_FILE_PATH;
 
   const auth = new google.auth.GoogleAuth({
@@ -102,11 +116,11 @@ async function updateGoogleSheet(fileData,rowNumber) {
   }).spreadsheets.values;
 
   const spreadsheetId = '15qWfOkfmpYaHteMxghAhJtJjYKX8NZWB8j4LBz3ifzU';
-  const range = "'reportage Video'!A10:B10"; // Adjust the range as needed
+  const range = "'reportage Video'!A"+rowNumber+":B"+rowNumber; // Adjust the range as needed
 
 
   const values = [
-    [ fileData.webViewLink, "videoFile"]
+    [ sharedData.webViewLink, "videoFile"]
     ];
   
  await sheetsService.append({
