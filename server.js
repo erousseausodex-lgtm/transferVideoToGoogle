@@ -9,17 +9,16 @@ const sheets = google.sheets('v4');
 
 // traitement de s paramètres url(rownumber param)
 
-app.get('/', (req, res) => {
-  // Access parameters from the URL using req.query
-  const rowNumber = req.query.rowNumber;
+// app.get('/', (req, res) => {
+//   // Access parameters from the URL using req.query
+//   const rowNumber = req.query.rowNumber;
   
 
-  // Your processing logic using the parameters
-  console.log('Received parameters:', rowNumber);
+//   // Your processing logic using the parameters
+//   console.log('Received parameters:', rowNumber);
 
-  // Send a response back
-  res.send('Parameters received!');
-});
+
+// });
 // traitement du fichier reçu de index.html
 
 app.use(express.static('public'));
@@ -83,11 +82,6 @@ app.post('/upload', upload.single('file'), async (req, res) => {
     res.status(500).json({ error: 'Error creating file on Google Drive500' });
   }
 });
-
-
-
-
-
 
 
 
