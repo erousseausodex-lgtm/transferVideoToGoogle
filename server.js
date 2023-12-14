@@ -13,10 +13,9 @@ app.get('/user', (req, res) => {
   // Access parameters from the URL using req.query
   const rowNumber = req.query.rowNumber;
   
-
-  // Your processing logic using the parameters
   console.log('Received parameters:', rowNumber);
- res.send('Received parameters: ' + rowNumber);
+// res.send('Received parameters: ' + rowNumber);
+  return rowNumber;
 
 });
 // traitement du fichier reçu de index.html
@@ -87,7 +86,7 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 
 
 // add webviewlink to last row
-async function updateGoogleSheet(fileData) {
+async function updateGoogleSheet(fileData,rowNumber) {
   const keyFilePath = process.env.GOOGLE_KEY_FILE_PATH;
 
   const auth = new google.auth.GoogleAuth({
@@ -103,7 +102,7 @@ async function updateGoogleSheet(fileData) {
   }).spreadsheets.values;
 
   const spreadsheetId = '15qWfOkfmpYaHteMxghAhJtJjYKX8NZWB8j4LBz3ifzU';
-  const range = 'FEST!A10:B10'; // Adjust the range as needed
+  const range = "'reportage Video'!A10:B10"; // Adjust the range as needed
 
 
   const values = [
