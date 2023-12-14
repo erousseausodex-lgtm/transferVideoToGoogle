@@ -7,7 +7,19 @@ const fs = require('fs');
 const stream = require('stream');
 const sheets = google.sheets('v4');
 
+// traitement de s paramètres url(rownumber param)
 
+app.get('/some-route', (req, res) => {
+  // Access parameters from the URL using req.query
+  const param1 = req.query.param1;
+  const param2 = req.query.param2;
+
+  // Your processing logic using the parameters
+  console.log('Received parameters:', { param1, param2 });
+
+  // Send a response back
+  res.send('Parameters received!');
+});
 // traitement du fichier reçu de index.html
 
 app.use(express.static('public'));
@@ -73,7 +85,12 @@ app.post('/upload', upload.single('file'), async (req, res) => {
 });
 
 
-// traitement des paramètres reçus dans l'Url
+
+
+
+
+
+
 // add webviewlink to last row
 async function updateGoogleSheet(fileData) {
   const keyFilePath = process.env.GOOGLE_KEY_FILE_PATH;
