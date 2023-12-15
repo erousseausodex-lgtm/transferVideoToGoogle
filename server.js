@@ -106,7 +106,7 @@ async function updateGoogleSheet(sharedData) {
   const spreadsheetId = "15qWfOkfmpYaHteMxghAhJtJjYKX8NZWB8j4LBz3ifzU";
   const range = "'reportage Video'!A" + rowNb + ":B" + rowNb; // Adjust the range as needed
 
-  const values = [[sharedData.fileData, "videoFile"]];
+  const values = [[sharedData.sessionId,sharedData.fileData]];
 
   await sheetsService.append({
     spreadsheetId,
@@ -128,7 +128,9 @@ app.get("/", (req, res) => {
   
      console.log("Requested URL:", req.url);
   sharedData.rowNumber = req.query.rowNumber;
-  sharedData.sessionId = req.query.sessionId;
+  //sharedData.sessionId = req.query.sessionId;
+  
+  console.log("Requested URL:", req.url);
   
   console.log("sharedData",sharedData);
   
