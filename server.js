@@ -18,11 +18,12 @@ const sharedData = {
 app.get("/user", (req, res) => {
   // Access parameters from the URL using req.query
   sharedData.rowNumber = req.query.rowNumber;
+    console.log("Requested URL:", req.url);
    console.log("Received query param:" ,req.query.rowNumber);
   console.log("Received parameters:" ,sharedData.rowNumber);
   // res.send('Received parameters: ' + rowNumber);
 });
-// traitement du fichier reçu de index.html
+//traitement du fichier reçu de index.html
 
 app.use(express.static("public"));
 
@@ -122,9 +123,13 @@ async function updateGoogleSheet(sharedDAta) {
 
 console.log("sharedData :",sharedData);
 
-// chargement du fichier
+//chargement du fichier
 
 app.get("/", (req, res) => {
+  
+    sharedData.rowNumber = req.query.rowNumber;
+   console.log("Received query param:" ,req.query.rowNumber);
+  console.log("Received parameters:" ,sharedData.rowNumber);
   res.sendFile(path.join(__dirname, "public/views/index.html"));
 });
 
