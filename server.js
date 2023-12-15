@@ -14,17 +14,7 @@ const sharedData = {
   fileData: null,
 };
 
-// // traitement de s paramètres url(rownumber param)
 
-// app.get("/user", (req, res) => {
-//   // Access parameters from the URL using req.query
-//   sharedData.rowNumber = req.query.rowNumber;
-//     console.log("Requested URL:", req.url);
-//    console.log("Received query param:" ,req.query.rowNumber);
-//   console.log("Received parameters:" ,sharedData.rowNumber);
-//   // res.send('Received parameters: ' + rowNumber);
-// });
-//traitement du fichier reçu de index.html
 
 app.use(express.static("public"));
 
@@ -130,7 +120,7 @@ app.get("/", (req, res) => {
   
      console.log("Requested URL:", req.url);
   sharedData.rowNumber = req.query.rowNumber;
-  //sharedData.sessionId = req.query.sessionId;
+  sharedData.sessionId = req.query.sessionId;
   
   console.log("Requested URL:", req.url);
   
