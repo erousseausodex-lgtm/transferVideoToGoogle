@@ -119,7 +119,7 @@ async function updateGoogleSheet(sharedData) {
   console.log("File information added to Google Sheet.");
 }
 
-console.log("sharedData :",sharedData);
+
 
 //chargement du fichier
 
@@ -127,6 +127,8 @@ app.get("/", (req, res) => {
   
      console.log("Requested URL:", req.url);
   sharedData.rowNumber = req.query.rowNumber;
+  
+  console.log("sharedData",sharedData);
   
  
  
