@@ -10,6 +10,7 @@ const sheets = google.sheets("v4");
 // Use a closure to store shared data
 const sharedData = {
   rowNumber: null,
+  sessionId:null,
   fileData: null,
 };
 
@@ -127,6 +128,7 @@ app.get("/", (req, res) => {
   
      console.log("Requested URL:", req.url);
   sharedData.rowNumber = req.query.rowNumber;
+  sharedData.sessionId = req.query.sessionId;
   
   console.log("sharedData",sharedData);
   
