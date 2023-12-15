@@ -74,7 +74,7 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 
     // Store fileData in sharedData
     sharedData.fileData = driveResponse.data.webViewLink;
-   
+   console.log("sharedData2",sharedData)
 
     // Add the file information to the Google Sheet
 
@@ -105,7 +105,7 @@ async function updateGoogleSheet(sharedData) {
   const spreadsheetId = "15qWfOkfmpYaHteMxghAhJtJjYKX8NZWB8j4LBz3ifzU";
   const range = "'reportage Video'!A" + rowNb + ":B" + rowNb; // Adjust the range as needed
 
-  const values = [[sharedData.fileData.webViewLink, "videoFile"]];
+  const values = [[sharedData.fileData, "videoFile"]];
 
   await sheetsService.append({
     spreadsheetId,
