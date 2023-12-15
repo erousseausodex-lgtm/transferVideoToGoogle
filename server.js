@@ -13,16 +13,16 @@ const sharedData = {
   fileData: null,
 };
 
-// traitement de s paramètres url(rownumber param)
+// // traitement de s paramètres url(rownumber param)
 
-app.get("/user", (req, res) => {
-  // Access parameters from the URL using req.query
-  sharedData.rowNumber = req.query.rowNumber;
-    console.log("Requested URL:", req.url);
-   console.log("Received query param:" ,req.query.rowNumber);
-  console.log("Received parameters:" ,sharedData.rowNumber);
-  // res.send('Received parameters: ' + rowNumber);
-});
+// app.get("/user", (req, res) => {
+//   // Access parameters from the URL using req.query
+//   sharedData.rowNumber = req.query.rowNumber;
+//     console.log("Requested URL:", req.url);
+//    console.log("Received query param:" ,req.query.rowNumber);
+//   console.log("Received parameters:" ,sharedData.rowNumber);
+//   // res.send('Received parameters: ' + rowNumber);
+// });
 //traitement du fichier reçu de index.html
 
 app.use(express.static("public"));
@@ -73,10 +73,8 @@ app.post("/upload", upload.single("file"), async (req, res) => {
     console.log("File name:", driveResponse.data.name);
 
     // Store fileData in sharedData
-    sharedData.fileData = {
-      webViewLink: driveResponse.data.webViewLink,
-      // Add other relevant file data properties as needed
-    };
+    sharedData.fileData = driveResponse.data.webViewLink;
+   
 
     // Add the file information to the Google Sheet
 
@@ -90,7 +88,7 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 });
 
 // add webviewlink to last row
-async function updateGoogleSheet(sharedDAta) {
+async function updateGoogleSheet(sharedData) {
   const keyFilePath = process.env.GOOGLE_KEY_FILE_PATH;
 
   const auth = new google.auth.GoogleAuth({
@@ -127,9 +125,11 @@ console.log("sharedData :",sharedData);
 
 app.get("/", (req, res) => {
   
-    sharedData.rowNumber = req.query.rowNumber;
-   console.log("Received query param:" ,req.query.rowNumber);
-  console.log("Received parameters:" ,sharedData.rowNumber);
+     console.log("Requested URL:", req.url);
+  sharedData.rowNumber = req.query.rowNumber;
+  
+ 
+ 
   res.sendFile(path.join(__dirname, "public/views/index.html"));
 });
 
