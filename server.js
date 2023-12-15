@@ -90,6 +90,8 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 
 // add webviewlink to last row
 async function updateGoogleSheet(sharedData) {
+  
+  console.log("sharedData3",sharedData);
   const keyFilePath = process.env.GOOGLE_KEY_FILE_PATH;
 
   const auth = new google.auth.GoogleAuth({
@@ -134,8 +136,6 @@ app.get("/", (req, res) => {
   
   console.log("sharedData",sharedData);
   
- 
- 
   res.sendFile(path.join(__dirname, "public/views/index.html"));
 });
 
