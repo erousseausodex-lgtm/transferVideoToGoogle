@@ -96,9 +96,9 @@ async function updateGoogleSheet(sharedData) {
   const rowNb = sharedData.rowNumber;
 
   const spreadsheetId = "15qWfOkfmpYaHteMxghAhJtJjYKX8NZWB8j4LBz3ifzU";
-  const range = "'reportage Video'!A" + rowNb + ":B" + rowNb; // Adjust the range as needed
+  const range = "'reportage Video'!A" + rowNb + ":C" + rowNb; // Adjust the range as needed
 
-  const values = [[sharedData.sessionId,sharedData.fileData]];
+  const values = [[sharedData.sessionId,"",sharedData.fileData]];
 
   await sheetsService.append({
     spreadsheetId,
