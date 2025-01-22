@@ -1,10 +1,13 @@
 {
-  "web": {
-    "client_id": "718567027975-pu0tr09p8ela0kmmhvu7ht943qdoipi1.apps.googleusercontent.com",
-    "project_id": "classroomstore",
-    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-    "token_uri": "https://oauth2.googleapis.com/token",
-    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_secret": "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"
-  }
+  "type": "service_account",
+  "project_id": "classroomstore",
+  "private_key_id": "99fef5147d630a63edbf9927a4725cdebf3d0b31",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDr+0Ur9DTgEucj\nzg2ssPUmTRgCxgXQO6ZlBMLo0NhD20LopzVgFJB+If3OLgeRpZmtrNjpdqH8AsAa\njgkfCGpqN+ys6jQ1DKLU0OZBbAfF12NpyJ1c0DkBk7fSB3tZ7GyJWrkBnVqW9q/b\nPWQKVDbrDOFWSjyJho2hrq3LS6MfWw3nQSd8IMSrR+xlfqvgLDHrA/E7l6TMIR0Z\nQMezasSnzOYzRhXF30/EW4TZ+s3PRASheajh81TLaGlrvfRA2AfuAZ3BSZCQYkXT\nPEksjLngMSvfXxxqKuAIklK1bWjPRbtw8oWHfxhfVFKmNAp5t2ocXwsqxVhGXPQp\nxRvBLdohAgMBAAECggEADZvmj9PcDsYYTWDPOhPUd3p/tX09DZa7EF1XbjzJFBS7\nhZZLBjj5YkTMkczmw9gEhlcPBVvBmLqB4KYrUX5XQLvr6sbw7tRFObe4Z7J2ukqj\nIZEfviAGAZjGw5aJ3xQ66Cryu2ybMlSUrLScJdpYdnK+Ng8+8YFwfpAH1s8MX7zw\nsFAd6kmMG96VGNVCEvNM0VCW8ZODfTWG+U0fggJyPrSlz0kp4pPPV0KLz90mlAWT\nLVpvA/Y8pz+yTDGFRUdXloVsNRu/piSGSQ2l7QpNv8XKMfSSGlJKFI3N8YRvDHMq\ncZJ1w5XgGX+QJ7JqNB1hyk0PzIE8dkcj0qz9caj+bwKBgQD/Jm+WUkVOOSvThJTW\nY6zryidI20pdN/hKB3YVmP1xCPHKjTmYM0Q+GXd+j7IKpC42qtrifNN8zPdkwYxU\nZRSJNxVxY8h90WQh7H3U+Khab3PR8+BdiDMXk1I6VRouHuFx5/TFExMmfmzqS0l6\n/vBHw1uXqplRxzkBhgyWGxXHrwKBgQDsxH1KbAkn+1NWHZzcWOCw3n00CDeIWd+X\nglvcu5GmCtS0w/SATLDz3CQP4W9OjYaiuF2Ft166Dnh/6fpBJXNOof34yKl+LeUm\nvar7WlDC3lSRt0nGGohvbrjMDWSzOrCQEFR2USgheFiDQwBgo8BD/8AVR0XvkVqa\nKGPhawAfLwKBgQD6D8txQfRWs8V2KgxNCadh9+AEkZcSQVaAB0v94tERRTjj0QFP\nX39UdVUdnutZbos0XMLlEn2bZK5Z+y7zT5WO3YOQe8D1PpCqhsLURVeKOo0Cicet\nI10fj+0Y6mscJHvDTRghRY6RPXq1LVA40T7gtmBABpz4/w2ppp0TSDxSVQKBgB6I\n6K+kZznky8abYxN30uJ8jyEavi6ziIZ9pWM+PXZwhyYY73tsaJXKmkwCAtzam7Z4\nmHcaQvkzzI6Smle0gL5vXdWr60/+k0L/ywFHkIrRKY7xWG5YFahpWyPVxlrnAsZR\nlNL9fHN0ldW32mCcPbuHTDpySq6uzER9WQRFTGq5AoGBAL04KsQBItbOie0GYIHS\n4oXhSakyNxLbEM/DAy81lliBs94f07o9IY29i6xAhZttgTxWdT93Q8JiJ9wvTGW1\nROv0yLZgdk5UBsz6HtQIH18wxyTgYRjsEwdSag1gK/fIBPbCEtzHwnPb647nvJ2W\nKMs1O0LmpdFNBtl1lEfl1JmI\n-----END PRIVATE KEY-----\n",
+  "client_email": "chargement-fichier@classroomstore.iam.gserviceaccount.com",
+  "client_id": "117368284350047671562",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/chargement-fichier%40classroomstore.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
 }
