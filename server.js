@@ -7,12 +7,35 @@ const fs = require("fs");
 const stream = require("stream");
 const sheets = google.sheets("v4");
 
+
+require('dotenv').config();
+//const { google } = require("googleapis");
+
+const auth = new google.auth.GoogleAuth({
+  keyFile: process.env.GOOGLE_KEY_FILE_PATH,
+  scopes: ["https://www.googleapis.com/auth/drive.file"],
+});
+
+console.log("Key file path:", process.env.GOOGLE_KEY_FILE_PATH);
+
 // Use a closure to store shared data
 const sharedData = {
   rowNumber: null,
   sessionId:null,
   fileData: null,
 };
+
+//const fs = require("fs");
+
+const keyFilePath = "classroomstore-7507cf2dd39f.json";
+
+try {
+  fs.accessSync(keyFilePath, fs.constants.R_OK);
+  console.log("File is accessible");
+} catch (error) {
+  console.error("File not accessible:", error.message);
+}
+
 
 
 
