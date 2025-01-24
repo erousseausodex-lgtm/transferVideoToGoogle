@@ -65,6 +65,8 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 
     // Store fileData in sharedData
     sharedData.fileData = driveResponse.data.webViewLink;
+    console.log("Shared Data before updating Google Sheet:", sharedData);
+
 
     // Add the file information to the Google Sheet
     await updateGoogleSheet(sharedData);
