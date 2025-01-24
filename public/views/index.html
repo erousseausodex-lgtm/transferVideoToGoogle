@@ -66,22 +66,28 @@
             });
           };
 
-          function uploadFile(fileBlob) {
-            const formData = new FormData();
-            formData.append("file", fileBlob, "recorded-video.webm");
+ function uploadFile(fileBlob) {
+  const formData = new FormData();
+  formData.append("file", fileBlob, "recorded-video.webm");
 
-            fetch("/upload", {
-              method: "POST",
-              body: formData,
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                console.log("File uploaded:", data);
-              })
-              .catch((error) => {
-                console.error("Error uploading file:", error);
-              });
-          }
+  fetch("/upload", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("File uploaded successfully:", data);
+    })
+    .catch((error) => {
+      console.error("Error uploading file:", error.message);
+    });
+}
+
 
           // Start recording when the record button is clicked
           recordButton.addEventListener("click", () => {
