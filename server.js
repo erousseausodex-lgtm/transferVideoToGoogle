@@ -18,7 +18,14 @@ const sharedData = {
 
 const upload = multer(); // Initialize multer for handling file uploads
 
+// Add the middleware here to log all incoming requests
+app.use((req, res, next) => {
+  console.log(`Request received: ${req.method} ${req.url}`);
+  next();
+});
 
+// Serve static files
+app.use(express.static("public"));
 
 
 app.post("/upload", upload.single("file"), async (req, res) => {
