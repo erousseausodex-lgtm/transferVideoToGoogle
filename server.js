@@ -96,7 +96,7 @@ async function updateGoogleSheet(sharedData) {
       throw new Error("Invalid row number.");
     }
 
-    const spreadsheetId = process.env.gSheetId;
+    const spreadsheetId = process.env.gSheet_Id;
     
     const range = `'reportage Video'!A${rowNb}:C${rowNb}`; // Adjust the range as needed
 
