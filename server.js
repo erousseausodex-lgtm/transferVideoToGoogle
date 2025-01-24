@@ -42,7 +42,7 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 
     const fileMetaData = {
       name: "recorded-video.webm",
-      parents: [process.env.gSheeId], // Replace with your folder ID
+      parents: [process.env.folderId], // Replace with your folder ID
     };
 
     // Create a readable stream from the file buffer
@@ -96,7 +96,8 @@ async function updateGoogleSheet(sharedData) {
       throw new Error("Invalid row number.");
     }
 
-    const spreadsheetId = process.env.SPREADSHEET_ID;
+    const spreadsheetId = process.env.gSheetId;
+    
     const range = `'reportage Video'!A${rowNb}:C${rowNb}`; // Adjust the range as needed
 
     const values = [[sharedData.sessionId, "", sharedData.fileData]];
