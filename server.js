@@ -14,11 +14,16 @@ const sharedData = {
   fileData: null,
 };
 
-app.use(express.static("public"));
+
 
 const upload = multer(); // Initialize multer for handling file uploads
 
+
+
+
 app.post("/upload", upload.single("file"), async (req, res) => {
+  
+  console.log("upload route triggered");
   try {
     const file = req.file;
     if (!file) {
