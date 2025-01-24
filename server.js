@@ -20,7 +20,6 @@ const sharedData = {
 
 
 
-
 app.use(express.static("public"));
 
 const upload = multer(); // Initialize multer for handling file uploads
