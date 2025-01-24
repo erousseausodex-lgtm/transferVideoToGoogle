@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 });
 
 // Serve static files
-app.use(express.static("public"));
+//app.use(express.static("public"));
 
 
 app.post("/upload", upload.single("file"), async (req, res) => {
