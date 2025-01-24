@@ -6,6 +6,7 @@ const { google } = require("googleapis");
 const fs = require("fs");
 const stream = require("stream");
 
+
 // Use a closure to store shared data
 const sharedData = {
   rowNumber: null,
