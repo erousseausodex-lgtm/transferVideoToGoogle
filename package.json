@@ -11,10 +11,10 @@
     "body-parser": "^1.20.2",
     "connect-ensure-login": "^0.1.1",
     "cookie-parser": "^1.4.6",
-    "express": "^4.21.2",
+    "express": "^4.18.2",
     "express-session": "^1.17.3",
     "fs": "0.0.1-security",
-    "googleapis": "^144.0.0",
+    "googleapis": "^129.0.0",
     "multer": "^1.4.5-lts.1"
   },
   "engines": {
@@ -26,6 +26,5 @@
     "google",
     "oauth"
   ],
-  "license": "MIT",
-  "author": ""
+  "license": "MIT"
 }

@@ -1,88 +1,152 @@
-// serve satic html
-const express = require('express');
+const express = require("express");
 const app = express();
-const path = require('path');
+const path = require("path");
+const multer = require("multer");
+const { google } = require("googleapis");
+const fs = require("fs");
+const stream = require("stream");
 
-app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/views/index.html'));
+
+// Use a closure to store shared data
+const sharedData = {
+  rowNumber: null,
+  sessionId: null,
+  fileData: null,
+};
+const cors = require("cors");
+app.use(cors()); // Allow all origins for now
+
+
+const upload = multer(); // Initialize multer for handling file uploads
+
+// Add the middleware here to log all incoming requests
+app.use((req, res, next) => {
+  console.log(`Request received: ${req.method} ${req.url}`);
+  next();
 });
 
-const listener = app.listen(process.env.PORT || 3000, () => {
-  console.log('Your app is listening on port ' + listener.address().port);
-});
-
-const axios = require('axios');
-const { google } = require('googleapis');
-const stream = require('stream');
-
-//const fs = require('fs');
-
-const KEYFILEPATH = 'classroomstore-7507cf2dd39f.json';
-const SCOPES = ['https://www.googleapis.com/auth/drive'];
-
-const auth = new google.auth.GoogleAuth({
-  keyFile: KEYFILEPATH,
-  scopes: SCOPES
-});
 
 
+//Serve static files
+app.use(express.static("public"));
 
-async function createAndUploadFile(auth) {
-  const driveService = google.drive({
-    version: 'v3',
-    auth
-  });
 
-  // URL of the 'logo.png' asset
-  const assetUrl = 'https://cdn.glitch.global/151b8a04-c447-4677-aa3e-8e3bb0c22fe5/logo.png?v=1702023343969';
-
+app.post("/upload", upload.single("file"), async (req, res) => {
+  
+  console.log("upload route triggered");
   try {
-    const response = await axios.get(assetUrl, { responseType: 'stream' });
+    const file = req.file;
+    if (!file) {
+      throw new Error("No file uploaded.");
+    }
 
-    let fileMetaData = {
-      name: 'logo.png',
-      parents:['14D_ANHPoaMvTn5ERk1lrwKW3xEz0_XFs']
-    };
+    if (!file.mimetype.startsWith("video/")) {
+      throw new Error("Invalid file type. Only videos are allowed.");
+    }
 
-     const media = {
-      mimeType: 'image/png',
-     
-      body: response.data.pipe(new stream.PassThrough())
-       
-    };
+    const keyFilePath = process.env.GOOGLE_KEY_FILE_PATH;
 
-    let driveResponse = await driveService.files.create({
-      requestBody: fileMetaData,
-      media: media,
-      fields: 'id, webViewLink'
-    
+    const auth = new google.auth.GoogleAuth({
+      keyFile: keyFilePath,
+      scopes: ["https://www.googleapis.com/auth/drive.file"],
     });
 
-    console.log('File created with ID:', driveResponse.data.id);
-    console.log('File URL:', driveResponse.data.webViewLink);
-    console.log('File name:',driveResponse.data.name);
-    
-     process.exit(); // Terminate the script after successful execution
+    const driveService = google.drive({
+      version: "v3",
+      auth,
+    });
 
- 
+    const fileMetaData = {
+      name: "recorded-video.webm",
+      parents: [process.env.folderId], // Replace with your folder ID
+    };
 
-   
-    
+    // Create a readable stream from the file buffer
+    const fileStream = new stream.PassThrough();
+    fileStream.end(file.buffer);
+
+    const media = {
+      mimeType: "video/webm",
+      body: fileStream,
+    };
+
+    const driveResponse = await driveService.files.create({
+      requestBody: fileMetaData,
+      media: media,
+      fields: "id, webViewLink",
+    });
+
+    console.log("File created with ID:", driveResponse.data.id);
+    console.log("File URL:", driveResponse.data.webViewLink);
+
+    // Store fileData in sharedData
+    sharedData.fileData = driveResponse.data.webViewLink;
+    console.log("Shared Data before updating Google Sheet:", sharedData);
+
+
+    // Add the file information to the Google Sheet
+    await updateGoogleSheet(sharedData);
+
+    res.json({ fileId: driveResponse.data.id, webViewLink: driveResponse.data.webViewLink });
   } catch (error) {
-    console.error('Error creating file:', error.message);
-     process.exit(1); // Terminate the script with an error code
-
-    
+    console.error("Error creating file:", error.message);
+    res.status(500).json({ error: "Error creating file on Google Drive." });
   }
+});
 
+// Function to update Google Sheet
+async function updateGoogleSheet(sharedData) {
+  try {
+    const keyFilePath = process.env.GOOGLE_KEY_FILE_PATH;
+
+    const auth = new google.auth.GoogleAuth({
+      keyFile: keyFilePath,
+      scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+    });
+
+    const sheetsService = google.sheets({
+      version: "v4",
+      auth,
+    }).spreadsheets.values;
+
+    const rowNb = sharedData.rowNumber;
+    if (!rowNb || isNaN(rowNb)) {
+      throw new Error("Invalid row number.");
+    }
+
+    const spreadsheetId = process.env.gSheet_Id;
+    
+    const range = `'reportage Video'!A${rowNb}:C${rowNb}`; // Adjust the range as needed
+
+    const values = [[sharedData.sessionId, "", sharedData.fileData]];
+
+    await sheetsService.append({
+      spreadsheetId,
+      range,
+      valueInputOption: "RAW",
+      resource: {
+        values,
+      },
+    });
+
+    console.log("File information added to Google Sheet.");
+  } catch (error) {
+    console.error("Error updating Google Sheet:", error.message);
+    throw error;
+  }
 }
-console.log('Script started at', new Date());
-//createAndUploadFile(auth);
 
-console.log('Script ended at', new Date());
+// Serve the main HTML page
+app.get("/", (req, res) => {
+  sharedData.rowNumber = req.query.rowNumber;
+  sharedData.sessionId = req.query.sessionId;
 
+  console.log("Shared Data:", sharedData);
+  res.sendFile(path.join(__dirname, "public/views/index.html"));
+});
 
-// // node server.js
-
+// Start the server
+const listener = app.listen(process.env.PORT || 3000, () => {
+  console.log("Your app is listening on port " + listener.address().port);
+});
