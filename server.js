@@ -14,8 +14,7 @@ const sharedData = {
   sessionId: null,
   fileData: null,
 };
-const cors = require("cors");
-app.use(cors()); // Allow all origins for now
+
 
 
 const upload = multer(); // Initialize multer for handling file uploads
