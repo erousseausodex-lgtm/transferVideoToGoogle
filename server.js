@@ -97,14 +97,14 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 async function updateGoogleSheet(sharedData) {
   // 1) Auth using a Service Account
   const auth = new google.auth.GoogleAuth({
-    keyFile: "path/to/service-account-key.json",
+    keyFile:process.env.GOOGLE_KEY_FILE_PATH,
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],
   });
 
   const sheets = google.sheets({ version: "v4", auth });
 
-  const spreadsheetId = "YOUR_SPREADSHEET_ID";  // e.g. "1abcD-efg..."
-  const sheetName = "Sheet1";                   // Your sheet/tab name
+  const spreadsheetId = process.env.gSheet_Id;  // e.g. "1abcD-efg..."
+  const sheetName = "reportage Video";                   // Your sheet/tab name
 
   // 2) Read current rows to find the last row
   const readRange = `${sheetName}!A:A`; // If column A always has data
