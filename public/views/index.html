@@ -68,7 +68,9 @@
 
  function uploadFile(fileBlob) {
   const formData = new FormData();
-  formData.append("file", fileBlob, "recorded-video.webm");
+   
+   console.log("uploadfile execute")
+  formData.append("file", fileBlob, "recorded.webm");
 
   fetch("/upload", {
     method: "POST",
