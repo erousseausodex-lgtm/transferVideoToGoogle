@@ -7,15 +7,13 @@ const fs = require("fs");
 const stream = require("stream");
 
 
-
 // Use a closure to store shared data
 const sharedData = {
   rowNumber: null,
   sessionId: null,
   fileData: null,
 };
-const cors = require("cors");
-app.use(cors()); // Allow all origins for now
+
 
 
 const upload = multer(); // Initialize multer for handling file uploads
@@ -26,9 +24,7 @@ app.use((req, res, next) => {
   next();
 });
 
-
-
-//Serve static files
+// Serve static files
 app.use(express.static("public"));
 
 
