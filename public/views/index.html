@@ -1,22 +1,253 @@
-<!-- public/index.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Simple Test</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+
+    
+    
+    <title>Webcam Video Recorder</title>
+
+    <script src="https://apis.google.com/js/api.js"></script>
+
+    <link
+      rel="icon"
+      href="https://cdn.glitch.global/6c4b9a16-8a6d-48d2-8a04-0871d8320531/Seau%20rouge.image_event.011646.jpg?v=1701945240830"
+      type="image/x-icon"
+    />
   </head>
   <body>
-    <h1>Check the console for logs</h1>
-    <button id="testBtn">Test Server</button>
+    <h1>Webcam Video Recorder</h1>
+    <video id="video" width="640" height="480" autoplay></video>
+    <button id="recordButton">Record</button>
+    <button id="stopButton" disabled>Stop</button>
+    <button id="uploadButton" disabled>load</button>
+    <canvas id="canvas" style="display: none"></canvas>
 
     <script>
-      document.getElementById("testBtn").addEventListener("click", () => {
-        fetch("/test")
-          .then(response => response.text())
-          .then(data => {
-            console.log("Response from /test:", data);
-          })
-          .catch(err => console.error("Request failed:", err));
+      const video = document.getElementById("video");
+      const recordButton = document.getElementById("recordButton");
+      const stopButton = document.getElementById("stopButton");
+      const canvas = document.getElementById("canvas");
+      const context = canvas.getContext("2d");
+      let mediaRecorder;
+      let recordedChunks = [];
+
+      // Request access to the user's camera and microphone
+      navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((stream) => {
+          video.srcObject = stream;
+          mediaRecorder = new MediaRecorder(stream);
+
+          // Handle data available event
+          mediaRecorder.ondataavailable = (event) => {
+            if (event.data.size > 0) {
+              recordedChunks.push(event.data);
+            }
+          };
+
+          // Handle stop event
+          mediaRecorder.onstop = () => {
+            const blob = new Blob(recordedChunks, { type: "video/webm" });
+            const url = URL.createObjectURL(blob);
+            recordedChunks = [];
+
+            // Display the recorded video
+            const recordedVideo = document.createElement("video");
+            recordedVideo.controls = true;
+            recordedVideo.src = url;
+            document.body.appendChild(recordedVideo);
+
+            // Enable the upload button
+            uploadButton.disabled = false;
+
+            // Click event for the upload button
+            uploadButton.addEventListener("click", () => {
+              // Upload the recorded video to the server when the upload button is clicked
+              uploadFile(blob);
+            });
+          };
+
+ function uploadFile(fileBlob) {
+  const formData = new FormData();
+   
+   console.log("uploadfile execute")
+  formData.append("file", fileBlob, "recorded.webm");
+
+  fetch("/upload", {
+    method: "POST",
+    body: formData,
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("File uploaded successfully:", data);
+    })
+    .catch((error) => {
+      console.error("Error uploading file:", error.message);
+    });
+}
+
+
+          // Start recording when the record button is clicked
+          recordButton.addEventListener("click", () => {
+            mediaRecorder.start();
+            recordButton.disabled = true;
+            stopButton.disabled = false;
+          });
+
+          // Stop recording when the stop button is clicked
+          stopButton.addEventListener("click", () => {
+            mediaRecorder.stop();
+            recordButton.disabled = false;
+            stopButton.disabled = true;
+          });
+        })
+        .catch((error) => {
+          console.error("Error accessing webcam:", error);
+        });
+
+      //
+
+      // Stop recording when the stop button is clicked
+      stopButton.addEventListener("click", () => {
+        mediaRecorder.stop();
+        recordButton.disabled = false;
+        stopButton.disabled = true;
       });
+
+
+      // Initialize the Google API client library
+      //  handleClientLoad();
     </script>
   </body>
 </html>
+
+<!--     // Google API configuration
+//       const CLIENT_ID =
+//         "718567027975-kjb0bummtdci91vqb15t996et5m8ncj7.apps.googleusercontent.com"; // Replace with your OAuth client ID
+//       //const API_KEY = 'your-api-key'; // Not needed for OAuth, but might be required by some APIs
+//       const DISCOVERY_DOCS = [
+//         "https://www.googleapis.com/discovery/v1/apis/drive/v3/rest",
+//       ];
+//       const SCOPES = "https://www.googleapis.com/auth/drive.file";
+
+//       // Load the Google API client library
+//       function handleClientLoad() {
+//         console.log("handleClientLoad called");
+//     // Load the Google Identity Services library
+// gapi.load('auth2', () => {
+//     // Initialize the library with your client ID
+//     gapi.auth2.init({
+//         client_id: 'CLIENT_ID',
+//     }).then(() => {
+//         // Your initialization code and further actions
+//         console.log('Google Identity Services initialized successfully');
+//     }).catch((error) => {
+//         console.error('Error initializing Google Identity Services:', error);
+//     });
+// });
+//       }
+//       //       const authUrl = auth2.generateAuthUrl({
+//       //   access_type: 'offline',
+//       //   scope: 'https://www.googleapis.com/auth/drive',
+//       // });
+
+//       function initClient() {
+//         console.log("initClient called");
+//         gapi.client
+//           .init({
+//             clientId: CLIENT_ID,
+//             discoveryDocs: DISCOVERY_DOCS,
+//             scope: SCOPES,
+//            auth: {
+//         origin: 'https://webcamstoregoogle.glitch.me'
+//     }
+//           })
+//           .then(() => {
+//             // Listen for sign-in state changes
+//             gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+
+//             // Check the initial sign-in state
+//             updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+
+//             // If the user is not signed in, initiate the sign-in process
+//             if (!gapi.auth2.getAuthInstance().isSignedIn.get()) {
+//               gapi.auth2
+//                 .getAuthInstance()
+//                 .signIn()
+//                 .then(() => {
+//                   console.log("Sign-in successful");
+//                   // You may perform additional actions after successful sign-in if needed
+//                 })
+//                 .catch((error) => {
+//                   console.error("Error signing in:", error);
+//                 });
+//             }
+//           })
+//           .catch((error) => {
+//             console.error("Error initializing Google API client:", error);
+//           });
+//       }
+
+//       function updateSigninStatus(isSignedIn) {
+//         if (isSignedIn) {
+//           // Upload the recorded video to Google Drive
+//           uploadToDrive();
+//         }
+//       }
+//       handleClientLoad();
+ -->
+<!--       function uploadToDrive() {
+        const blob = new Blob(recordedChunks, { type: "video/webm" });
+        const metadata = {
+          name: "recorded_video.webm",
+          mimeType: "video/webm",
+        };
+
+        const form = new FormData();
+        form.append(
+          "metadata",
+          new Blob([JSON.stringify(metadata)], { type: "application/json" })
+        );
+        form.append("file", blob);
+
+        gapi.client.drive.files
+          .create({
+            resource: metadata,
+            media: {
+              mimeType: "video/webm",
+              body: form,
+            },
+          })
+          .then((response) => {
+            console.log("File ID:", response.result.id);
+          })
+          .catch((error) => {
+            console.error("Error uploading to Google Drive:", error);
+          });
+      }
+
+      // Start the OAuth flow when the record button is clicked
+      loadFile.addEventListener("click", () => {
+        console.log("loadFile");
+        // Initiate the sign-in process when the element is clicked
+        gapi.auth2
+          .getAuthInstance()
+          .signIn()
+          .then(
+            () => {
+              console.log("Sign-in successful");
+              // Perform additional actions after successful sign-in if needed
+            },
+            (error) => {
+              console.error("Error signing in:", error);
+            }
+          );
+      }); -->
