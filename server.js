@@ -92,45 +92,52 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 });
 
 // Function to update Google Sheet
+
+
 async function updateGoogleSheet(sharedData) {
-  try {
-    const keyFilePath = process.env.GOOGLE_KEY_FILE_PATH;
+  // 1) Auth using a Service Account
+  const auth = new google.auth.GoogleAuth({
+    keyFile: "path/to/service-account-key.json",
+    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+  });
 
-    const auth = new google.auth.GoogleAuth({
-      keyFile: keyFilePath,
-      scopes: ["https://www.googleapis.com/auth/spreadsheets"],
-    });
+  const sheets = google.sheets({ version: "v4", auth });
 
-    const sheetsService = google.sheets({
-      version: "v4",
-      auth,
-    }).spreadsheets.values;
+  const spreadsheetId = "YOUR_SPREADSHEET_ID";  // e.g. "1abcD-efg..."
+  const sheetName = "Sheet1";                   // Your sheet/tab name
 
-    const rowNb = sharedData.rowNumber;
-    if (!rowNb || isNaN(rowNb)) {
-      throw new Error("Invalid row number.");
-    }
+  // 2) Read current rows to find the last row
+  const readRange = `${sheetName}!A:A`; // If column A always has data
+  const getRowsRes = await sheets.spreadsheets.values.get({
+    spreadsheetId,
+    range: readRange,
+  });
+  const rows = getRowsRes.data.values || []; // 'values' is an array of rows
+  const lastRow = rows.length;              // zero-based, or just count
+  const newRowIndex = lastRow + 1;          // If the first row is the header, adjust accordingly
 
-    const spreadsheetId = process.env.gSheet_Id;
-    
-    const range = `'reportage Video'!A${rowNb}:C${rowNb}`; // Adjust the range as needed
+  // 3) Now store newRowIndex in sharedData or use it directly
+  sharedData.rowNumber = newRowIndex;
 
-    const values = [[sharedData.sessionId, "", sharedData.fileData]];
+  // 4) Write data into the new row
+  const writeRange = `${sheetName}!A${newRowIndex}:C${newRowIndex}`; 
+  // Example: writing 3 columns (A, B, C)
+  const values = [
+    [
+      sharedData.fileData,       // Column A
+      sharedData.sessionId,      // Column B
+      new Date().toISOString(),  // Column C
+    ],
+  ];
 
-    await sheetsService.append({
-      spreadsheetId,
-      range,
-      valueInputOption: "RAW",
-      resource: {
-        values,
-      },
-    });
+  await sheets.spreadsheets.values.update({
+    spreadsheetId,
+    range: writeRange,
+    valueInputOption: "USER_ENTERED",
+    requestBody: { values },
+  });
 
-    console.log("File information added to Google Sheet.");
-  } catch (error) {
-    console.error("Error updating Google Sheet:", error.message);
-    throw error;
-  }
+  console.log("Google Sheet updated on row:", newRowIndex);
 }
 
 // Serve the main HTML page
