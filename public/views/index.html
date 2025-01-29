@@ -30,12 +30,12 @@
     <script>
       
          const scriptUrl = "https://script.google.com/macros/s/AKfycbyCV_r5FBTdPNmguZyKF9lRCqzVnfN6zb9aX8aVIqY/dev"; // Replace with your Apps Script URL
-
+         const corsProxy = "https://cors-anywhere.herokuapp.com/"; // Public CORS proxy
  
 
 async function fetchData() {
   try {
-    const response = await fetch(scriptUrl, {
+    const response = await fetch(corsProxy+scriptUrl, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
