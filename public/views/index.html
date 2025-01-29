@@ -29,14 +29,14 @@
 
     <script>
       
-         const scriptUrl = "https://script.google.com/macros/s/AKfycbyalV_DYNUSL4oiNzYbsCfDfllsdkvphnAnLwtN_FjL4dtM02W91I2DMouGe2q9dGEA/exec"; // Replace with your Apps Script URL
+         const scriptUrl = "https://script.google.com/macros/s/AKfycbzL2AdX01MRujcY4THYWFWuZNTqOR4F2juy4DBmdvgzpYepNechzj2KDtlt4ecC-7fs/exec"; // Replace with your Apps Script URL
       
  
 
 async function fetchData() {
   try {
     const response = await fetch(scriptUrl, {
-      method: "POST",
+      method: "GET",
       headers: {
         "Content-Type": "application/json"
       }
