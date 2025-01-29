@@ -30,9 +30,27 @@
     <script>
       
          const scriptUrl = "https://script.google.com/macros/s/AKfycbyCV_r5FBTdPNmguZyKF9lRCqzVnfN6zb9aX8aVIqY/dev"; // Replace with your Apps Script URL
-      const apiKey = "AIzaSyBFddok8LegnHUxLdUVJEcmefPddl2ACE8"
+      const apiKey = "AIzaSyBFddok8LegnHUxLdUVJEcmefPddl2ACE8" ;
      const spreadsheetId = "15qWfOkfmpYaHteMxghAhJtJjYKX8NZWB8j4LBz3ifzU";
-    const range1 = "utilisateurs!A:G"; // Ad
+    const range = "utilisateurs!A:G"; // Ad
+      
+      async function fetchData() {
+  try {
+    const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${range}?key=${apiKey}`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("Fetched Data:", data);
+
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", fetchData);
  
 
 // async function fetchData() {
