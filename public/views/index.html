@@ -33,7 +33,10 @@
 
     async function fetchData() {
       try {
-        const response = await fetch(scriptUrl);
+        const response = await fetch(scriptUrl)
+         .then(response => response.text()) // Convert response to text (since it's HTML now)
+        .then(data => console.log(data))
+         .catch(error => console.error("Error fetching data:", error));
         const data = await response.json();
         
         // Populate User dropdown
