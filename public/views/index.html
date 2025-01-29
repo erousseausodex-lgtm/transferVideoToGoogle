@@ -29,51 +29,53 @@
 
     <script>
       
-         const scriptUrl = "https://script.google.com/macros/s/AKfycbzL2AdX01MRujcY4THYWFWuZNTqOR4F2juy4DBmdvgzpYepNechzj2KDtlt4ecC-7fs/exec"; // Replace with your Apps Script URL
-      
+         const scriptUrl = "https://script.google.com/macros/s/AKfycbyCV_r5FBTdPNmguZyKF9lRCqzVnfN6zb9aX8aVIqY/dev"; // Replace with your Apps Script URL
+      const apiKey = "AIzaSyBFddok8LegnHUxLdUVJEcmefPddl2ACE8"
+     const spreadsheetId = "15qWfOkfmpYaHteMxghAhJtJjYKX8NZWB8j4LBz3ifzU";
+    const range1 = "utilisateurs!A:G"; // Ad
  
 
-async function fetchData() {
-  try {
-    const response = await fetch(scriptUrl, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
+// async function fetchData() {
+//   try {
+//     const response = await fetch(scriptUrl, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json"
+//       }
+//     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP Error: ${response.status}`);
-    }
+//     if (!response.ok) {
+//       throw new Error(`HTTP Error: ${response.status}`);
+//     }
 
-    const data = await response.json(); // ✅ Properly parse JSON response
+//     const data = await response.json(); // ✅ Properly parse JSON response
 
-    console.log("Fetched Data:", data);
+//     console.log("Fetched Data:", data);
 
-    // Populate User dropdown (only stagiaires)
-    const userSelect = document.getElementById("userName");
-    userSelect.innerHTML = ""; // Clear previous options
-    data.users.forEach(user => {
-      const option = document.createElement("option");
-      option.value = user;
-      option.textContent = user;
-      userSelect.appendChild(option);
-    });
+//     // Populate User dropdown (only stagiaires)
+//     const userSelect = document.getElementById("userName");
+//     userSelect.innerHTML = ""; // Clear previous options
+//     data.users.forEach(user => {
+//       const option = document.createElement("option");
+//       option.value = user;
+//       option.textContent = user;
+//       userSelect.appendChild(option);
+//     });
 
-    // Populate Task dropdown
-    const taskSelect = document.getElementById("taskDesignation");
-    taskSelect.innerHTML = ""; // Clear previous options
-    data.tasks.forEach(task => {
-      const option = document.createElement("option");
-      option.value = task;
-      option.textContent = task;
-      taskSelect.appendChild(option);
-    });
+//     // Populate Task dropdown
+//     const taskSelect = document.getElementById("taskDesignation");
+//     taskSelect.innerHTML = ""; // Clear previous options
+//     data.tasks.forEach(task => {
+//       const option = document.createElement("option");
+//       option.value = task;
+//       option.textContent = task;
+//       taskSelect.appendChild(option);
+//     });
 
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
-}
+//   } catch (error) {
+//     console.error("Error fetching data:", error);
+//   }
+// }
 
 // Fetch data when page loads
 document.addEventListener("DOMContentLoaded", fetchData);
