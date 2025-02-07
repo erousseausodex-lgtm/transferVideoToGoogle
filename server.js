@@ -11,6 +11,8 @@ const stream = require("stream");
 const sharedData = {
   rowNumber: null,
   sessionId: null,
+  userName:null,
+  theme:null,
   fileData: null,
 };
 
