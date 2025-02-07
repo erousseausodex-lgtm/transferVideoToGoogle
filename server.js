@@ -124,9 +124,12 @@ async function updateGoogleSheet(sharedData) {
   // Example: writing 3 columns (A, B, C)
   const values = [
     [
-      sharedData.fileData,       // Column A
-      sharedData.sessionId,      // Column B
-      new Date().toISOString(),  // Column C
+       sharedData.sessionId,    // columnA
+      
+       
+      new Date().toISOString(),   // Column B
+      
+        sharedData.fileData,  // Column C
     ],
   ];
 
