@@ -20,15 +20,26 @@ const upload = multer(); // Initialize multer for handling file uploads
 // Add the middleware here to log all incoming requests
 app.use((req, res, next) => {
   console.log(`Request received: ${req.method} ${req.url}`);
+
+  // Store parameters only if they exist (for GET requests)
+  if (req.method === "GET" && req.query.sessionId) {
+    sharedData.rowNumber = req.query.rowNumber || null;
+    sharedData.sessionId = req.query.sessionId || null;
+    sharedData.userName = req.query.userName || null;
+    sharedData.theme = req.query.theme || null;
+    console.log("Updated Shared Data:", sharedData);
+  }
+
   next();
 });
+
 
 app.post("/upload", upload.single("file"), async (req, res) => {
   console.log("upload route triggered");
 
   try {
     // Extract URL parameters
-    const { sessionId, userName, theme } = req.query; // Ensure correct query extraction
+    const { sessionId, userName, theme } = sharedData; // Ensure correct query extraction
 
     if (!sessionId || !userName || !theme) {
       throw new Error("Missing required parameters (sessionId, userName, theme).");
@@ -197,7 +208,7 @@ async function updateGoogleSheet(sharedData) {
   sharedData.rowNumber = newRowIndex;
 
   // 4) Write data into the new row
-  const writeRange = `${sheetName}!A${newRowIndex}:C${newRowIndex}`;
+  const writeRange = `${sheetName}!A${newRowIndex}:D${newRowIndex}`;
   // Example: writing 3 columns (A, B, C)
   const values = [
     [
