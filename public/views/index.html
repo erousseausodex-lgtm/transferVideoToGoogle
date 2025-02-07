@@ -26,10 +26,10 @@
   <label for="userName">utilisateur</label>
   
     <input id="theme" readonly></select>
-  <label for="theme">FDP</label>
+  <label for="theme">FDP</label><br>
  
-    <input id="theme" readonly></select>
-  <label for="theme">FDP</label>
+    <input id="sessionId" readonly></select>
+  <label for="sessionId">Session</label>
     <script>
       const video = document.getElementById("video");
       const recordButton = document.getElementById("recordButton");
@@ -141,34 +141,7 @@
       document.getElementById("userName").value = userName || "N/A";
       document.getElementById("theme").value = theme || "N/A";
 
-      // Handle form submission
-      document
-        .getElementById("uploadForm")
-        .addEventListener("submit", async (event) => {
-          event.preventDefault();
-
-          const formData = new FormData();
-          formData.append(
-            "file",
-            document.getElementById("fileInput").files[0]
-          );
-
-          try {
-            const response = await fetch(`/upload`, {
-              method: "POST",
-              body: formData,
-            });
-
-            const result = await response.json();
-            if (response.ok) {
-              alert(`File uploaded successfully! View: ${result.webViewLink}`);
-            } else {
-              alert(`Upload failed: ${result.error}`);
-            }
-          } catch (error) {
-            alert("Error uploading file.");
-          }
-        });
+     
     </script>
   </body>
 </html>
