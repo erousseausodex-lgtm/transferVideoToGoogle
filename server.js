@@ -127,7 +127,7 @@ async function updateGoogleSheet(sharedData) {
        sharedData.sessionId,    // columnA
       
        
-      new Date().toISOString(),   // Column B
+     sharedData.userName,   // Column B
       
         sharedData.fileData,  // Column C
     ],
