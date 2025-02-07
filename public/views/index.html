@@ -19,19 +19,18 @@
     <button id="recordButton">Record</button>
     <button id="stopButton" disabled>Stop</button>
     <button id="uploadButton" disabled>load</button>
-    <canvas id="canvas" style="display: none"></canvas>
+    <canvas id="canvas" style="display: none"></canvas><br>
 
-    <label for="userName">User Name:</label>
-    <select id="userName" required></select>
-
-    <label for="taskDesignation">Task Designation:</label>
-    <select id="taskDesignation" required></select>
-
-    <script>
-      
-      
+  
+    <input id="userName" required></select>
+  <label for="userName">utilisateur</label>
+  
+    <input id="theme" readonly></select>
+  <label for="theme">FDP</label>
  
-
+    <input id="theme" readonly></select>
+  <label for="theme">FDP</label>
+    <script>
       const video = document.getElementById("video");
       const recordButton = document.getElementById("recordButton");
       const stopButton = document.getElementById("stopButton");
@@ -129,6 +128,47 @@
 
       // Initialize the Google API client library
       //  handleClientLoad();
+    </script>
+    <script>
+      // Extract URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const sessionId = urlParams.get("sessionId");
+      const userName = urlParams.get("userName");
+      const theme = urlParams.get("theme");
+
+      // Prefill the text inputs with URL parameters
+      document.getElementById("sessionId").value = sessionId || "N/A";
+      document.getElementById("userName").value = userName || "N/A";
+      document.getElementById("theme").value = theme || "N/A";
+
+      // Handle form submission
+      document
+        .getElementById("uploadForm")
+        .addEventListener("submit", async (event) => {
+          event.preventDefault();
+
+          const formData = new FormData();
+          formData.append(
+            "file",
+            document.getElementById("fileInput").files[0]
+          );
+
+          try {
+            const response = await fetch(`/upload`, {
+              method: "POST",
+              body: formData,
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+              alert(`File uploaded successfully! View: ${result.webViewLink}`);
+            } else {
+              alert(`Upload failed: ${result.error}`);
+            }
+          } catch (error) {
+            alert("Error uploading file.");
+          }
+        });
     </script>
   </body>
 </html>
