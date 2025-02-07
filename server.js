@@ -6,17 +6,14 @@ const { google } = require("googleapis");
 // const fs = require("fs");
 const stream = require("stream");
 
-
 // Use a closure to store shared data
 const sharedData = {
   rowNumber: null,
   sessionId: null,
-  userName:null,
-  theme:null,
+  userName: null,
+  theme: null,
   fileData: null,
 };
-
-
 
 const upload = multer(); // Initialize multer for handling file uploads
 
@@ -29,9 +26,7 @@ app.use((req, res, next) => {
 // Serve static files
 app.use(express.static("public"));
 
-
 app.post("/upload", upload.single("file"), async (req, res) => {
-  
   console.log("upload route triggered");
   try {
     const file = req.file;
@@ -82,11 +77,13 @@ app.post("/upload", upload.single("file"), async (req, res) => {
     sharedData.fileData = driveResponse.data.webViewLink;
     console.log("Shared Data before updating Google Sheet:", sharedData);
 
-
     // Add the file information to the Google Sheet
     await updateGoogleSheet(sharedData);
 
-    res.json({ fileId: driveResponse.data.id, webViewLink: driveResponse.data.webViewLink });
+    res.json({
+      fileId: driveResponse.data.id,
+      webViewLink: driveResponse.data.webViewLink,
+    });
   } catch (error) {
     console.error("Error creating file:", error.message);
     res.status(500).json({ error: "Error creating file on Google Drive." });
@@ -95,18 +92,17 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 
 // Function to update Google Sheet
 
-
 async function updateGoogleSheet(sharedData) {
   // 1) Auth using a Service Account
   const auth = new google.auth.GoogleAuth({
-    keyFile:process.env.GOOGLE_KEY_FILE_PATH,
+    keyFile: process.env.GOOGLE_KEY_FILE_PATH,
     scopes: ["https://www.googleapis.com/auth/spreadsheets"],
   });
 
   const sheets = google.sheets({ version: "v4", auth });
 
-  const spreadsheetId = process.env.gSheet_Id;  // e.g. "1abcD-efg..."
-  const sheetName = "reportage Video";                   // Your sheet/tab name
+  const spreadsheetId = process.env.gSheet_Id; // e.g. "1abcD-efg..."
+  const sheetName = "reportage Video"; // Your sheet/tab name
 
   // 2) Read current rows to find the last row
   const readRange = `${sheetName}!A:A`; // If column A always has data
@@ -115,23 +111,21 @@ async function updateGoogleSheet(sharedData) {
     range: readRange,
   });
   const rows = getRowsRes.data.values || []; // 'values' is an array of rows
-  const lastRow = rows.length;              // zero-based, or just count
-  const newRowIndex = lastRow + 1;          // If the first row is the header, adjust accordingly
+  const lastRow = rows.length; // zero-based, or just count
+  const newRowIndex = lastRow + 1; // If the first row is the header, adjust accordingly
 
   // 3) Now store newRowIndex in sharedData or use it directly
   sharedData.rowNumber = newRowIndex;
 
   // 4) Write data into the new row
-  const writeRange = `${sheetName}!A${newRowIndex}:C${newRowIndex}`; 
+  const writeRange = `${sheetName}!A${newRowIndex}:C${newRowIndex}`;
   // Example: writing 3 columns (A, B, C)
   const values = [
     [
-       sharedData.sessionId,    // columnA
-      
-       
-     sharedData.userName,   // Column B
-      
-        sharedData.fileData,  // Column C
+      sharedData.sessionId, // columnA
+      sharedData.userName, // Column B
+      sharedData.fileData, // Column C
+      sharedData.theme
     ],
   ];
 
