@@ -6,36 +6,45 @@
     <title>Webcam Video Recorder</title>
 
     <script src="https://apis.google.com/js/api.js"></script>
-
-    <link
-      rel="icon"
-      href="https://cdn.glitch.global/6c4b9a16-8a6d-48d2-8a04-0871d8320531/Seau%20rouge.image_event.011646.jpg?v=1701945240830"
-      type="image/x-icon"
-    />
+   <style>
+  
+  #videoContainer {
+    display: flex;
+    gap: 20px; /* Adds space between the webcam and recorded video */
+    align-items: center; /* Aligns them vertically */
+}
+    </style>
   </head>
   <body>
     <h1>Webcam Video Recorder</h1>
+    
+    <!-- Container for both videos -->
+<div id="videoContainer">
     <video id="video" width="200" height="200" autoplay></video>
+    <div id="recordedVideoContainer"></div>
+</div>
+  
     <button id="recordButton">Record</button>
     <button id="stopButton" disabled>Stop</button>
     <button id="uploadButton" disabled>load</button>
 <!--     <canvas id="canvas" width="200"  height="200" style="display: none"></canvas><br> -->
 
   
-    <input id="userName" required></input>
+    <input id="userName" required/>
   <label for="userName">utilisateur</label>
   
-    <input id="theme" readonly></input>
+    <input id="theme" readonly/>
   <label for="theme">FDP</label><br>
  
-    <input id="sessionId" readonly></input>
+    <input id="sessionId" readonly/>
   <label for="sessionId">Session</label>
+    
+    
     <script>
       const video = document.getElementById("video");
       const recordButton = document.getElementById("recordButton");
       const stopButton = document.getElementById("stopButton");
-      // const canvas = document.getElementById("canvas");
-      // const context = canvas.getContext("2d");
+     const uploadButton = document.getElementById("uploadButton");
       let mediaRecorder;
       let recordedChunks = [];
 
@@ -64,8 +73,11 @@
             recordedVideo.style.height = "180px";
             recordedVideo.controls = true;
             recordedVideo.src = url;
-            document.body.appendChild(recordedVideo);
-            canvas.appendChild(recordedVideo);
+//             document.body.appendChild(recordedVideo);
+//             canvas.appendChild(recordedVideo);
+            
+            document.getElementById("recordedVideoContainer").appendChild(recordedVideo);
+
 
             // Enable the upload button
             uploadButton.disabled = false;
