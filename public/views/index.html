@@ -179,7 +179,56 @@ input {
             });
           };
 
-          function uploadFile(fileBlob) {
+  
+
+          // Start recording when the record button is clicked
+          recordButton.addEventListener("click", () => {
+            mediaRecorder.start();
+            recordButton.disabled = true;
+            stopButton.disabled = false;
+            
+                // Change button appearance
+    recordButton.style.backgroundColor = "red";
+    recordButton.textContent = "Recording...";
+          });
+
+//           // Stop recording when the stop button is clicked
+//           stopButton.addEventListener("click", () => {
+//             mediaRecorder.stop();
+//             recordButton.textContent = "complete";
+//                recordButton.style.backgroundColor = "gray";
+//             stopButton.disabled = true;
+            
+//               // Reset button appearance
+//     recordButton.style.backgroundColor = "";
+//     recordButton.textContent = "Record";
+//           });
+        })
+        // .catch((error) => {
+        //   console.error("Error accessing webcam:", error);
+        // });
+
+      //
+
+      // // Stop recording when the stop button is clicked
+      // stopButton.addEventListener("click", () => {
+      //   mediaRecorder.stop();
+      // //  recordButton.disabled = true;
+      //   stopButton.disabled = true;
+      // });
+      
+        stopButton.addEventListener("click", () => {
+            mediaRecorder.stop();
+            recordButton.textContent = "complete";
+               recordButton.style.backgroundColor = "gray";
+            stopButton.disabled = true;
+            
+              // Reset button appearance
+  //  recordButton.style.backgroundColor = "";
+  //  recordButton.textContent = "Record";
+          });
+      
+              function uploadFile(fileBlob) {
             const formData = new FormData();
             formData.append("file", fileBlob, "recorded-video.webm");
 
@@ -202,41 +251,6 @@ input {
                 console.error("Error uploading file:", error.message);
               });
           }
-
-          // Start recording when the record button is clicked
-          recordButton.addEventListener("click", () => {
-            mediaRecorder.start();
-            recordButton.disabled = true;
-            stopButton.disabled = false;
-            
-                // Change button appearance
-    recordButton.style.backgroundColor = "red";
-    recordButton.textContent = "Recording...";
-          });
-
-          // Stop recording when the stop button is clicked
-          stopButton.addEventListener("click", () => {
-            mediaRecorder.stop();
-            recordButton.disabled = false;
-            stopButton.disabled = true;
-            
-              // Reset button appearance
-    recordButton.style.backgroundColor = "";
-    recordButton.textContent = "Record";
-          });
-        })
-        .catch((error) => {
-          console.error("Error accessing webcam:", error);
-        });
-
-      //
-
-      // Stop recording when the stop button is clicked
-      stopButton.addEventListener("click", () => {
-        mediaRecorder.stop();
-      //  recordButton.disabled = true;
-        stopButton.disabled = true;
-      });
 
     
       // Extract URL parameters contained in URl
