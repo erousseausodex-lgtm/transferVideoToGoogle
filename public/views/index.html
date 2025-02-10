@@ -10,8 +10,48 @@
   
   #videoContainer {
     display: flex;
-    gap: 20px; /* Adds space between the webcam and recorded video */
+    gap: 50px; /* Adds space between the webcam and recorded video */
     align-items: center; /* Aligns them vertically */
+}
+     /* Button styling */
+#buttonContainer {
+    display: flex;
+    justify-content: center; /* Center buttons */
+    gap: 15px; /* Space between buttons */
+    margin-top: 10px;
+}
+
+/* Improve button appearance */
+button {
+    padding: 8px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Record button: Red */
+#recordButton {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+/* Stop button: Dark gray */
+#stopButton {
+    background-color: #555;
+    color: white;
+}
+
+/* Upload button: Blue */
+#uploadButton {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Button hover effects */
+button:hover {
+    opacity: 0.8;
 }
     </style>
   </head>
@@ -24,19 +64,20 @@
     <div id="recordedVideoContainer"></div>
 </div>
   
+  <!-- Button container -->
+<div id="buttonContainer">
     <button id="recordButton">Record</button>
     <button id="stopButton" disabled>Stop</button>
-    <button id="uploadButton" disabled>load</button>
-<!--     <canvas id="canvas" width="200"  height="200" style="display: none"></canvas><br> -->
-
+    <button id="uploadButton" disabled>Upload</button>
+</div>
   
     <input id="userName" required/>
   <label for="userName">utilisateur</label>
   
-    <input id="theme" readonly/>
+    <input id="theme" >
   <label for="theme">FDP</label><br>
  
-    <input id="sessionId" readonly/>
+    <input id="sessionId" >
   <label for="sessionId">Session</label>
     
     
@@ -70,11 +111,9 @@
 
             // Display the recorded video
             const recordedVideo = document.createElement("video");
-            recordedVideo.style.height = "180px";
+            recordedVideo.style.height = "150px";
             recordedVideo.controls = true;
             recordedVideo.src = url;
-//             document.body.appendChild(recordedVideo);
-//             canvas.appendChild(recordedVideo);
             
             document.getElementById("recordedVideoContainer").appendChild(recordedVideo);
 
