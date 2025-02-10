@@ -208,6 +208,10 @@ input {
             mediaRecorder.start();
             recordButton.disabled = true;
             stopButton.disabled = false;
+            
+                // Change button appearance
+    recordButton.style.backgroundColor = "red";
+    recordButton.textContent = "Recording...";
           });
 
           // Stop recording when the stop button is clicked
@@ -215,6 +219,10 @@ input {
             mediaRecorder.stop();
             recordButton.disabled = false;
             stopButton.disabled = true;
+            
+              // Reset button appearance
+    recordButton.style.backgroundColor = "";
+    recordButton.textContent = "Record";
           });
         })
         .catch((error) => {
@@ -226,7 +234,7 @@ input {
       // Stop recording when the stop button is clicked
       stopButton.addEventListener("click", () => {
         mediaRecorder.stop();
-        recordButton.disabled = false;
+      //  recordButton.disabled = true;
         stopButton.disabled = true;
       });
 
