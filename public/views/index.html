@@ -15,7 +15,7 @@
   </head>
   <body>
     <h1>Webcam Video Recorder</h1>
-    <video id="video" width="640" height="480" autoplay></video>
+    <video id="video" width="300" height="480" autoplay></video>
     <button id="recordButton">Record</button>
     <button id="stopButton" disabled>Stop</button>
     <button id="uploadButton" disabled>load</button>
@@ -126,11 +126,8 @@
         stopButton.disabled = true;
       });
 
-      // Initialize the Google API client library
-      //  handleClientLoad();
-    </script>
-    <script>
-      // Extract URL parameters
+    
+      // Extract URL parameters contained in URl
       const urlParams = new URLSearchParams(window.location.search);
       const sessionId = urlParams.get("sessionId");
       const userName = urlParams.get("userName");
