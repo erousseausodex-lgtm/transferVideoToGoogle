@@ -15,20 +15,20 @@
   </head>
   <body>
     <h1>Webcam Video Recorder</h1>
-    <video id="video" width="300" height="480" autoplay></video>
+    <video id="video" width="200" height="200" autoplay></video>
     <button id="recordButton">Record</button>
     <button id="stopButton" disabled>Stop</button>
     <button id="uploadButton" disabled>load</button>
-    <canvas id="canvas" style="display: none"></canvas><br>
+    <canvas id="canvas" width="200"  height="200" style="display: none"></canvas><br>
 
   
-    <input id="userName" required></select>
+    <input id="userName" required></input>
   <label for="userName">utilisateur</label>
   
-    <input id="theme" readonly></select>
+    <input id="theme" readonly></input>
   <label for="theme">FDP</label><br>
  
-    <input id="sessionId" readonly></select>
+    <input id="sessionId" readonly></input>
   <label for="sessionId">Session</label>
     <script>
       const video = document.getElementById("video");

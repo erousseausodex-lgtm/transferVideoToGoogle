@@ -113,72 +113,7 @@ app.post("/upload", upload.single("file"), async (req, res) => {
 });
 
 
-// // Serve static files
-// app.use(express.static("public"));
 
-// app.post("/upload", upload.single("file"), async (req, res) => {
-//   console.log("upload route triggered");
-//   try {
-//     const file = req.file;
-//     if (!file) {
-//       throw new Error("No file uploaded.");
-//     }
-
-//     if (!file.mimetype.startsWith("video/")) {
-//       throw new Error("Invalid file type. Only videos are allowed.");
-//     }
-
-//     const keyFilePath = process.env.GOOGLE_KEY_FILE_PATH;
-
-//     const auth = new google.auth.GoogleAuth({
-//       keyFile: keyFilePath,
-//       scopes: ["https://www.googleapis.com/auth/drive.file"],
-//     });
-
-//     const driveService = google.drive({
-//       version: "v3",
-//       auth,
-//     });
-
-//     const fileMetaData = {
-//       name: "recorded-video.webm",
-//       parents: [process.env.folderId], // Replace with your folder ID
-//     };
-
-//     // Create a readable stream from the file buffer
-//     const fileStream = new stream.PassThrough();
-//     fileStream.end(file.buffer);
-
-//     const media = {
-//       mimeType: "video/webm",
-//       body: fileStream,
-//     };
-
-//     const driveResponse = await driveService.files.create({
-//       requestBody: fileMetaData,
-//       media: media,
-//       fields: "id, webViewLink",
-//     });
-
-//     console.log("File created with ID:", driveResponse.data.id);
-//     console.log("File URL:", driveResponse.data.webViewLink);
-
-//     // Store fileData in sharedData
-//     sharedData.fileData = driveResponse.data.webViewLink;
-//     console.log("Shared Data before updating Google Sheet:", sharedData);
-
-//     // Add the file information to the Google Sheet
-//     await updateGoogleSheet(sharedData);
-
-//     res.json({
-//       fileId: driveResponse.data.id,
-//       webViewLink: driveResponse.data.webViewLink,
-//     });
-//   } catch (error) {
-//     console.error("Error creating file:", error.message);
-//     res.status(500).json({ error: "Error creating file on Google Drive." });
-//   }
-// });
 
 // Function to update Google Sheet
 
