@@ -19,7 +19,7 @@
     <button id="recordButton">Record</button>
     <button id="stopButton" disabled>Stop</button>
     <button id="uploadButton" disabled>load</button>
-    <canvas id="canvas" width="200"  height="200" style="display: none"></canvas><br>
+<!--     <canvas id="canvas" width="200"  height="200" style="display: none"></canvas><br> -->
 
   
     <input id="userName" required></input>
@@ -34,8 +34,8 @@
       const video = document.getElementById("video");
       const recordButton = document.getElementById("recordButton");
       const stopButton = document.getElementById("stopButton");
-      const canvas = document.getElementById("canvas");
-      const context = canvas.getContext("2d");
+      // const canvas = document.getElementById("canvas");
+      // const context = canvas.getContext("2d");
       let mediaRecorder;
       let recordedChunks = [];
 
@@ -61,9 +61,11 @@
 
             // Display the recorded video
             const recordedVideo = document.createElement("video");
+            recordedVideo.style.height = "180px";
             recordedVideo.controls = true;
             recordedVideo.src = url;
             document.body.appendChild(recordedVideo);
+            canvas.appendChild(recordedVideo);
 
             // Enable the upload button
             uploadButton.disabled = false;
