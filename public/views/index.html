@@ -110,6 +110,7 @@ input {
     <button id="recordButton">Record</button>
     <button id="stopButton" disabled>Stop</button>
     <button id="uploadButton" disabled>Upload</button>
+     <button id="chatgpt-review"> Review with ChatGPT</button>
 </div>
     
     
@@ -130,6 +131,17 @@ input {
         <input id="sessionId" readonly />
     </div>
 </div>
+    <div id="chatgpt-result"></div>
+
+<script>
+document.getElementById("chatgpt-review").addEventListener("click", async () => {
+    const response = await fetch("/analyze-transcription", { method: "POST" });
+    const data = await response.json();
+    document.getElementById("chatgpt-result").innerText = data.analysis;
+});
+</script>
+    
+    
     
     
     <script>

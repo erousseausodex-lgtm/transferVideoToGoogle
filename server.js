@@ -172,60 +172,6 @@ app.get("/", (req, res) => {
   console.log("Shared Data:", sharedData);
   res.sendFile(path.join(__dirname, "public/views/index.html"));
 });
-// Transcribe audio using Whisper API
-async function transcribeAudio(audioFilePath) {
-  const formData = new FormData();
-  formData.append("file", fs.createReadStream(audioFilePath));
-  formData.append("model", "whisper-1");
-  const response = await axios.post("https://api.openai.com/v1/audio/transcriptions", formData, {
-    headers: {
-      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-      "Content-Type": "multipart/form-data",
-    },
-  });
-  return response.data.text;
-}
-
-// Analyze transcription using ChatGPT
-async function analyzeWithChatGPT(transcription) {
-  const response = await axios.post("https://api.openai.com/v1/chat/completions", {
-    model: "gpt-4",
-    messages: [{ role: "system", content: "Analyze this transcription and provide a review." }, { role: "user", content: transcription }],
-  }, {
-    headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}` }
-  });
-  return response.data.choices[0].message.content;
-}
-
-// API Endpoint: Upload & Analyze Video
-app.post("/analyze-video", upload.single("file"), async (req, res) => {
-  try {
-    if (!req.file) throw new Error("No file uploaded.");
-    
-    // Upload video to Google Drive
-    const driveData = await uploadToGoogleDrive(req.file);
-    console.log("Uploaded to Drive:", driveData);
-    
-    // Transcribe audio
-    const transcription = await transcribeAudio(req.file.path);
-    console.log("Transcription:", transcription);
-    
-    // Analyze transcription with ChatGPT
-    const analysis = await analyzeWithChatGPT(transcription);
-    console.log("ChatGPT Analysis:", analysis);
-    
-    res.json({
-      fileId: driveData.id,
-      webViewLink: driveData.webViewLink,
-      transcription,
-      analysis,
-    });
-  } catch (error) {
-    console.error("Error:", error.message);
-    res.status(500).json({ error: error.message });
-  }
-});
-
 
 // Start the server
 const listener = app.listen(process.env.PORT || 3000, () => {
