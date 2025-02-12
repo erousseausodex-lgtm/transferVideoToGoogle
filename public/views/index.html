@@ -12,7 +12,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Submission</title>
-    <link rel="stylesheet" href="style.css"> 
+  <style>
+         h1 {
+    text-align: center;
+    width: 100%;
+}
+  
+  #videoContainer {
+    display: flex;
+    gap: 50px; /* Adds space between the webcam and recorded video */
+    align-items: center; /* Aligns them vertically */
+    justify-content: center; /* Centers them horizontally */
+    width: 100%; /* Ensures it takes full width */
+}
+     /* Button styling */
+#buttonContainer {
+    display: flex;
+    justify-content: center; /* Center buttons */
+    gap: 15px; /* Space between buttons */
+    margin-top: 10px;
+}
+
+/* Improve button appearance */
+button {
+    padding: 8px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Record button: Red */
+#recordButton {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+/* Stop button: Dark gray */
+#stopButton {
+    background-color: #555555;
+    color: white;
+}
+
+/* Upload button: Blue */
+#uploadButton {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Button hover effects */
+button:hover {
+    opacity: 0.8;
+}
+     
+     /* Input container styling */
+#inputContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between input groups */
+    width: 250px;
+    margin: 20px auto; /* Center the input section */
+    padding: 15px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+/* Individual input groups */
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Input field styling */
+input {
+    padding: 8px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+     
+     .recording {
+    background-color: red !important;
+    color: white;
+    font-weight: bold;
+}
+
+  </style>
   </head>
   <body>
     <h1>Webcam Video Recorder</h1>
