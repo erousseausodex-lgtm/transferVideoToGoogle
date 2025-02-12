@@ -6,11 +6,7 @@
     <title>Webcam Video Recorder</title>
 
     <script src="https://apis.google.com/js/api.js"></script>
-  <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Video Submission</title>
   <style>
          h1 {
@@ -195,12 +191,10 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
             // Enable the upload button
             uploadButton.disabled = false;
             
-               // Supprimer les anciens écouteurs avant d'en ajouter un nouveau
-    uploadButton.replaceWith(uploadButton.cloneNode(true));
-    const newUploadButton = document.getElementById("uploadButton");
+            
 
             // Click event for the upload button
-            newUploadButton.addEventListener("click", () => {
+            uploadButton.addEventListener("click", () => {
               // Upload the recorded video to the server when the upload button is clicked
               uploadFile(blob);
             });
