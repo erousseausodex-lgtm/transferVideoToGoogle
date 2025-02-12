@@ -149,7 +149,6 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
       const recordButton = document.getElementById("recordButton");
       const stopButton = document.getElementById("stopButton");
      const uploadButton = document.getElementById("uploadButton");
-      const chatButton = document.getElementById("chatgpt-review")
       let mediaRecorder;
       let recordedChunks = [];
 
@@ -248,7 +247,7 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
           }
       
          // Envoyer la vidéo au serveur pour transcription + analyse GPT
-   chatButton.addEventListener("click", () => {
+    reviewButton.addEventListener("click", () => {
         sendVideoForAnalysis(blob);
     })
       

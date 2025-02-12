@@ -2,7 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const axios = require("axios");
 const fs = require("fs");
-//require("dotenv").config();
+require("dotenv").config();
 
 const app = express();
 const upload = multer({ dest: "uploads/" });
@@ -54,3 +54,6 @@ app.post("/upload-video", upload.single("video"), async (req, res) => {
 
 const PORT = 4000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+
+
