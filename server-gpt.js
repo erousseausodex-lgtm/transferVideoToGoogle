@@ -23,14 +23,3 @@ app.post("/analyze-transcription", async (req, res) => {
 
 const PORT = 4000;
 app.listen(PORT, () => console.log(`ChatGPT server running on port ${PORT}`));
-
-// if (prompt) {
-//     var apiKey = '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';
-//     var apiUrl = 'https://api.openai.com/v1/chat/completions';
-//     var payload = {
-//         model: "gpt-4",
-//         messages: [{ role: 'user', content: prompt }],
-//         max_tokens: 400,
-//         temperature: 0.1,
-//         n: 1
-//     };
