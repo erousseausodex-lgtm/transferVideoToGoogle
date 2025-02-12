@@ -171,6 +171,10 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
             const blob = new Blob(recordedChunks, { type: "video/webm" });
             const url = URL.createObjectURL(blob);
             recordedChunks = [];
+            
+              // Nettoyer le conteneur avant d'ajouter une nouvelle vidéo
+    const container = document.getElementById("recordedVideoContainer");
+    container.innerHTML = ""; // Supprime toute vidéo précédente
 
             // Display the recorded video
             const recordedVideo = document.createElement("video");
@@ -178,18 +182,20 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
             recordedVideo.controls = true;
             recordedVideo.src = url;
             
-            document.getElementById("recordedVideoContainer").appendChild(recordedVideo);
+              container.appendChild(recordedVideo);
 
 
             // Enable the upload button
             uploadButton.disabled = false;
 
-            // Click event for the upload button
-            uploadButton.addEventListener("click", () => {
-              // Upload the recorded video to the server when the upload button is clicked
-              uploadFile(blob);
-            });
-          };
+            // Supprimer les anciens écouteurs avant d'en ajouter un nouveau
+    uploadButton.replaceWith(uploadButton.cloneNode(true));
+    const newUploadButton = document.getElementById("uploadButton");
+    
+    newUploadButton.addEventListener("click", () => {
+        uploadFile(blob);
+    });
+};
 
   
 
@@ -222,12 +228,6 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
 
       //
 
-      // // Stop recording when the stop button is clicked
-      // stopButton.addEventListener("click", () => {
-      //   mediaRecorder.stop();
-      // //  recordButton.disabled = true;
-      //   stopButton.disabled = true;
-      // });
       
         stopButton.addEventListener("click", () => {
             mediaRecorder.stop();
