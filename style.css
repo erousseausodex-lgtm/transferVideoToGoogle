@@ -1,4 +1,4 @@
-  <style>
+  
      
      h1 {
     text-align: center;
@@ -38,7 +38,7 @@ button {
 
 /* Stop button: Dark gray */
 #stopButton {
-    background-color: #555;
+    background-color: #555555;
     color: white;
 }
 
@@ -61,7 +61,7 @@ button:hover {
     width: 250px;
     margin: 20px auto; /* Center the input section */
     padding: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid #cccccc;
     border-radius: 8px;
     background-color: #f9f9f9;
 }
@@ -75,7 +75,7 @@ button:hover {
 /* Input field styling */
 input {
     padding: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid #cccccc;
     border-radius: 5px;
     font-size: 14px;
 }
@@ -86,4 +86,4 @@ input {
     font-weight: bold;
 }
 
-    </style>
+  
