@@ -174,8 +174,14 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
           // Handle stop event
           mediaRecorder.onstop = () => {
             const blob = new Blob(recordedChunks, { type: "video/webm" });
-            const url = URL.createObjectURL(blob);
+          
             recordedChunks = [];
+            
+              const url = URL.createObjectURL(blob);
+            
+                // Nettoyer le conteneur avant d'ajouter une nouvelle vidéo
+    const container = document.getElementById("recordedVideoContainer");
+    container.innerHTML = ""; // Supprime toute vidéo précédente
 
             // Display the recorded video
             const recordedVideo = document.createElement("video");
@@ -183,14 +189,18 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
             recordedVideo.controls = true;
             recordedVideo.src = url;
             
-            document.getElementById("recordedVideoContainer").appendChild(recordedVideo);
+           container.appendChild(recordedVideo);
 
 
             // Enable the upload button
             uploadButton.disabled = false;
+            
+               // Supprimer les anciens écouteurs avant d'en ajouter un nouveau
+    uploadButton.replaceWith(uploadButton.cloneNode(true));
+    const newUploadButton = document.getElementById("uploadButton");
 
             // Click event for the upload button
-            uploadButton.addEventListener("click", () => {
+            newUploadButton.addEventListener("click", () => {
               // Upload the recorded video to the server when the upload button is clicked
               uploadFile(blob);
             });
@@ -209,30 +219,7 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
     recordButton.textContent = "Recording...";
           });
 
-//           // Stop recording when the stop button is clicked
-//           stopButton.addEventListener("click", () => {
-//             mediaRecorder.stop();
-//             recordButton.textContent = "complete";
-//                recordButton.style.backgroundColor = "gray";
-//             stopButton.disabled = true;
-            
-//               // Reset button appearance
-//     recordButton.style.backgroundColor = "";
-//     recordButton.textContent = "Record";
-//           });
-        })
-        // .catch((error) => {
-        //   console.error("Error accessing webcam:", error);
-        // });
 
-      //
-
-      // // Stop recording when the stop button is clicked
-      // stopButton.addEventListener("click", () => {
-      //   mediaRecorder.stop();
-      // //  recordButton.disabled = true;
-      //   stopButton.disabled = true;
-      // });
       
         stopButton.addEventListener("click", () => {
             mediaRecorder.stop();
