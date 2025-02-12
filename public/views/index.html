@@ -133,13 +133,13 @@ input {
 </div>
     <div id="chatgpt-result"></div>
 
-<script>
+<!-- <script>
 document.getElementById("chatgpt-review").addEventListener("click", async () => {
     const response = await fetch("/analyze-transcription", { method: "POST" });
     const data = await response.json();
     document.getElementById("chatgpt-result").innerText = data.analysis;
 });
-</script>
+</script> -->
     
     
     
@@ -149,6 +149,7 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
       const recordButton = document.getElementById("recordButton");
       const stopButton = document.getElementById("stopButton");
      const uploadButton = document.getElementById("uploadButton");
+      const chatButton = document.getElementById("chatgpt-review")
       let mediaRecorder;
       let recordedChunks = [];
 
@@ -189,6 +190,9 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
               // Upload the recorded video to the server when the upload button is clicked
               uploadFile(blob);
             });
+            
+         
+            
           };
 
   
@@ -204,30 +208,9 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
     recordButton.textContent = "Recording...";
           });
 
-//           // Stop recording when the stop button is clicked
-//           stopButton.addEventListener("click", () => {
-//             mediaRecorder.stop();
-//             recordButton.textContent = "complete";
-//                recordButton.style.backgroundColor = "gray";
-//             stopButton.disabled = true;
-            
-//               // Reset button appearance
-//     recordButton.style.backgroundColor = "";
-//     recordButton.textContent = "Record";
-//           });
+
         })
-        // .catch((error) => {
-        //   console.error("Error accessing webcam:", error);
-        // });
 
-      //
-
-      // // Stop recording when the stop button is clicked
-      // stopButton.addEventListener("click", () => {
-      //   mediaRecorder.stop();
-      // //  recordButton.disabled = true;
-      //   stopButton.disabled = true;
-      // });
       
         stopButton.addEventListener("click", () => {
             mediaRecorder.stop();
@@ -263,6 +246,27 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
                 console.error("Error uploading file:", error.message);
               });
           }
+      
+                                                                                                                                                                      )
+            
+      
+      // Fonction pour envoyer la vidéo au serveur
+function sendVideoForAnalysis(blob) {
+    const formData = new FormData();
+    formData.append("video", blob, "recorded-video.webm");
+
+    fetch("http://localhost:4000/upload-video", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert("Analysis: " + data.analysis);
+    })
+    .catch(error => {
+        console.error("Error:", error);
+    });
+}
 
     
       // Extract URL parameters contained in URl
