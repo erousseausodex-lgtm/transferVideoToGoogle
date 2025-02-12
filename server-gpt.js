@@ -2,7 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const axios = require("axios");
 const fs = require("fs");
-require("dotenv").config();
+//nose server-gpt.jsrequire("dotenv").config();
 
 const app = express();
 const upload = multer({ dest: "uploads/" }); // Stocke temporairement les fichiers
