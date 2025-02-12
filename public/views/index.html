@@ -191,11 +191,14 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
               uploadFile(blob);
             });
             
-         
-            
+         chatButton.addEventListener("click", () => {
+              // Upload the recorded video to the server when the upload button is clicked
+             sendVideoForAnalysis(blob);
+            });
+                 
           };
 
-  
+      });
 
           // Start recording when the record button is clicked
           recordButton.addEventListener("click", () => {
@@ -206,10 +209,10 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
                 // Change button appearance
     recordButton.style.backgroundColor = "red";
     recordButton.textContent = "Recording...";
-          });
+          // });
 
 
-        })
+        // })
 
       
         stopButton.addEventListener("click", () => {
@@ -222,7 +225,7 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
   //  recordButton.style.backgroundColor = "";
   //  recordButton.textContent = "Record";
           });
-      
+      });   
               function uploadFile(fileBlob) {
             const formData = new FormData();
             formData.append("file", fileBlob, "recorded-video.webm");

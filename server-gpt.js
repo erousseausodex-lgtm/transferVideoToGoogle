@@ -24,7 +24,7 @@ app.post("/upload-video", upload.single("video"), async (req, res) => {
             fs.createReadStream(videoPath),
             {
                 headers: {
-                    Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+                    Authorization: `Bearer ${process.env.gptKey}`,
                     "Content-Type": "multipart/form-data"
                 }
             }
@@ -47,7 +47,7 @@ app.post("/upload-video", upload.single("video"), async (req, res) => {
                 ]
             },
             {
-                headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}` }
+                headers: { Authorization: `Bearer ${process.env.gptKey}` }
             }
         );
 
