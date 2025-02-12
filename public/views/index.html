@@ -125,11 +125,11 @@ input {
         <label for="theme">FDP</label>
         <input id="theme" readonly />
     </div>
-
+<!-- 
     <div class="inputGroup">
         <label for="sessionId">Session</label>
         <input id="sessionId" readonly />
-    </div>
+    </div> -->
 </div>
     <div id="chatgpt-result"></div>
 
@@ -197,8 +197,6 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
     });
 };
 
-  
-
           // Start recording when the record button is clicked
           recordButton.addEventListener("click", () => {
             mediaRecorder.start();
@@ -211,9 +209,7 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
           });
 
 
-        })
- 
-
+        });
       
         stopButton.addEventListener("click", () => {
             mediaRecorder.stop();
