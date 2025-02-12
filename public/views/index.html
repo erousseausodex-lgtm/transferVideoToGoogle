@@ -125,11 +125,11 @@ input {
         <label for="theme">FDP</label>
         <input id="theme" readonly />
     </div>
-<!-- 
+
     <div class="inputGroup">
         <label for="sessionId">Session</label>
         <input id="sessionId" readonly />
-    </div> -->
+    </div>
 </div>
     <div id="chatgpt-result"></div>
 
@@ -149,7 +149,6 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
       const recordButton = document.getElementById("recordButton");
       const stopButton = document.getElementById("stopButton");
      const uploadButton = document.getElementById("uploadButton");
-      const chatButton = document.getElementById("chatgpt-review")
       let mediaRecorder;
       let recordedChunks = [];
 
@@ -172,10 +171,6 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
             const blob = new Blob(recordedChunks, { type: "video/webm" });
             const url = URL.createObjectURL(blob);
             recordedChunks = [];
-            
-              // Nettoyer le conteneur avant d'ajouter une nouvelle vidéo
-    const container = document.getElementById("recordedVideoContainer");
-    container.innerHTML = ""; // Supprime toute vidéo précédente
 
             // Display the recorded video
             const recordedVideo = document.createElement("video");
@@ -183,20 +178,20 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
             recordedVideo.controls = true;
             recordedVideo.src = url;
             
-              container.appendChild(recordedVideo);
+            document.getElementById("recordedVideoContainer").appendChild(recordedVideo);
 
 
             // Enable the upload button
             uploadButton.disabled = false;
 
-            // Supprimer les anciens écouteurs avant d'en ajouter un nouveau
-    uploadButton.replaceWith(uploadButton.cloneNode(true));
-    const newUploadButton = document.getElementById("uploadButton");
-    
-    newUploadButton.addEventListener("click", () => {
-        uploadFile(blob);
-    });
-};
+            // Click event for the upload button
+            uploadButton.addEventListener("click", () => {
+              // Upload the recorded video to the server when the upload button is clicked
+              uploadFile(blob);
+            });
+          };
+
+  
 
           // Start recording when the record button is clicked
           recordButton.addEventListener("click", () => {
@@ -209,8 +204,30 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
     recordButton.textContent = "Recording...";
           });
 
+//           // Stop recording when the stop button is clicked
+//           stopButton.addEventListener("click", () => {
+//             mediaRecorder.stop();
+//             recordButton.textContent = "complete";
+//                recordButton.style.backgroundColor = "gray";
+//             stopButton.disabled = true;
+            
+//               // Reset button appearance
+//     recordButton.style.backgroundColor = "";
+//     recordButton.textContent = "Record";
+//           });
+        })
+        // .catch((error) => {
+        //   console.error("Error accessing webcam:", error);
+        // });
 
-        });
+      //
+
+      // // Stop recording when the stop button is clicked
+      // stopButton.addEventListener("click", () => {
+      //   mediaRecorder.stop();
+      // //  recordButton.disabled = true;
+      //   stopButton.disabled = true;
+      // });
       
         stopButton.addEventListener("click", () => {
             mediaRecorder.stop();
@@ -246,31 +263,6 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
                 console.error("Error uploading file:", error.message);
               });
           }
-      
-         // Envoyer la vidéo au serveur pour transcription + analyse GPT
-   chatButton.addEventListener("click", () => {
-        sendVideoForAnalysis(blob);
-    })
-      
-      // Fonction pour envoyer la vidéo au serveur
-function sendVideoForAnalysis(blob) {
-    const formData = new FormData();
-    formData.append("video", blob, "recorded-video.webm");
-
-    fetch("http://localhost:4000/upload-video", {
-        method: "POST",
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert("Analysis: " + data.analysis);
-    })
-    .catch(error => {
-        console.error("Error:", error);
-    });
-}
-      
-      
 
     
       // Extract URL parameters contained in URl
