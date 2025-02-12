@@ -127,10 +127,10 @@ input {
         <input id="theme" readonly />
     </div>
 
-    <div class="inputGroup">
+<!--     <div class="inputGroup">
         <label for="sessionId">Session</label>
         <input id="sessionId" readonly />
-    </div>
+    </div> -->
 </div>
     <div id="chatgpt-result"></div>
 
@@ -140,12 +140,7 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
     const data = await response.json();
     document.getElementById("chatgpt-result").innerText = data.analysis;
 });
-</script>
-    
-    
-    
-    
-    <script>
+
       const video = document.getElementById("video");
       const recordButton = document.getElementById("recordButton");
       const stopButton = document.getElementById("stopButton");
@@ -177,7 +172,7 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
             
                 // Nettoyer le conteneur avant d'ajouter une nouvelle vidéo
     const container = document.getElementById("recordedVideoContainer");
-    container.innerHTML = ""; // Supprime toute vidéo précédente
+  //  container.innerHTML = ""; // Supprime toute vidéo précédente
 
             // Display the recorded video
             const recordedVideo = document.createElement("video");
