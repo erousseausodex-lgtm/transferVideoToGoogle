@@ -149,6 +149,7 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
       const recordButton = document.getElementById("recordButton");
       const stopButton = document.getElementById("stopButton");
      const uploadButton = document.getElementById("uploadButton");
+      const chatButton = document.getElementById("chatgpt-review")
       let mediaRecorder;
       let recordedChunks = [];
 
@@ -245,6 +246,31 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
                 console.error("Error uploading file:", error.message);
               });
           }
+      
+         // Envoyer la vidéo au serveur pour transcription + analyse GPT
+   chatButton.addEventListener("click", () => {
+        sendVideoForAnalysis(blob);
+    })
+      
+      // Fonction pour envoyer la vidéo au serveur
+function sendVideoForAnalysis(blob) {
+    const formData = new FormData();
+    formData.append("video", blob, "recorded-video.webm");
+
+    fetch("http://localhost:4000/upload-video", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert("Analysis: " + data.analysis);
+    })
+    .catch(error => {
+        console.error("Error:", error);
+    });
+}
+      
+      
 
     
       // Extract URL parameters contained in URl
