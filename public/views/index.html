@@ -151,7 +151,8 @@ document.getElementById("chatgpt-review").addEventListener("click", async () => 
       // Request access to the user's camera and microphone
       navigator.mediaDevices
         .getUserMedia({
-          video: { facingMode: { exact: "environment" } },
+          //video: { facingMode: { exact: "environment" } },
+          video:true,
           audio: true,
         })
         .then((stream) => {
