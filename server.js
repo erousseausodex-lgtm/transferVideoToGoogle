@@ -1,30 +1,4 @@
-gzip: stdin: not in gzip format
-tar: Child returned status 1
-tar: Error is not recoverable: exiting now
-erousseausodex@penguin:/mnt/chromeos/MyFiles/Downloads$ tar xf transfervideotogoogle.tgz
-tar: app/node_modules: Cannot create symlink to ‘/rbd/pnpm-volume/app/node_modules’: Permission denied
-tar: app/.node-gyp: Cannot create symlink to ‘/tmp/.node-gyp’: Permission denied
-tar: Exiting with failure status due to previous errors
-erousseausodex@penguin:/mnt/chromeos/MyFiles/Downloads$ ^C
-erousseausodex@penguin:/mnt/chromeos/MyFiles/Downloads$ tar xf transfervideotogoogle.tgz
-tar: app/node_modules: Cannot create symlink to ‘/rbd/pnpm-volume/app/node_modules’: Permission denied
-tar: app/.node-gyp: Cannot create symlink to ‘/tmp/.node-gyp’: Permission denied
-tar: Exiting with failure status due to previous errors
-erousseausodex@penguin:/mnt/chromeos/MyFiles/Downloads$ erousseausodex@penguin:/mnt/chromeos/MyFiles/Downloads$ tar xf transfervideotogoogle.tgz
-tar: app/node_modules: Cannot create symlink to ‘/rbd/pnpm-volume/app/node_modules’: Permission denied
-tar: app/.node-gyp: Cannot create symlink to ‘/tmp/.node-gyp’: Permission denied
-tar: Exiting with failure status due to previous errors
--bash: erousseausodex@penguin:/mnt/chromeos/MyFiles/Downloads$: No such file or directory
--bash: tar:: command not found
--bash: tar:: command not found
--bash: tar:: command not found
-erousseausodex@penguin:/mnt/chromeos/MyFiles/Downloads$ ls app
-classroomstore.json  LICENSE.md  package.json  package-lock.json  public  server-gpt.js  server.js  shrinkwrap.yaml  style.css  uploads  views
-erousseausodex@penguin:/mnt/chromeos/MyFiles/Downloads$ erousseausodex@penguin:/mnt/chromeos/MyFiles/Downloads$ ls app
-classroomstore.json  LICENSE.md  package.json  package-lock.json  public  server-gpt.js  server.js  shrinkwrap.yaml  style.css  uploads  views
--bash: erousseausodex@penguin:/mnt/chromeos/MyFiles/Downloads$: No such file or directory
--bash: classroomstore.json: command not found
-erousseausodex@penguin:/mnt/chromeos/MyFiles/Downloads$ cat app/server.js
+
 const express = require("express");
 const app = express();
 const path = require("path");
