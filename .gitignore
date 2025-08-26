@@ -1,2 +1,13 @@
+# Secrets et configuration
+.env
 *.json
-*.env
+
+# Fichiers jar (outils Java comme BFG)
+*.jar
+
+# Modules Node.js
+node_modules/
+
+# Divers fichiers temporaires ou systèmes
+.DS_Store
+*.log
