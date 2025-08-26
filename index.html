@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Webcam Video Recorder</title>
+
+    <script src="https://apis.google.com/js/api.js"></script>
+
+    <style>
+      h1 {
+        text-align: center;
+        width: 100%;
+      }
+
+      #videoContainer {
+        display: flex;
+        gap: 50px; /* Adds space between the webcam and recorded video */
+        align-items: center; /* Aligns them vertically */
+        justify-content: center; /* Centers them horizontally */
+        width: 100%; /* Ensures it takes full width */
+      }
+      /* Button styling */
+      #buttonContainer {
+        display: flex;
+        justify-content: center; /* Center buttons */
+        gap: 15px; /* Space between buttons */
+        margin-top: 10px;
+      }
+
+      /* Improve button appearance */
+      button {
+        padding: 8px 15px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      /* Record button: Red */
+      #recordButton {
+        background-color: #ff4d4d;
+        color: white;
+      }
+
+      /* Stop button: Dark gray */
+      #stopButton {
+        background-color: #555555;
+        color: white;
+      }
+
+      /* Upload button: Blue */
+      #uploadButton {
+        background-color: #007bff;
+        color: white;
+      }
+
+      /* Button hover effects */
+      button:hover {
+        opacity: 0.8;
+      }
+
+      /* Input container styling */
+      #inputContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 10px; /* Space between input groups */
+        width: 250px;
+        margin: 20px auto; /* Center the input section */
+        padding: 15px;
+        border: 1px solid #cccccc;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+      }
+
+      /* Individual input groups */
+      .inputGroup {
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Input field styling */
+      input {
+        padding: 8px;
+        border: 1px solid #cccccc;
+        border-radius: 5px;
+        font-size: 14px;
+      }
+
+      .recording {
+        background-color: red !important;
+        color: white;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Webcam Video Recorder</h1>
+
+    <!-- Container for both videos -->
+    <div id="videoContainer">
+      <video id="video" width="200" height="200" autoplay></video>
+      <div id="recordedVideoContainer"></div>
+    </div>
+
+    <!-- Button container -->
+    <div id="buttonContainer">
+      <button id="recordButton">Record</button>
+      <button id="stopButton" disabled>Stop</button>
+      <button id="uploadButton" disabled>Upload</button>
+      <button id="chatgpt-review">Review with ChatGPT</button>
+    </div>
+
+    <!-- Input container -->
+    <div id="inputContainer">
+      <div class="inputGroup">
+        <label for="userName">Utilisateur</label>
+        <input id="userName" required />
+      </div>
+
+      <div class="inputGroup">
+        <label for="theme">FDP</label>
+        <input id="theme" readonly />
+      </div>
+
+      <div class="inputGroup">
+        <label for="sessionId">Session</label>
+        <input id="sessionId" readonly />
+      </div>
+    </div>
+    <div id="chatgpt-result"></div>
+
+    <!-- <script>
+document.getElementById("chatgpt-review").addEventListener("click", async () => {
+    const response = await fetch("/analyze-transcription", { method: "POST" });
+    const data = await response.json();
+    document.getElementById("chatgpt-result").innerText = data.analysis;
+});
+</script> -->
+
+    <script>
+      const video = document.getElementById("video");
+      const recordButton = document.getElementById("recordButton");
+      const stopButton = document.getElementById("stopButton");
+      const uploadButton = document.getElementById("uploadButton");
+      const chatButton = document.getElementById("chatgpt-review");
+      let mediaRecorder;
+      let recordedChunks = [];
+
+      // Request access to the user's camera and microphone
+      navigator.mediaDevices
+        .getUserMedia({
+          //video: { facingMode: { exact: "environment" } },
+          video:true,
+          audio: true,
+        })
+        .then((stream) => {
+          video.srcObject = stream;
+          mediaRecorder = new MediaRecorder(stream);
+
+          // Handle data available event
+          mediaRecorder.ondataavailable = (event) => {
+            if (event.data.size > 0) {
+              recordedChunks.push(event.data);
+            }
+          };
+
+          // Handle stop event
+          mediaRecorder.onstop = () => {
+            const blob = new Blob(recordedChunks, { type: "video/webm" });
+            const url = URL.createObjectURL(blob);
+            recordedChunks = [];
+
+            // Display the recorded video
+            const recordedVideo = document.createElement("video");
+            recordedVideo.style.height = "150px";
+            recordedVideo.controls = true;
+            recordedVideo.src = url;
+
+            document
+              .getElementById("recordedVideoContainer")
+              .appendChild(recordedVideo);
+
+            // Enable the upload button
+            uploadButton.disabled = false;
+
+            // Click event for the upload button
+            uploadButton.addEventListener("click", () => {
+              // Upload the recorded video to the server when the upload button is clicked
+              uploadFile(blob);
+            });
+
+            chatButton.addEventListener("click", () => {
+              // Upload the recorded video to the server when the upload button is clicked
+              sendVideoForAnalysis(blob);
+            });
+          };
+        });
+
+      // Start recording when the record button is clicked
+      recordButton.addEventListener("click", () => {
+        
+          // 🔥 Supprimer la vidéo précédente
+        document.getElementById("recordedVideoContainer").innerHTML = "";
+        mediaRecorder.start();
+        recordButton.disabled = true;
+        stopButton.disabled = false;
+
+        // Change button appearance
+        recordButton.style.backgroundColor = "red";
+        recordButton.textContent = "Recording...";
+        // });
+
+        // })
+
+        stopButton.addEventListener("click", () => {
+          mediaRecorder.stop();
+          recordButton.textContent = "complete";
+          recordButton.style.backgroundColor = "gray";
+          stopButton.disabled = true;
+
+          // Reset button appearance
+          //  recordButton.style.backgroundColor = "";
+          //  recordButton.textContent = "Record";
+        });
+      });
+      function uploadFile(fileBlob) {
+        const formData = new FormData();
+        formData.append("file", fileBlob, "recorded-video.webm");
+
+        fetch("/upload", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(
+                `Server responded with ${response.status}: ${response.statusText}`
+              );
+            }
+            return response.json();
+          })
+          .then((data) => {
+            console.log("File uploaded successfully:", data);
+          })
+          .catch((error) => {
+            console.error("Error uploading file:", error.message);
+          });
+      }
+
+      // Fonction pour envoyer la vidéo au serveur
+      function sendVideoForAnalysis(blob) {
+        const formData = new FormData();
+        formData.append("video", blob, "recorded-video.webm");
+
+        fetch("http://localhost:4000/upload-video", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            alert("Analysis: " + data.analysis);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+
+      // Extract URL parameters contained in URl
+      const urlParams = new URLSearchParams(window.location.search);
+      const sessionId = urlParams.get("sessionId");
+      const userName = urlParams.get("userName");
+      const theme = urlParams.get("theme");
+
+      // Prefill the text inputs with URL parameters
+      document.getElementById("sessionId").value = sessionId || "N/A";
+      document.getElementById("userName").value = userName || "N/A";
+      document.getElementById("theme").value = theme || "N/A";
+    </script>
+  </body>
+</html>
